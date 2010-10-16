@@ -1,0 +1,76 @@
+<project name="Heroes Kingdom Evolution" default="all" basedir=".">
+
+	<property name="version" value="1.62" />
+
+	<property name="src" location="src" />
+	<property name="compressor" value="yuicompressor-2.4.2.jar" />
+
+	<target name="all" depends="firefox-gm" />
+
+	<target name="firefox-gm">
+		<property name="target" value="mmhk.ext.user.js" />
+		<delete file="${target}" />
+
+		<concat destfile="tmp.js">
+			<filelist dir="${src}">
+				<!-- dependencies first -->
+				<file name="jquery-1.4.2-gm.js" />
+				<file name="jquery.hoverIntent.js" />
+				<file name="jquery.cluetip.js" />
+				<!-- then utilities -->
+				<file name="mmhk.ext.info.js" />
+				<file name="mmhk.ext.locale.js" />
+				<file name="mmhk.ext.locale.en.js" />
+				<file name="mmhk.ext.locale.fr.js" />
+				<file name="mmhk.ext.units.js" />
+				<!-- then the modules base -->
+				<file name="mmhk.ext.base.js" />
+				<!-- now every module -->
+				<file name="mmhk.ext.kingdom.js" />
+			</filelist>
+		</concat>
+
+		<java jar="${compressor}" fork="true">
+			<arg value="--type" />
+			<arg value="js" />
+			<arg value="-o" />
+			<arg value="tmp.js" />
+			<arg value="tmp.js" />
+		</java>
+
+		<concat destfile="tmp.css">
+			<filelist dir="${src}">
+				<file name="mmhk.cluetip.css" />
+				<file name="mmhk.ext.css" />
+			</filelist>
+		</concat>
+
+		<java jar="${compressor}" fork="true">
+			<arg value="--type" />
+			<arg value="css" />
+			<arg value="-o" />
+			<arg value="tmp.css" />
+			<arg value="tmp.css" />
+		</java>
+
+		<concat destfile="${target}">
+			<filelist dir=".">
+				<file name="${src}/mmhk.ext.user.intro.js" />
+				<file name="tmp.js" />
+				<file name="${src}/mmhk.ext.css.intro.js" />
+				<file name="tmp.css" />
+				<file name="${src}/mmhk.ext.css.outro.js" />
+				<file name="${src}/mmhk.ext.user.outro.js" />
+			</filelist>
+		</concat>
+		<delete file="tmp.js" />
+		<delete file="tmp.css" />
+
+		<replaceregexp match="@VERSION" replace="${version}" flags="g" byline="true" file="${target}" />
+		<tstamp>
+			<format property="now" pattern="d-MMMM-yyyy hh:mm aa z" locale="en,US" />
+		</tstamp>
+		<replaceregexp match="@DATE" replace="Date: ${now}" flags="g" byline="true" file="${target}" />
+	</target>
+
+</project>

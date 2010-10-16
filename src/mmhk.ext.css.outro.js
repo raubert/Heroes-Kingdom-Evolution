@@ -1,0 +1,1 @@
+")})(MMHK.jQuery);

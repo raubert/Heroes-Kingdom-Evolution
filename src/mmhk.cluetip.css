@@ -1,0 +1,155 @@
+/* global */
+#cluetip-close img {
+	border: 0;
+}
+
+#cluetip-title {
+	overflow: hidden;
+}
+
+#cluetip-title #cluetip-close {
+	float: right;
+	position: relative;
+}
+
+.cluetip-arrows {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: -11px;
+	height: 22px;
+	width: 11px;
+	background-repeat: no-repeat;
+	background-position: 0 0;
+}
+
+#cluetip-extra {
+	display: none;
+}
+
+/***************************************
+   =cluetipClass: 'default' 
+-------------------------------------- */
+.cluetip-default {
+	background-color: #f8f9f4;
+}
+
+.cluetip-default #cluetip-outer {
+	position: relative;
+	margin: 0;
+	background-color: #f8f9f4;
+	color: #543629;
+	border: 1px solid #312724;
+}
+
+.cluetip-default h3#cluetip-title {
+	background: #312724 no-repeat right;
+	margin: 0 0 5px;
+	padding: 6px 10px 4px;
+	font-size: 1.1em;
+	font-weight: bolder;
+	color: #fff;
+	text-align: center;
+	text-transform: capitalize;
+}
+
+.cluetip-default h3#cluetip-title tt {
+	font-size: smaller;
+	font-weight: normal;
+	position: absolute;
+	left: 5px;
+	top: 5px;
+}
+
+.cluetip-default #cluetip-title a {
+	color: #d9d9c2;
+	font-size: 0.95em;
+}
+
+.cluetip-default #cluetip-title #cluetip-close {
+	float: none;
+	position: absolute;
+	right: 5px;
+	top: 5px;
+}
+
+.cluetip-default #cluetip-title #cluetip-close a {
+	text-decoration: none;
+}
+
+.cluetip-default #cluetip-inner {
+	padding: 10px;
+}
+
+.cluetip-default div#cluetip-close {
+	text-align: right;
+	margin: 0 5px 5px;
+	color: #900;
+}
+
+.cluetip-default #cluetip-inner {
+	color: #b36600;
+}
+
+.cluetip-default #cluetip-inner b {
+	color: black;
+	font-weight: bolder;
+}
+
+.cluetip-default #cluetip-inner .unit p,
+.cluetip-default #cluetip-inner .wealth p {
+	line-height: 22px;
+}
+
+.cluetip-default #cluetip-inner .unit .type {
+	background-repeat: no-repeat;
+	display: inline-block;
+	height: 22px;
+	margin-left: 5px;
+	vertical-align: middle;
+	width: 22px;
+}
+
+.cluetip-default #cluetip-inner .unit .type.INFANTRY {
+	background-position: 0 0;
+}
+
+.cluetip-default #cluetip-inner .unit .type.SHOOTER {
+	background-position: -22px 0;
+}
+
+.cluetip-default #cluetip-inner .unit .type.CAVALRY {
+	background-position: -44px 0;
+}
+
+/* default arrows */
+.clue-right-default .cluetip-arrows {
+}
+
+.clue-left-default .cluetip-arrows {
+	left: 100%;
+	margin-right: -11px;
+}
+
+.clue-top-default .cluetip-arrows {
+	background-image: url('data:image/gif;base64,R0lGODlhFgALAIABADEnJP///yH5BAEAAAEALAAAAAAWAAsAAAIchI+pEOsZ4nuxTlXzPbnvDk7g6IwmZp5cmhpsAQA7');
+	top: 100%;
+	left: 50%;
+	margin-left: -11px;
+	height: 11px;
+	width: 22px;
+}
+
+.clue-bottom-default .cluetip-arrows {
+	background-image: url('data:image/gif;base64,R0lGODlhFgALAIABADEnJP///yH5BAEAAAEALAAAAAAWAAsAAAIcjI8AyJ26nAwQzlbrPTnv3k0g6IwjY5pcqrJsAQA7');
+	top: -11px;
+	left: 50%;
+	margin-left: -11px;
+	height: 11px;
+	width: 22px;
+}
+
+/* stupid IE6 HasLayout hack */
+.cluetip-rounded #cluetip-title,.cluetip-rounded #cluetip-inner {
+	zoom: 1;
+}
