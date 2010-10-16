@@ -11,7 +11,7 @@ var HOMMK = ( unsafeWindow || window ).HOMMK;
 /**
  * Script version; for reference purpose.
  */
-MMHK.version = 0.9,
+MMHK.version = @VERSION,
 
 /**
  * Tools container.

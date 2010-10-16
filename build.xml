@@ -1,6 +1,6 @@
 <project name="Heroes Kingdom Evolution" default="all" basedir=".">
 
-	<property name="version" value="1.62" />
+	<property name="version" value="1.63" />
 
 	<property name="src" location="src" />
 	<property name="compressor" value="yuicompressor-2.4.2.jar" />
