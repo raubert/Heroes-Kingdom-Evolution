@@ -1,6 +1,6 @@
 <project name="Heroes Kingdom Evolution" default="all" basedir=".">
 
-	<property name="version" value="1.63" />
+	<property name="version" value="1.65" />
 
 	<property name="src" location="src" />
 	<property name="src.js" location="${src}/js" />
