@@ -35,16 +35,21 @@ MMHK.modules.push({
 					+ "<div class=\"right\"></div>"
 				+ "</div>" )
 		.find( ".button" ).click(function() {
-			if ( !$( this ).attr( "disabled" ) ) {
-				$( this ).siblings( "input" ).andSelf().attr( "disabled", true );
-				self.center();
+			if ( !$( this ).hasClass( "disabled" ) ) {
+				self.updateLocation();
 			}
 		}).end()
 		.appendTo( "#WorldMap" + HOMMK.worldMap.elementId + "Content" );
 
-		MMHK.hijack( HOMMK.worldMap, "center", this.updateCoordinates );
-		MMHK.hijack( HOMMK.worldMap, "move", this.updateCoordinates );
+		// keep this module as scope when being called back
+		MMHK.hijack( HOMMK.worldMap, "center", this.updateCoordinates, this );
+		MMHK.hijack( HOMMK.worldMap, "move", this.updateCoordinates, this );
 	},
+
+	/**
+	 * When not null, contains the targeted coordinates.
+	 */
+	target: null,
 
 	/**
 	 * Parses and fixes user input coordinate.
@@ -60,22 +65,40 @@ MMHK.modules.push({
 	/**
 	 * Action triggered by the 'center' button.
 	 */
-	center: function() {
-		// make sure the location is updated with the right coordinates: force the update as callback
-		HOMMK.worldMap.center( this.getCoordinate( $( "#map-center input.x" ).val() ), this.getCoordinate( $( "#map-center input.y" ).val() ), undefined, this.updateCoordinates );
+	updateLocation: function() {
+		$( "#map-center" )
+			.children( "input" ).attr( "disabled", true ).end()
+			.children( ".button" ).addClass( "disabled" );
+		this.target = {
+			x: this.getCoordinate( $( "#map-center input.x" ).val() ),
+			y: this.getCoordinate( $( "#map-center input.y" ).val() )
+		};
+		// keep this module as scope when being called back
+		var self = this;
+		HOMMK.worldMap.center( this.target.x, this.target.y, undefined, function() {
+			self.updateCoordinates();
+		});
 	},
 
 	/**
 	 * Updates the displayed coordinates with the current ones (from the game).
 	 */
 	updateCoordinates: function() {
+		if ( this.target != null && ( HOMMK.currentView.regionX != this.target.x || HOMMK.currentView.regionY != this.target.y ) ) {
+			// manual update will call this due to the hijack; but we may not be looking at the right location yet
+			return;
+		}
+
+		var self = this;
 		MMHK.waitFor(function() {
 			return HOMMK.runningJsonRequestCount == 0 && !HOMMK.currentView.isLoading;
 		}, function() {
 			$( "#map-center input" )
 				.filter( ".x" ).val( HOMMK.currentView.regionX ).end()
 				.filter( ".y" ).val( HOMMK.currentView.regionY ).end()
-				.siblings( ".button" ).andSelf().removeAttr( "disabled" );
+				.removeAttr( "disabled" )
+				.siblings( ".button" ).removeClass( "disabled" );
+			self.target = null;
 		});
 	}
 

@@ -76,12 +76,14 @@ MMHK.sendData = function( page, data, callback ) {
  *            the name of the targeted function
  * @param callback
  *            the callback function to call after the target execution
+ * @param scope
+ *            the scope for the callback (optional)
  */
-MMHK.hijack = function( object, target, callback ) {
+MMHK.hijack = function( object, target, callback, scope ) {
 	var orig = object[ target ];
 	object[ target ] = function() {
 		orig && orig.apply( this, arguments );
-		callback.call( this );
+		callback.call( scope || this );
 	};
 };
 
