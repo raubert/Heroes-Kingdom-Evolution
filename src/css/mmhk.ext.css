@@ -93,7 +93,16 @@
 }
 
 #KingdomFrame #KingdomDataContainerSliderKnob {
+	left: 4px;
 	width: 11px;
+}
+
+#KingdomFrame #KingdomDataContainerSliderKnob tr {
+	background: none;
+}
+
+#KingdomFrame #KingdomDataContainerSliderKnob td {
+	width: 9px;
 }
 
 #KingdomFrame .kingdom .header tr {
@@ -482,7 +491,7 @@
  * +-----------------------------+
  */
 #map-center {
-	height: 25px;
+	height: 22px;
 	margin: 5px 0 0 540px;
 	position: absolute;
 }
@@ -496,7 +505,7 @@
 #map-center .button {
 	cursor: pointer;
 	display: inline-block;
-	vertical-align: middle;
+	vertical-align: -6px;
 }
 
 #map-center .button div {
