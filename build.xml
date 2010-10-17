@@ -3,6 +3,8 @@
 	<property name="version" value="1.63" />
 
 	<property name="src" location="src" />
+	<property name="src.js" location="${src}/js" />
+	<property name="src.css" location="${src}/css" />
 	<property name="compressor" value="yuicompressor-2.4.2.jar" />
 
 	<macrodef name="compress">
@@ -26,7 +28,7 @@
 		<delete file="${target}" />
 
 		<concat destfile="tmp.js">
-			<filelist dir="${src}">
+			<filelist dir="${src.js}">
 				<!-- dependencies first -->
 				<file name="jquery-1.4.2-gm.js" />
 				<file name="jquery.hoverIntent.js" />
@@ -48,7 +50,7 @@
 		<compress file="tmp.js" type="js" />
 
 		<concat destfile="tmp.css">
-			<filelist dir="${src}">
+			<filelist dir="${src.css}">
 				<file name="mmhk.cluetip.css" />
 				<file name="mmhk.ext.css" />
 			</filelist>
@@ -58,22 +60,22 @@
 
 		<concat destfile="${target}">
 			<filelist dir=".">
-				<file name="${src}/mmhk.ext.user.intro.js" />
+				<file name="${src.js}/mmhk.ext.user.intro.js" />
 				<file name="tmp.js" />
-				<file name="${src}/mmhk.ext.css.intro.js" />
+				<file name="${src.js}/mmhk.ext.css.intro.js" />
 				<file name="tmp.css" />
-				<file name="${src}/mmhk.ext.css.outro.js" />
-				<file name="${src}/mmhk.ext.user.outro.js" />
+				<file name="${src.js}/mmhk.ext.css.outro.js" />
+				<file name="${src.js}/mmhk.ext.user.outro.js" />
 			</filelist>
 		</concat>
 		<delete file="tmp.js" />
 		<delete file="tmp.css" />
 
-		<replaceregexp match="@VERSION" replace="${version}" flags="g" byline="true" file="${target}" />
+		<replaceregexp match="@VERSION" replace="${version}" flags="g" file="${target}" />
 		<tstamp>
 			<format property="now" pattern="d-MMMM-yyyy hh:mm aa z" locale="en,US" />
 		</tstamp>
-		<replaceregexp match="@DATE" replace="Date: ${now}" flags="g" byline="true" file="${target}" />
+		<replaceregexp match="@DATE" replace="Date: ${now}" flags="g" file="${target}" />
 	</target>
 
 </project>
