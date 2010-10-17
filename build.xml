@@ -5,6 +5,7 @@
 	<property name="src" location="src" />
 	<property name="src.js" location="${src}/js" />
 	<property name="src.css" location="${src}/css" />
+	<property name="src.userscript" location="${src}/userscript" />
 	<property name="compressor" value="yuicompressor-2.4.2.jar" />
 
 	<macrodef name="compress">
@@ -20,6 +21,10 @@
 			</java>
 		</sequential>
 	</macrodef>
+
+	<target name="deploy" depends="all">
+		<copy file="mmhk.ext.user.js" todir="../../Public Html/MMHK/www/" />
+	</target>
 
 	<target name="all" depends="firefox-gm" />
 
@@ -60,12 +65,12 @@
 
 		<concat destfile="${target}">
 			<filelist dir=".">
-				<file name="${src.js}/mmhk.ext.user.intro.js" />
+				<file name="${src.userscript}/mmhk.ext.user.intro.js" />
 				<file name="tmp.js" />
 				<file name="${src.js}/mmhk.ext.css.intro.js" />
 				<file name="tmp.css" />
 				<file name="${src.js}/mmhk.ext.css.outro.js" />
-				<file name="${src.js}/mmhk.ext.user.outro.js" />
+				<file name="${src.userscript}/mmhk.ext.user.outro.js" />
 			</filelist>
 		</concat>
 		<delete file="tmp.js" />

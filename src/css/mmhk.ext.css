@@ -1,5 +1,5 @@
 #mmhk-ext-time {
-	margin-right: 66px;
+	margin-right: 42px;
 }
 
 /**
@@ -101,15 +101,15 @@
 	height: 76px;
 }
 
-#KingdomFrame #KingdomArmiesHeader tr {
+#KingdomFrame #KingdomArmiesHeader {
 	background-color: #d11305;
 }
 
-#KingdomFrame #KingdomProductionHeader tr {
+#KingdomFrame #KingdomProductionHeader {
 	background-color: #ee9c1c;
 }
 
-#KingdomFrame #KingdomActionsHeader tr {
+#KingdomFrame #KingdomActionsHeader {
 	background-color: #255466;
 }
 

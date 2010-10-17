@@ -6,12 +6,12 @@
 /**
  * Helper to access HOMMK.
  */
-var HOMMK = ( unsafeWindow || window ).HOMMK;
+var HOMMK = unsafeWindow.HOMMK;
 
 /**
  * Script version; for reference purpose.
  */
-MMHK.version = "@VERSION",
+MMHK.version = "@VERSION";
 
 /**
  * Tools container.
@@ -34,6 +34,14 @@ MMHK.modules = [];
 MMHK.HOMMK = HOMMK;
 
 /**
+ * Logging utility based on what's available.
+ * 
+ * @param message
+ *            anything you want to log
+ */
+MMHK.log = console ? function( message ) { console.log( message ); } : ( GM_log || function() {} );
+
+/**
  * Custom click event: in GM, we can't use jQuery's click function.
  * 
  * @param elt
@@ -46,7 +54,7 @@ MMHK.click = function( elt ) {
 };
 
 /**
- * Sends some data at the configured location/
+ * Sends some data at the configured location.
  * 
  * @param page
  *            the target page
@@ -108,13 +116,13 @@ MMHK.waitFor = function( condition, callback ) {
  */
 function initModules() {
 	for ( var i = 0; i < MMHK.modules.length; i++ ) {
-		GM_log( "MMHK: initializing '" + MMHK.modules[i].name + "' module..." );
+		MMHK.log( "MMHK: initializing '" + MMHK.modules[i].name + "' module..." );
 		try {
 			MMHK.modules[i].initialize();
-			GM_log( "MMHK: '" + MMHK.modules[i].name + "' ready." );
+			MMHK.log( "MMHK: '" + MMHK.modules[i].name + "' ready." );
 		} catch( e ) {
-			GM_log( "MMHK: '" + MMHK.modules[i].name + "' failed!" );
-			GM_log( e );
+			MMHK.log( "MMHK: '" + MMHK.modules[i].name + "' failed!" );
+			MMHK.log( e );
 		}
 	}
 }
@@ -226,20 +234,21 @@ $.extend({
 MMHK.initialize = function() {
 
 	var start = new Date().getTime();
-	GM_log( "MMHK: launching script v" + MMHK.version + "..." );
+	MMHK.log( "MMHK: launching script v" + MMHK.version + "..." );
 
 	// deal with locale first
 	$.i18n.initialize( HOMMK.locale );
-	GM_log( "MMHK: selected language: '" + $.i18n.language + "'..." );
+	MMHK.log( "MMHK: selected language: '" + $.i18n.language + "'..." );
 
 	// append the current time
 	$( "#MainMenuContainer>.floatRight:first" ).prepend( "<div id=\"mmhk-ext-time\" class=\"floatLeft mainMenuButton\"></div>" );
 	setInterval( function() {
-		$( "#mmhk-ext-time" ).text( new Date().toLocaleString() );
+		var now = new Date();
+		$( "#mmhk-ext-time" ).text( now.toLocaleDateString() + " " + $.formatTime( now.getHours(), now.getMinutes(), now.getSeconds() ) );
 	}, 1000 );
 
 	initModules();
-	GM_log( "MMHK: initialization complete [" + ( new Date().getTime() - start ) + "ms]." );
+	MMHK.log( "MMHK: initialization complete [" + ( new Date().getTime() - start ) + "ms]." );
 
 };
 

@@ -6242,4 +6242,4 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
 // Expose jQuery to the global object
 MMHK.jQuery = jQuery.noConflict(true);
 
-})( unsafeWindow || window );
+})( unsafeWindow );
