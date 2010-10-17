@@ -118,7 +118,9 @@ $.i18n.resources.en = {
 	treant: "Treant",
 	"treant.ancient": "Ancient Treant",
 	"dragon.green": "Green Dragon",
-	"dragon.emerald": "Emerald Dragon"
+	"dragon.emerald": "Emerald Dragon",
+
+	"map.center": "Center"
 
 };
 

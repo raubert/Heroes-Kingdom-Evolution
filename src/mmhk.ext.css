@@ -2,6 +2,11 @@
 	margin-right: 66px;
 }
 
+/**
+ * +------------------------+
+ * | CSS for Kingdom module |
+ * +------------------------+
+ */
 #KingdomFrame {
 	z-index: 2;
 }
@@ -403,6 +408,10 @@
 	background-position: -32px -17px;
 }
 
+#KingdomFrame #KingdomActionsData .action .HERO_LEARN_CLASS {
+	background-position: -112px -17px;
+}
+
 #KingdomFrame #KingdomActionsData .action .HERO_LEARN_SKILL {
 	background-position: -128px -17px;
 }
@@ -415,6 +424,7 @@
 	background-position: -32px 0;
 }
 
+#KingdomFrame #KingdomActionsData .action .HERO_SCOUT_CITY,
 #KingdomFrame #KingdomActionsData .action .HERO_SCOUT_REGION,
 #KingdomFrame #KingdomActionsData .action .HERO_SCOUT_TROOPS {
 	background-position: -112px 0;
@@ -464,4 +474,63 @@
 }
 #KingdomFrame #KingdomActionsData .gem {
 	background-position: -120px 0;
+}
+
+/**
+ * +-----------------------------+
+ * | CSS for Map Location module |
+ * +-----------------------------+
+ */
+#map-center {
+	height: 25px;
+	margin: 5px 0 0 540px;
+	position: absolute;
+}
+
+#map-center input {
+	margin-right: 5px;
+	text-align: center;
+	width: 30px;
+}
+
+#map-center .button {
+	cursor: pointer;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+#map-center .button div {
+	float: left;
+	font-weight: bolder;
+	height: 22px;
+	line-height: 22px;
+}
+
+#map-center .button .left {
+	background-position: -460px -6px;
+	width: 7px;
+}
+
+#map-center .button:hover .left {
+	background-position: -460px -35px;
+}
+
+#map-center .button .text {
+	background-position: 0 -450px;
+	text-align: center;
+	width: 50px;
+}
+
+#map-center .button:hover .text {
+	background-position: 0 -473px;
+	color: #ffffff;
+}
+
+#map-center .button .right {
+	background-position: -453px -6px;
+	width: 7px;
+}
+
+#map-center .button:hover .right {
+	background-position: -453px -35px;
 }

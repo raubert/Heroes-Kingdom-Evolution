@@ -118,7 +118,9 @@ $.i18n.resources.fr = {
 	treant: "Tréant",
 	"treant.ancient": "Tréant Séculaire",
 	"dragon.green": "Dragon Vert",
-	"dragon.emerald": "Dragon d'Émeraude"
+	"dragon.emerald": "Dragon d'Émeraude",
+
+	"map.center": "Centrer"
 
 };
 

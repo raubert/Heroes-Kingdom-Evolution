@@ -5,6 +5,20 @@
 	<property name="src" location="src" />
 	<property name="compressor" value="yuicompressor-2.4.2.jar" />
 
+	<macrodef name="compress">
+		<attribute name="file" />
+		<attribute name="type" />
+		<sequential>
+			<java jar="${compressor}" fork="true">
+				<arg value="--type" />
+				<arg value="@{type}" />
+				<arg value="-o" />
+				<arg value="@{file}" />
+				<arg value="@{file}" />
+			</java>
+		</sequential>
+	</macrodef>
+
 	<target name="all" depends="firefox-gm" />
 
 	<target name="firefox-gm">
@@ -27,16 +41,11 @@
 				<file name="mmhk.ext.base.js" />
 				<!-- now every module -->
 				<file name="mmhk.ext.kingdom.js" />
+				<file name="mmhk.ext.map.center.js" />
 			</filelist>
 		</concat>
 
-		<java jar="${compressor}" fork="true">
-			<arg value="--type" />
-			<arg value="js" />
-			<arg value="-o" />
-			<arg value="tmp.js" />
-			<arg value="tmp.js" />
-		</java>
+		<compress file="tmp.js" type="js" />
 
 		<concat destfile="tmp.css">
 			<filelist dir="${src}">
@@ -45,13 +54,7 @@
 			</filelist>
 		</concat>
 
-		<java jar="${compressor}" fork="true">
-			<arg value="--type" />
-			<arg value="css" />
-			<arg value="-o" />
-			<arg value="tmp.css" />
-			<arg value="tmp.css" />
-		</java>
+		<compress file="tmp.css" type="css" />
 
 		<concat destfile="${target}">
 			<filelist dir=".">

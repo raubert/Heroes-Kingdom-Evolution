@@ -11,7 +11,7 @@ var HOMMK = ( unsafeWindow || window ).HOMMK;
 /**
  * Script version; for reference purpose.
  */
-MMHK.version = @VERSION,
+MMHK.version = "@VERSION",
 
 /**
  * Tools container.
@@ -65,6 +65,40 @@ MMHK.sendData = function( page, data, callback ) {
 		data: data,
 		onload: callback
 	});
+};
+
+/**
+ * Hijacks a specific function execution in order to insert a callback after it.
+ * 
+ * @param object
+ *            the object to hijack
+ * @param target
+ *            the name of the targeted function
+ * @param callback
+ *            the callback function to call after the target execution
+ */
+MMHK.hijack = function( object, target, callback ) {
+	var orig = object[ target ];
+	object[ target ] = function() {
+		orig && orig.apply( this, arguments );
+		callback.call( this );
+	};
+};
+
+/**
+ * Waits for a specific condition to be realized before executing a callback.
+ * 
+ * @param condition
+ *            the condition to wait for
+ * @param callback
+ *            the callback to execute when ready
+ */
+MMHK.waitFor = function( condition, callback ) {
+	if ( condition() ) {
+		callback();
+	} else {
+		setTimeout( MMHK.waitFor, 500, condition, callback );
+	}
 };
 
 /**
@@ -190,7 +224,7 @@ $.extend({
 MMHK.initialize = function() {
 
 	var start = new Date().getTime();
-	GM_log( "MMHK: launching script initialization..." );
+	GM_log( "MMHK: launching script v" + MMHK.version + "..." );
 
 	// deal with locale first
 	$.i18n.initialize( HOMMK.locale );
