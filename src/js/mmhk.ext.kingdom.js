@@ -75,7 +75,7 @@ MMHK.modules.push({
 			.siblings().children().click(function() {
 				// auto-hide when the user clicks on another menu item
 				$( "#GameHider" ).addClass( "hidden ");
-				$( "#KingdomFrame" ).hide();
+				$( "#cluetip,#KingdomFrame" ).hide();
 			});
 		} );
 	},
@@ -210,7 +210,7 @@ MMHK.modules.push({
 		// close simply hides the panel
 		$( "#KingdomClose" ).click(function() {
 			$( "#GameHider" ).addClass( "hidden ");
-			$( "#KingdomFrame" ).hide();
+			$( "#cluetip,#KingdomFrame" ).hide();
 		});
 
 		// tab selection; corresponding header and data selection could be way smarter than what they are
