@@ -14,7 +14,7 @@ if ( typeof unsafeWindow == "undefined" ) {
 if ( window.chrome && chrome.extension && !unsafeWindow.HOMMK ) {
 
 	// forced injection inside the page
-    var script = document.createElement('script');
+    var script = document.createElement( "script" );
     script.setAttribute( "type", "text/javascript" );
     script.src = chrome.extension.getURL( "script.js" );
     document.getElementsByTagName( "head" )[ 0 ].appendChild( script );

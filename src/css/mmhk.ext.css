@@ -486,9 +486,9 @@
 }
 
 /**
- * +-----------------------------+
- * | CSS for Map Location module |
- * +-----------------------------+
+ * +---------------------------+
+ * | CSS for Map Center module |
+ * +---------------------------+
  */
 #map-center {
 	height: 22px;
@@ -562,4 +562,18 @@
 
 #map-center .button.disabled .right {
 	background-position: 0 -23px;
+}
+
+/**
+ * +--------------------------+
+ * | CSS for Halt Info module |
+ * +--------------------------+
+ */
+.haltFrameHaltInformationZone>:nth-child(2)>:not(:nth-child(1)) {
+	margin-left: 50px;
+	text-align: left;
+}
+
+.haltFrameHaltInformationZone a {
+	cursor: pointer;
 }

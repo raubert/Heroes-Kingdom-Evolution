@@ -120,7 +120,10 @@ $.i18n.resources.en = {
 	"dragon.green": "Green Dragon",
 	"dragon.emerald": "Emerald Dragon",
 
-	"map.center": "Center"
+	"map.center": "Center",
+
+	"halt.destination": "Destination:",
+	"halt.arrival": "Arriving in:"
 
 };
 

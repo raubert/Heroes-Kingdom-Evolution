@@ -6,13 +6,12 @@
 	<property name="src.js" location="${src}/js" />
 	<property name="src.css" location="${src}/css" />
 	<property name="src.userscript" location="${src}/userscript" />
-	<property name="compressor" value="yuicompressor-2.4.2.jar" />
 
 	<macrodef name="compress">
 		<attribute name="file" />
 		<attribute name="type" />
 		<sequential>
-			<java jar="${compressor}" fork="true">
+			<java jar="yuicompressor-2.4.2.jar" fork="true">
 				<arg value="--type" />
 				<arg value="@{type}" />
 				<arg value="-o" />
@@ -49,6 +48,7 @@
 				<!-- now every module -->
 				<file name="mmhk.ext.kingdom.js" />
 				<file name="mmhk.ext.map.center.js" />
+				<file name="mmhk.ext.halt.js" />
 			</filelist>
 		</concat>
 

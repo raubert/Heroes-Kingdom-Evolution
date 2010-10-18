@@ -14,7 +14,7 @@ MMHK.modules.push({
 	/**
 	 * Module name.
 	 */
-	name: 'Map-Center',
+	name: "Map-Center",
 
 	/**
 	 * Initializes the module

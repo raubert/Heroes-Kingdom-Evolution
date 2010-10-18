@@ -91,23 +91,32 @@ MMHK.hijack = function( object, target, callback, scope ) {
 	var orig = object[ target ];
 	object[ target ] = function() {
 		orig && orig.apply( this, arguments );
-		callback.call( scope || this );
+		callback.call( scope || this, this );
 	};
 };
 
 /**
  * Waits for a specific condition to be realized before executing a callback.
  * 
+ * <p>This method won't wait for more than 10 seconds.</p>
+ * 
  * @param condition
  *            the condition to wait for
  * @param callback
  *            the callback to execute when ready
+ * @param _limit
+ *            for internal use only
  */
-MMHK.waitFor = function( condition, callback ) {
+MMHK.waitFor = function( condition, callback, _limit ) {
 	if ( condition() ) {
 		callback();
 	} else {
-		setTimeout( MMHK.waitFor, 500, condition, callback );
+		if ( !_limit || _limit > 20 ) {
+			_limit = 20;
+		}
+		if ( _limit > 0 ) {
+			setTimeout( MMHK.waitFor, 500, condition, callback, _limit - 1 );
+		}
 	}
 };
 
@@ -119,9 +128,9 @@ function initModules() {
 		MMHK.log( "MMHK: initializing '" + MMHK.modules[i].name + "' module..." );
 		try {
 			MMHK.modules[i].initialize();
-			MMHK.log( "MMHK: '" + MMHK.modules[i].name + "' ready." );
+			MMHK.log( "MMHK: Module '" + MMHK.modules[i].name + "' ready." );
 		} catch( e ) {
-			MMHK.log( "MMHK: '" + MMHK.modules[i].name + "' failed!" );
+			MMHK.log( "MMHK: Module '" + MMHK.modules[i].name + "' failed!" );
 			MMHK.log( e );
 		}
 	}

@@ -120,7 +120,10 @@ $.i18n.resources.fr = {
 	"dragon.green": "Dragon Vert",
 	"dragon.emerald": "Dragon d'Émeraude",
 
-	"map.center": "Centrer"
+	"map.center": "Centrer",
+
+	"halt.destination": "Destination :",
+	"halt.arrival": "Arrivée dans :"
 
 };
 
