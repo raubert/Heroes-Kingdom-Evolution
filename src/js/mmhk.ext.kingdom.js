@@ -130,6 +130,7 @@ MMHK.modules.push({
 		for ( var i = 1; i <= 7; i++ ) {
 			ahead += "<th>T" + i + "</th>";
 		}
+		ahead += "<th>" + $.i18n.get( "siege.units" ) + "</th>";
 		ahead += "<th class=\"s\"></th></tr>";
 
 		// header for production
@@ -363,7 +364,7 @@ MMHK.modules.push({
 			markup += "<div class=\"city " + data[ i ].faction + "\"></div>";
 			markup += "</td>";
 			// for each tier
-			for ( var j = 1; j <= 7; j++ ) {
+			for ( var j = 1; j <= 8; j++ ) {
 				markup += "<td>";
 				markup += this.createTierMarkup( data[ i ].units[ "T" + j ], j, total );
 				markup += this.createTierMarkup( data[ i ].units[ "T" + j + "P" ], j, total );
@@ -374,8 +375,12 @@ MMHK.modules.push({
 		}
 
 		// then display the total
-		markup += "<tr class=\"total\"><td title=\"" + maintenance + "\">" + $.i18n.get( "total" ) + "</td>";
-		for ( var i = 1; i <= 7; i++ ) {
+		markup += "<tr class=\"total\">";
+		markup += "<td title=\"" + maintenance + "\">";
+		markup += $.i18n.get( "total" );
+    markup += "<br />[" + HOMMK.player.content.activeOrSubscribedCityCount + "/" + HOMMK.player.content.cityNumberMinThreshold + " " + $.i18n.get("cities") + "]";
+		markup += "</td>";
+		for ( var i = 1; i <= 8; i++ ) {
 			markup += "<td>";
 			markup += this.createTierMarkup( total[ i ] );
 			markup += "</td>";
@@ -497,8 +502,8 @@ MMHK.modules.push({
 				total[ res.tag ].wealth += wealth;
 				// display storage / max + income
 				markup += "<td class=\"value " + res.type + "\"";
-				if ( current.income > 0 ) {
-					markup += "title=\"" + res.tag + ":" + current.income + ":" + wealth + "\"";
+				if ( current.income ) {
+					markup += "title=\"" + res.tag + ":" + current.income + ":" + wealth + ":" + current.stock + ":" + current.storage + "\"";
 				}
 				markup += ">";
 				markup += "<tt" + ( current.stock + current.income > current.storage ? " class=\"storage\"" : "" ) + ">" + $.formatNumber( current.stock ) + "</tt> / ";
@@ -515,7 +520,7 @@ MMHK.modules.push({
 			var current = total[ tag ];
 			markup += "<td class=\"value\"";
 			if ( total[ tag ].income > 0 ) {
-				markup += "title=\"" + tag + ":" + current.income + ":" + current.wealth + "\"";
+				markup += "title=\"" + tag + ":" + current.income + ":" + current.wealth + ":0:0\"";
 			}
 			markup += "<tt>" + $.formatNumber( current.stock ) + "</tt><br/>";
 			markup += "<tt" + ( current.income < 0 ? " class=\"maintenance\">" : ">+" ) + $.formatNumber( Math.floor( current.income ) ) + "</tt>";
@@ -536,12 +541,22 @@ MMHK.modules.push({
 				// default cell for a specific type of resource
 				data = data.split( ":" );
 				var income = parseFloat( data[ 1 ] );
-				return $.i18n.get( data[ 0 ] ) + "|"
+        var hoursleft = 0;
+        if (!income)
+          hoursleft = 0.01;
+        else if (income < 0)
+          hoursleft = parseFloat( data[ 3 ] ) * 24 / income;
+				else
+          hoursleft = ( parseFloat( data[ 4 ] ) - parseFloat( data[ 3 ] ) ) * 24 / income;
+        var markup = $.i18n.get( data[ 0 ] ) + "|"
 					+ "<div class=\"wealth\">"
 					+ "<p>" + $.i18n.get( "prod.hourly" ) + " <b>" + $.formatNumber( income / 24 ) + "</b></p>"
 					+ "<p>" + $.i18n.get( "prod.real" ) + " <b>" + $.formatNumber( income ) + "</b></p>"
-					+ "<p>" + $.i18n.get( "wealth.daily" ) + " <b>" + $.formatNumber( parseFloat( data[ 2 ] ) ) + "</b></p>"
-					+ "</div>";
+					+ "<p>" + $.i18n.get( "wealth.daily" ) + " <b>" + $.formatNumber( parseFloat( data[ 2 ] ) ) + "</b></p>";
+				if ( parseFloat( data[ 4 ] ) > 0 )
+          markup += "<p>" + ( income < 0 ? $.i18n.get( "stock.empty" ) : $.i18n.get( "stock.full" ) ) + " <b>" + $.i18n.get( "day", Math.floor( hoursleft / 24 ) ) + " " + $.i18n.get( "hour", Math.floor(hoursleft) - ( Math.floor( hoursleft / 24 ) * 24 ) ) + "</b></p>";
+				markup += "</div>";
+        return markup;
 			} else {
 				// summary on a line
 				var income = parseFloat( data );

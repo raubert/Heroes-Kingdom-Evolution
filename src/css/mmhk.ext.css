@@ -307,6 +307,14 @@
 	background-position: -299px 0;
 }
 
+#KingdomFrame .unit .T8 {
+	background-position: -322px 0;
+}
+
+#KingdomFrame .unit .T8P {
+	background-position: -345px 0;
+}
+
 #KingdomFrame #KingdomProductionData tbody td .storage {
 	color: #222222;
 	font-weight: bolder;

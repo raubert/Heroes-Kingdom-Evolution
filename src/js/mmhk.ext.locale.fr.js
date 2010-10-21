@@ -20,6 +20,8 @@ $.i18n.resources.fr = {
 	"unit.total": "Puissance Totale : {1}",
 	"unit.cost": "Coût de Maintenance : {1} <tt>/j</tt>",
 
+	"siege.units": "SIEGE",
+
 	gold: "or",
 	wood: "bois",
 	ore: "minerai",
@@ -29,18 +31,24 @@ $.i18n.resources.fr = {
 	gem: "gemmes",
 
 	"prod.hourly": "Production par Heure :",
-	"prod.real": "Production Réelle :",
+	"prod.real": "Production Exacte :",
 	"wealth.hourly": "Richesse par Heure :",
 	"wealth.daily": "Richesse par Jour :",
+	"stock.full": "Entrepôt Plein dans :",
+	"stock.empty": "Entrepôt Vide dans :",
+  
 
 	description: "Description",
 	start: "Début",
 	end: "Fin",
 
+	cities: "Cités",
+
 	yesterday: "hier",
 	today: "aujourd'hui",
 	tomorrow: "demain",
 	day: "{1}j",
+	hour: "{1}h",
 	at: "à",
 	"ago.days": "il y a {1} jours",
 	"in.days": "dans {1} jours",
