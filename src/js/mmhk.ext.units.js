@@ -192,6 +192,16 @@ MMHK.units = {
 			name: "archangel",
 			type: 0,
 			power: 10010
+		},
+		T8: {
+			name: "balist",
+			type: 2,
+			power: 300
+		},
+		T8P: {
+			name: "catapult",
+			type: 2,
+			power: 450
 		}
 	},
 

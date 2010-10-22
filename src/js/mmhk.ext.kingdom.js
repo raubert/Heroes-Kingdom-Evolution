@@ -263,10 +263,45 @@ MMHK.modules.push({
 				type: unit.unitEntityType,
 				tier: unit.tier,
 				faction: unit.factionEntityTagName,
+				power: unit.power,
+				reserve: 0,
+				production: 0,
 				quantity: 0
 			};
 		}
 		units[ type ].quantity += unit.quantity;
+	},
+
+	/**
+	 * Extracts some data about a specific recrutable unit stack.
+	 * 
+	 * @param unit	the unit data
+	 * @param units	the units object to fill
+	 */
+	extractUnitRecruitData: function( unit, units ) {
+		var tier = unit.tier;
+		var type = "UNIT_" + unit.factionEntityTagName + "_" + unit.tier;
+		// units are ordered by tier
+		if ( units[ tier ] == undefined ) {
+			units[ tier ]  = {};
+		}
+		var units = units [ tier ];
+		// and then by type
+		if ( units[ type ] == undefined ) {
+			units[ type ] = {
+				name: unit.unitEntityName,
+				type: unit.type,
+				tier: unit.tier,
+				faction: unit.factionEntityTagName,
+				power: unit.power,
+				reserve: 0,
+				production: 0,
+				quantity: 0
+			};
+		}
+		units[ type ].reserve += unit.avail;
+		units[ type ].production += unit.income;
+    
 	},
 
 	/**
@@ -285,6 +320,7 @@ MMHK.modules.push({
 				faction: city.factionEntityTagName,
 				x: city.x,
 				y: city.y,
+        recruitmessage: $.i18n.get( "no.recruits.message", city.cityName ),
 				maintenance: city.maintenanceGoldCost,
 				units: {}
 			});
@@ -304,6 +340,28 @@ MMHK.modules.push({
 				this.extractUnitStackData( stacks[ i ].content, current.units );
 			}
 		}
+
+		// for each recrutable unit available
+		var recruits = HOMMK.elementPool.get( "RecruitableUnit" );
+    if ( recruits ) {
+  		recruits = recruits.values();
+  		for ( var i = 0; i < recruits.length; i++ ) {
+  			var current = null;
+  			for ( var j = 0; j < data.length; j++ ) {
+          var cityid = recruits[i].content.id.split( "_" )[0];
+  				if ( data[ j ].id == cityid ) {
+  					current = data[ j ];
+  					break;
+  				}
+  			}
+  			if ( current != null ) {
+          data [ j ].recruitmessage = '';
+  				this.extractUnitRecruitData( recruits[ i ].content, current.units );
+  				this.extractUnitRecruitData( recruits[ i ].content.upgraded, current.units );
+  			}
+  		}
+    }
+
 		return data;
 	},
 
@@ -321,27 +379,87 @@ MMHK.modules.push({
 		if ( tier != undefined ) {
 			for ( var tag in tier ) {
 				var unit = tier [ tag ];
-				// the markup for this unit
-				markup += "<div class=\"unit\"><div class=\"" + unit.faction + " " + unit.tier + "\"></div>" + unit.quantity + "</div>";
-				// add count to the total
-				if ( total != undefined ) {
-					// total is ordered per ID
-					if ( total[ id ] == undefined ) {
-						total[ id ] = {};
-					}
-					total = total[ id ];
-					// and then per unit tag
-					if ( total[ tag ] == undefined ) {
-						total[ tag ] = {
-							name: unit.name,
-							type: unit.type,
-							faction: unit.faction,
-							tier: unit.tier,
-							quantity: 0
-						};
-					}
-					total[ tag ].quantity += unit.quantity;
-				}
+        if (unit.quantity > 0) {
+  				// the markup for this unit
+  				markup += "<div class=\"unit\"><div class=\"" + unit.faction + " " + unit.tier + "\"></div>" + unit.quantity + "</div>";
+  				// add count to the total
+  				if ( total != undefined ) {
+  					// total is ordered per ID
+  					if ( total[ id ] == undefined ) {
+  						total[ id ] = {};
+  					}
+  					total = total[ id ];
+  					// and then per unit tag
+  					if ( total[ tag ] == undefined ) {
+  						total[ tag ] = {
+  							name: unit.name,
+  							type: unit.type,
+  							faction: unit.faction,
+  							tier: unit.tier,
+                power: unit.power,
+        				reserve: 0,
+        				production: 0,
+  							quantity: 0
+  						};
+  					}
+  					total[ tag ].quantity += unit.quantity;
+  				}
+        }
+			}
+		}
+
+		return markup;
+	},
+
+	/**
+	 * Creates the HTML markup related to a specific tier of recrutable units.
+	 * 
+	 * @param tier	the tier data
+	 * @param id	the global unit type ID
+	 * @param total	the object that contains a summary of all troops
+	 */
+	createTierRecruitMarkup: function( tier, id, total ) {
+		var markup = "";
+
+/*DEBUG          unsafeWindow.console.log("createTierRecruitMarkup");    /* DEBUG  */
+		// tier may not be defined if empty
+		if ( tier != undefined ) {
+      //the recrutable units
+			for ( var tag in tier ) {
+				var unit = tier [ tag ];
+        if (unit.production > 0) {
+          //calculate total power of units and format the result
+          var totalpower = unit.power*unit.reserve+'';
+        	var rgx = /(\d+)(\d{3})/;
+        	while (rgx.test(totalpower)) {
+        		totalpower = totalpower.replace(rgx, '$1' + ' ' + '$2');
+        	}
+  				// the markup for this unit
+  				markup += "<div class=\"unit\" title=\"" + unit.name + " (Puissance: "+totalpower+")\"><div class=\"" + unit.faction + " " + tag.split( "_" )[2] + "\"></div>" + unit.reserve + "&nbsp(+" + unit.production + ")</div>";
+  				// add count to the total
+  				if ( total != undefined ) {
+  					// total is ordered per ID
+  					if ( total[ id ] == undefined ) {
+  						total[ id ] = {};
+  					}
+  					total = total[ id ];
+  					// and then per unit tag
+  					if ( total[ tag ] == undefined ) {
+  						total[ tag ] = {
+  							name: unit.name,
+  							type: unit.type,
+  							faction: unit.faction,
+  							tier: unit.tier,
+                power: unit.power,
+        				reserve: 0,
+        				production: 0,
+  							quantity: 0
+  						};
+  					}
+  					total[ tag ].reserve += unit.reserve;
+  					total[ tag ].production += unit.production;
+  				}
+        }        
 			}
 		}
 
@@ -354,10 +472,11 @@ MMHK.modules.push({
 	 * @param data	the collected army data
 	 */
 	createArmiesMarkup: function( data ) {
-		var total = {}, maintenance = 0, markup = "";
+		var total = {}, maintenance = 0, markup = "", recruitscomplet = 1;
 
 		// for each city
 		for ( var i = 0; i < data.length; i++ ) {
+      // recruted units
 			markup += "<tr>";
 			markup += "<td title=\"" + data[ i ].maintenance + "\">";
 			markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\">" + data[ i ].name + "<br/>[<tt>" + data[ i ].x + "," + data[ i ].y + "</tt>]</a>";
@@ -372,9 +491,31 @@ MMHK.modules.push({
 			}
 			markup += "</tr>";
 			maintenance += data[ i ].maintenance;
+
+      // recrutable units
+			markup += "<tr>"
+      if (data[i].recruitmessage) {
+			  markup += "<td colspan='9'>";
+        markup += data[i].recruitmessage;
+  			markup += "</td>";
+        recruitscomplet = 0;
+      } else {
+			  markup += "<td>";
+  			markup += $.i18n.get( "recruitable.header" );
+  			markup += "</td>";
+  			// for each tier
+  			for ( var j = 1; j <= 8; j++ ) {
+  				markup += "<td>";
+  				markup += this.createTierRecruitMarkup( data[ i ].units[ "T" + j ], j, total );
+  				markup += this.createTierRecruitMarkup( data[ i ].units[ "T" + j + "P" ], j, total );
+  				markup += "</td>";
+  			}
+      }
+			markup += "</tr>";
+
 		}
 
-		// then display the total
+		// then display the units total
 		markup += "<tr class=\"total\">";
 		markup += "<td title=\"" + maintenance + "\">";
 		markup += $.i18n.get( "total" );
@@ -383,6 +524,20 @@ MMHK.modules.push({
 		for ( var i = 1; i <= 8; i++ ) {
 			markup += "<td>";
 			markup += this.createTierMarkup( total[ i ] );
+			markup += "</td>";
+		}
+		markup += "</tr>";
+
+		// then display the recrutable units total
+		markup += "<tr class=\"total\">";
+		markup += "<td>";
+		markup += $.i18n.get( "total.recruitable" );
+    if (!recruitscomplet)
+		  markup += $.i18n.get( "total.incomplete" );
+		markup += "</td>";
+		for ( var i = 1; i <= 8; i++ ) {
+			markup += "<td>";
+			markup += this.createTierRecruitMarkup( total[ i ] );
 			markup += "</td>";
 		}
 		markup += "</tr>";
