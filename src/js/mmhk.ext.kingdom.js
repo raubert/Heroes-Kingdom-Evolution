@@ -23,24 +23,24 @@ MMHK.modules.push({
 		// add some dynamic CSS commands
 		$.addCss(
 			"#KingdomImage { background: url('" + HOMMK.IMG_URL + "/css_sprite/SideBar_Shortcuts.gif') no-repeat -280px 0; width: 40px; height: 40px; }"
-		  + "#KingdomFrame #KingdomClose { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/SideBar_Shortcuts.gif') }"
-		  + "#KingdomFrame #KingdomTabs div { background-image: url('" + HOMMK.IMG_URL + "/css_sprite/Frame_tab_ranking.jpg') }"
-		  + "#KingdomFrame #KingdomDataContainer { background-image: url('" + HOMMK.IMG_URL + "/background/metal.jpg') }"
-		  + "#KingdomFrame .kingdom .data tbody td .city { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Region_Zoom1.gif') }"
-		  + "#KingdomFrame #KingdomArmiesHeader { background-image:url('" + HOMMK.IMG_URL + "/frame/ranking/rankingHeader_DOMINATION_01.jpg') }"
-		  + "#KingdomFrame #KingdomArmiesData .unit .ACADEMY { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/UnitStack_ACADEMY.gif') }"
-		  + "#KingdomFrame #KingdomArmiesData .unit .HAVEN { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/UnitStack_HAVEN.gif') }"
-		  + "#KingdomFrame #KingdomArmiesData .unit .INFERNO { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/UnitStack_INFERNO.gif') }"
-		  + "#KingdomFrame #KingdomArmiesData .unit .NECROPOLIS { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/UnitStack_NECROPOLIS.gif') }"
-		  + "#KingdomFrame #KingdomArmiesData .unit .SYLVAN { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/UnitStack_SYLVAN.gif') }"
-		  + "#KingdomFrame #KingdomProductionHeader { background-image:url('" + HOMMK.IMG_URL + "/frame/ranking/rankingHeader_WEALTH_01.jpg') }"
-		  + "#KingdomFrame #KingdomProductionHeader th div { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Ressources.gif') }"
-		  + "#KingdomFrame #KingdomActionsHeader { background-image:url('" + HOMMK.IMG_URL + "/frame/ranking/rankingHeader_HONOR_01.jpg') }"
-		  + "#KingdomFrame #KingdomProductionHeader th div { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Ressources.gif') }"
-		  + "#KingdomFrame #KingdomActionsData .action .icon { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/TimeLineAction.gif') }"
-		  + "#KingdomFrame #KingdomActionsData .goods span span { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Ressources.gif') }"
-		  + ".cluetip-default h3#cluetip-title { background-image:url('" + HOMMK.IMG_URL + "/frame/tooltips/npc/titleBg_00.gif') }"
-		  + ".cluetip-default #cluetip-inner .unit .type { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/UnitStack_types.gif') }"
+			+ "#KingdomFrame #KingdomClose { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/SideBar_Shortcuts.gif') }"
+			+ "#KingdomFrame #KingdomTabs div { background-image: url('" + HOMMK.IMG_URL + "/css_sprite/Frame_tab_ranking.jpg') }"
+			+ "#KingdomFrame #KingdomDataContainer { background-image: url('" + HOMMK.IMG_URL + "/background/metal.jpg') }"
+			+ "#KingdomFrame .kingdom .data tbody td .city { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Region_Zoom1.gif') }"
+			+ "#KingdomFrame #KingdomArmiesHeader { background-image:url('" + HOMMK.IMG_URL + "/frame/ranking/rankingHeader_DOMINATION_01.jpg') }"
+			+ "#KingdomFrame #KingdomArmiesData .unit .ACADEMY { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/UnitStack_ACADEMY.gif') }"
+			+ "#KingdomFrame #KingdomArmiesData .unit .HAVEN { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/UnitStack_HAVEN.gif') }"
+			+ "#KingdomFrame #KingdomArmiesData .unit .INFERNO { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/UnitStack_INFERNO.gif') }"
+			+ "#KingdomFrame #KingdomArmiesData .unit .NECROPOLIS { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/UnitStack_NECROPOLIS.gif') }"
+			+ "#KingdomFrame #KingdomArmiesData .unit .SYLVAN { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/UnitStack_SYLVAN.gif') }"
+			+ "#KingdomFrame #KingdomProductionHeader { background-image:url('" + HOMMK.IMG_URL + "/frame/ranking/rankingHeader_WEALTH_01.jpg') }"
+			+ "#KingdomFrame #KingdomProductionHeader th div { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Ressources.gif') }"
+			+ "#KingdomFrame #KingdomActionsHeader { background-image:url('" + HOMMK.IMG_URL + "/frame/ranking/rankingHeader_HONOR_01.jpg') }"
+			+ "#KingdomFrame #KingdomProductionHeader th div { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Ressources.gif') }"
+			+ "#KingdomFrame #KingdomActionsData .action .icon { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/TimeLineAction.gif') }"
+			+ "#KingdomFrame #KingdomActionsData .goods span span { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Ressources.gif') }"
+			+ ".cluetip-default h3#cluetip-title { background-image:url('" + HOMMK.IMG_URL + "/frame/tooltips/npc/titleBg_00.gif') }"
+			+ ".cluetip-default #cluetip-inner .unit .type { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/UnitStack_types.gif') }"
 		);
 
 		var self = this;
@@ -165,7 +165,7 @@ MMHK.modules.push({
 								+ "<div class=\"header\">"
 									+ "<div id=\"KingdomArmiesHeader\">"
 										+ "<table><thead>" + ahead + "</thead></table>"
-									+ "</div>"                
+									+ "</div>"
 									+ "<div id=\"KingdomProductionHeader\">"
 										+ "<table><thead>" + phead + "</thead></table>"
 									+ "</div>"
@@ -253,7 +253,7 @@ MMHK.modules.push({
 		var type = unit.unitEntityTagName;
 		// units are ordered by tier
 		if ( units[ tier ] == undefined ) {
-			units[ tier ]  = {};
+			units[ tier ]	= {};
 		}
 		units = units [ tier ];
 		// and then by type
@@ -283,7 +283,7 @@ MMHK.modules.push({
 		var type = "UNIT_" + unit.factionEntityTagName + "_" + unit.tier;
 		// units are ordered by tier
 		if ( units[ tier ] == undefined ) {
-			units[ tier ]  = {};
+			units[ tier ]	= {};
 		}
 		var units = units [ tier ];
 		// and then by type
@@ -301,7 +301,7 @@ MMHK.modules.push({
 		}
 		units[ type ].reserve += unit.avail;
 		units[ type ].production += unit.income;
-    
+
 	},
 
 	/**
@@ -320,7 +320,7 @@ MMHK.modules.push({
 				faction: city.factionEntityTagName,
 				x: city.x,
 				y: city.y,
-        recruitmessage: $.i18n.get( "no.recruits.message", city.cityName ),
+				recruitmessage: $.i18n.get( "no.recruits.message", city.cityName ),
 				maintenance: city.maintenanceGoldCost,
 				units: {}
 			});
@@ -329,38 +329,40 @@ MMHK.modules.push({
 		// for each stack available
 		var stacks = HOMMK.elementPool.get( "UnitStack" ).values();
 		for ( var i = 0; i < stacks.length; i++ ) {
-			var city = stacks[ i ].parentRegionCity.content, current = null;
-			for ( var j = 0; j < data.length; j++ ) {
-				if ( data[ j ].id == city.id ) {
-					current = data[ j ];
-					break;
+			if (stacks[ i ].parentRegionCity) {
+				var city = stacks[ i ].parentRegionCity.content, current = null;
+				for ( var j = 0; j < data.length; j++ ) {
+					if ( data[ j ].id == city.id ) {
+						current = data[ j ];
+						break;
+					}
 				}
-			}
-			if ( current != null ) {
-				this.extractUnitStackData( stacks[ i ].content, current.units );
+				if ( current != null ) {
+					this.extractUnitStackData( stacks[ i ].content, current.units );
+				}
 			}
 		}
 
 		// for each recrutable unit available
 		var recruits = HOMMK.elementPool.get( "RecruitableUnit" );
-    if ( recruits ) {
-  		recruits = recruits.values();
-  		for ( var i = 0; i < recruits.length; i++ ) {
-  			var current = null;
-  			for ( var j = 0; j < data.length; j++ ) {
-          var cityid = recruits[i].content.id.split( "_" )[0];
-  				if ( data[ j ].id == cityid ) {
-  					current = data[ j ];
-  					break;
-  				}
-  			}
-  			if ( current != null ) {
-          data [ j ].recruitmessage = '';
-  				this.extractUnitRecruitData( recruits[ i ].content, current.units );
-  				this.extractUnitRecruitData( recruits[ i ].content.upgraded, current.units );
-  			}
-  		}
-    }
+		if ( recruits ) {
+			recruits = recruits.values();
+			for ( var i = 0; i < recruits.length; i++ ) {
+				var current = null;
+				for ( var j = 0; j < data.length; j++ ) {
+					var cityid = recruits[i].content.id.split( "_" )[0];
+					if ( data[ j ].id == cityid ) {
+						current = data[ j ];
+						break;
+					}
+				}
+				if ( current != null ) {
+					data [ j ].recruitmessage = '';
+					this.extractUnitRecruitData( recruits[ i ].content, current.units );
+					this.extractUnitRecruitData( recruits[ i ].content.upgraded, current.units );
+				}
+			}
+		}
 
 		return data;
 	},
@@ -379,32 +381,32 @@ MMHK.modules.push({
 		if ( tier != undefined ) {
 			for ( var tag in tier ) {
 				var unit = tier [ tag ];
-        if (unit.quantity > 0) {
-  				// the markup for this unit
-  				markup += "<div class=\"unit\"><div class=\"" + unit.faction + " " + unit.tier + "\"></div>" + unit.quantity + "</div>";
-  				// add count to the total
-  				if ( total != undefined ) {
-  					// total is ordered per ID
-  					if ( total[ id ] == undefined ) {
-  						total[ id ] = {};
-  					}
-  					total = total[ id ];
-  					// and then per unit tag
-  					if ( total[ tag ] == undefined ) {
-  						total[ tag ] = {
-  							name: unit.name,
-  							type: unit.type,
-  							faction: unit.faction,
-  							tier: unit.tier,
-                power: unit.power,
-        				reserve: 0,
-        				production: 0,
-  							quantity: 0
-  						};
-  					}
-  					total[ tag ].quantity += unit.quantity;
-  				}
-        }
+				if (unit.quantity > 0) {
+					// the markup for this unit
+					markup += "<div class=\"unit\"><div class=\"" + unit.faction + " " + unit.tier + "\"></div>" + unit.quantity + "</div>";
+					// add count to the total
+					if ( total != undefined ) {
+						// total is ordered per ID
+						if ( total[ id ] == undefined ) {
+							total[ id ] = {};
+						}
+						total = total[ id ];
+						// and then per unit tag
+						if ( total[ tag ] == undefined ) {
+							total[ tag ] = {
+								name: unit.name,
+								type: unit.type,
+								faction: unit.faction,
+								tier: unit.tier,
+								power: unit.power,
+								reserve: 0,
+								production: 0,
+								quantity: 0
+							};
+						}
+						total[ tag ].quantity += unit.quantity;
+					}
+				}
 			}
 		}
 
@@ -421,45 +423,44 @@ MMHK.modules.push({
 	createTierRecruitMarkup: function( tier, id, total ) {
 		var markup = "";
 
-/*DEBUG          unsafeWindow.console.log("createTierRecruitMarkup");    /* DEBUG  */
 		// tier may not be defined if empty
 		if ( tier != undefined ) {
-      //the recrutable units
+			//the recrutable units
 			for ( var tag in tier ) {
 				var unit = tier [ tag ];
-        if (unit.production > 0) {
-          //calculate total power of units and format the result
-          var totalpower = unit.power*unit.reserve+'';
-        	var rgx = /(\d+)(\d{3})/;
-        	while (rgx.test(totalpower)) {
-        		totalpower = totalpower.replace(rgx, '$1' + ' ' + '$2');
-        	}
-  				// the markup for this unit
-  				markup += "<div class=\"unit\" title=\"" + unit.name + " (Puissance: "+totalpower+")\"><div class=\"" + unit.faction + " " + tag.split( "_" )[2] + "\"></div>" + unit.reserve + "&nbsp(+" + unit.production + ")</div>";
-  				// add count to the total
-  				if ( total != undefined ) {
-  					// total is ordered per ID
-  					if ( total[ id ] == undefined ) {
-  						total[ id ] = {};
-  					}
-  					total = total[ id ];
-  					// and then per unit tag
-  					if ( total[ tag ] == undefined ) {
-  						total[ tag ] = {
-  							name: unit.name,
-  							type: unit.type,
-  							faction: unit.faction,
-  							tier: unit.tier,
-                power: unit.power,
-        				reserve: 0,
-        				production: 0,
-  							quantity: 0
-  						};
-  					}
-  					total[ tag ].reserve += unit.reserve;
-  					total[ tag ].production += unit.production;
-  				}
-        }        
+				if (unit.production > 0) {
+					//calculate total power of units and format the result
+					var totalpower = unit.power*unit.reserve+'';
+					var rgx = /(\d+)(\d{3})/;
+					while (rgx.test(totalpower)) {
+						totalpower = totalpower.replace(rgx, '$1' + ' ' + '$2');
+					}
+					// the markup for this unit
+					markup += "<div class=\"unit\" title=\"" + unit.name + " (Puissance: "+totalpower+")\"><div class=\"" + unit.faction + " " + tag.split( "_" )[2] + "\"></div>" + unit.reserve + "&nbsp(+" + unit.production + ")</div>";
+					// add count to the total
+					if ( total != undefined ) {
+						// total is ordered per ID
+						if ( total[ id ] == undefined ) {
+							total[ id ] = {};
+						}
+						total = total[ id ];
+						// and then per unit tag
+						if ( total[ tag ] == undefined ) {
+							total[ tag ] = {
+								name: unit.name,
+								type: unit.type,
+								faction: unit.faction,
+								tier: unit.tier,
+								power: unit.power,
+								reserve: 0,
+								production: 0,
+								quantity: 0
+							};
+						}
+						total[ tag ].reserve += unit.reserve;
+						total[ tag ].production += unit.production;
+					}
+				}
 			}
 		}
 
@@ -476,7 +477,7 @@ MMHK.modules.push({
 
 		// for each city
 		for ( var i = 0; i < data.length; i++ ) {
-      // recruted units
+			// recruted units
 			markup += "<tr>";
 			markup += "<td title=\"" + data[ i ].maintenance + "\">";
 			markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\">" + data[ i ].name + "<br/>[<tt>" + data[ i ].x + "," + data[ i ].y + "</tt>]</a>";
@@ -492,25 +493,25 @@ MMHK.modules.push({
 			markup += "</tr>";
 			maintenance += data[ i ].maintenance;
 
-      // recrutable units
+			// recrutable units
 			markup += "<tr>"
-      if (data[i].recruitmessage) {
-			  markup += "<td colspan='9'>";
-        markup += data[i].recruitmessage;
-  			markup += "</td>";
-        recruitscomplet = 0;
-      } else {
-			  markup += "<td>";
-  			markup += $.i18n.get( "recruitable.header" );
-  			markup += "</td>";
-  			// for each tier
-  			for ( var j = 1; j <= 8; j++ ) {
-  				markup += "<td>";
-  				markup += this.createTierRecruitMarkup( data[ i ].units[ "T" + j ], j, total );
-  				markup += this.createTierRecruitMarkup( data[ i ].units[ "T" + j + "P" ], j, total );
-  				markup += "</td>";
-  			}
-      }
+			if (data[i].recruitmessage) {
+				markup += "<td colspan='9'>";
+				markup += data[i].recruitmessage;
+				markup += "</td>";
+				recruitscomplet = 0;
+			} else {
+				markup += "<td>";
+				markup += $.i18n.get( "recruitable.header" );
+				markup += "</td>";
+				// for each tier
+				for ( var j = 1; j <= 8; j++ ) {
+					markup += "<td>";
+					markup += this.createTierRecruitMarkup( data[ i ].units[ "T" + j ], j, total );
+					markup += this.createTierRecruitMarkup( data[ i ].units[ "T" + j + "P" ], j, total );
+					markup += "</td>";
+				}
+			}
 			markup += "</tr>";
 
 		}
@@ -519,7 +520,7 @@ MMHK.modules.push({
 		markup += "<tr class=\"total\">";
 		markup += "<td title=\"" + maintenance + "\">";
 		markup += $.i18n.get( "total" );
-    markup += "<br />[" + HOMMK.player.content.activeOrSubscribedCityCount + "/" + HOMMK.player.content.cityNumberMinThreshold + " " + $.i18n.get("cities") + "]";
+		markup += "<br />[" + HOMMK.player.content.activeOrSubscribedCityCount + "/" + HOMMK.player.content.cityNumberMinThreshold + " " + $.i18n.get("cities") + "]";
 		markup += "</td>";
 		for ( var i = 1; i <= 8; i++ ) {
 			markup += "<td>";
@@ -532,8 +533,8 @@ MMHK.modules.push({
 		markup += "<tr class=\"total\">";
 		markup += "<td>";
 		markup += $.i18n.get( "total.recruitable" );
-    if (!recruitscomplet)
-		  markup += $.i18n.get( "total.incomplete" );
+		if (!recruitscomplet)
+			markup += $.i18n.get( "total.incomplete" );
 		markup += "</td>";
 		for ( var i = 1; i <= 8; i++ ) {
 			markup += "<td>";
@@ -696,22 +697,22 @@ MMHK.modules.push({
 				// default cell for a specific type of resource
 				data = data.split( ":" );
 				var income = parseFloat( data[ 1 ] );
-        var hoursleft = 0;
-        if (!income)
-          hoursleft = 0.01;
-        else if (income < 0)
-          hoursleft = parseFloat( data[ 3 ] ) * 24 / income;
+				var hoursleft = 0;
+				if (!income)
+					hoursleft = 0.01;
+				else if (income < 0)
+					hoursleft = parseFloat( data[ 3 ] ) * 24 / income;
 				else
-          hoursleft = ( parseFloat( data[ 4 ] ) - parseFloat( data[ 3 ] ) ) * 24 / income;
-        var markup = $.i18n.get( data[ 0 ] ) + "|"
+					hoursleft = ( parseFloat( data[ 4 ] ) - parseFloat( data[ 3 ] ) ) * 24 / income;
+				var markup = $.i18n.get( data[ 0 ] ) + "|"
 					+ "<div class=\"wealth\">"
 					+ "<p>" + $.i18n.get( "prod.hourly" ) + " <b>" + $.formatNumber( income / 24 ) + "</b></p>"
 					+ "<p>" + $.i18n.get( "prod.real" ) + " <b>" + $.formatNumber( income ) + "</b></p>"
 					+ "<p>" + $.i18n.get( "wealth.daily" ) + " <b>" + $.formatNumber( parseFloat( data[ 2 ] ) ) + "</b></p>";
 				if ( parseFloat( data[ 4 ] ) > 0 )
-          markup += "<p>" + ( income < 0 ? $.i18n.get( "stock.empty" ) : $.i18n.get( "stock.full" ) ) + " <b>" + $.i18n.get( "day", Math.floor( hoursleft / 24 ) ) + " " + $.i18n.get( "hour", Math.floor(hoursleft) - ( Math.floor( hoursleft / 24 ) * 24 ) ) + "</b></p>";
+					markup += "<p>" + ( income < 0 ? $.i18n.get( "stock.empty" ) : $.i18n.get( "stock.full" ) ) + " <b>" + $.i18n.get( "day", Math.floor( hoursleft / 24 ) ) + " " + $.i18n.get( "hour", Math.floor(hoursleft) - ( Math.floor( hoursleft / 24 ) * 24 ) ) + "</b></p>";
 				markup += "</div>";
-        return markup;
+				return markup;
 			} else {
 				// summary on a line
 				var income = parseFloat( data );
