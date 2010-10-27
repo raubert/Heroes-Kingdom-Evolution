@@ -1,0 +1,62 @@
+body {
+	background: #312724 url( images/bg_options.jpg ) no-repeat right top;
+	font-family: Verdana,Arial,sans-serif;
+	font-size: 12px;
+}
+
+h1 {
+	color: #f8f9f4;
+	margin: 0.5em 0;
+}
+
+h1 tt {
+	font-size: small;
+}
+
+.content {
+	max-width: 600px;
+	min-width: 460px;
+}
+
+#tabs {
+	margin-top: 2.5em;
+}
+
+.info {
+	border-bottom: 1px dashed #312724;
+	font-size: smaller;
+	margin-bottom: 2em;
+	padding-bottom: 2em;
+	text-align: justify;
+}
+
+.element {
+	padding: 4px;
+}
+
+.element label {
+	display: inline-block;
+	width: 100px;
+}
+
+.buttons {
+	margin-top: 1em;
+	text-align: center;
+}
+
+#credits {
+	background: rgba( 248, 249, 244, 0.4 );
+	border-color: rgba( 49, 39, 36, 0.4 );
+	bottom: 1em;
+	opacity: 0.8;
+	padding: 2px;
+	position: fixed;
+	right: 1em;
+	text-align: right;
+}
+
+#credits span {
+	display: block;
+	font-family: monospace;
+	padding: 2px 4px;
+}

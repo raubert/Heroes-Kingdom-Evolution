@@ -1,0 +1,25 @@
+{
+	"name": "__MSG_product_name__",
+	"version": "@VERSION@",
+	"description": "__MSG_description__",
+	"icons": {
+		"16": "mmhk-16.png",
+		"48": "mmhk-48.png",
+		"128": "mmhk-128.png"
+	},
+	"default_locale": "en",
+	"content_scripts": [
+		{
+			"matches": [
+				"http://mightandmagicheroeskingdoms.ubi.com/play*"
+			],
+			"css": [
+				"mmhk.css"
+			],
+			"js": [
+				"mmhk.content.js"
+			]
+		}
+	],
+	"options_page": "options.html"
+}

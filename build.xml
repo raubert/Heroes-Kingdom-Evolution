@@ -2,22 +2,55 @@
 
 	<property name="version" value="1.65" />
 
+	<property name="DEBUG" value="false" />
+
 	<property name="src" location="src" />
 	<property name="src.js" location="${src}/js" />
 	<property name="src.css" location="${src}/css" />
+	<property name="src.img" location="${src}/images" />
+	<property name="src.chrome" location="${src}/chrome" />
 	<property name="src.userscript" location="${src}/userscript" />
+	<property name="build" location="build" />
 
+	<!-- ant-contrib required -->
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+
+	<!-- compresses the specified file when not in DEBUG mode -->
 	<macrodef name="compress">
 		<attribute name="file" />
 		<attribute name="type" />
 		<sequential>
-			<java jar="yuicompressor-2.4.2.jar" fork="true">
-				<arg value="--type" />
-				<arg value="@{type}" />
-				<arg value="-o" />
-				<arg value="@{file}" />
-				<arg value="@{file}" />
-			</java>
+			<if>
+				<equals arg1="${DEBUG}" arg2="false" />
+				<then>
+					<java jar="yuicompressor-2.4.2.jar" fork="true">
+						<arg value="--type" />
+						<arg value="@{type}" />
+						<arg value="-o" />
+						<arg value="@{file}" />
+						<arg value="@{file}" />
+					</java>
+				</then>
+			</if>
+		</sequential>
+	</macrodef>
+
+	<!-- prepares the specified target as a concatenation of the given list of files -->
+	<macrodef name="prepare">
+		<attribute name="target" />
+		<attribute name="type" />
+		<element name="files" implicit="true" />
+		<sequential>
+			<delete file="@{target}" />
+			<concat destfile="@{target}">
+				<files />
+			</concat>
+			<compress file="@{target}" type="@{type}" />
+			<replaceregexp match="@VERSION@" replace="${version}" flags="g" file="@{target}" />
+			<tstamp>
+				<format property="now" pattern="d-MMMM-yyyy hh:mm aa z" locale="en,US" />
+			</tstamp>
+			<replaceregexp match="@DATE" replace="Date: ${now}" flags="g" file="@{target}" />
 		</sequential>
 	</macrodef>
 
@@ -81,6 +114,112 @@
 			<format property="now" pattern="d-MMMM-yyyy hh:mm aa z" locale="en,US" />
 		</tstamp>
 		<replaceregexp match="@DATE" replace="Date: ${now}" flags="g" file="${target}" />
+	</target>
+
+	<property name="chrome" value="C:\Users\Raph\AppData\Local\Google\Chrome\Application\chrome.exe" />
+
+	<target name="chrome">
+		<delete dir="${build}" />
+		<mkdir dir="${build}" />
+
+		<!-- copy chrome files -->
+		<copy todir="${build}">
+			<fileset dir="${src.chrome}">
+				<!-- these files will be included at a later time -->
+				<exclude name="options.js" />
+				<exclude name="options.css" />
+			</fileset>
+		</copy>
+
+		<!-- jQuery library -->
+		<prepare target="${build}/jquery.js" type="js">
+			<filelist dir="${src.js}">
+				<file name="jquery-1.4.3.js" />
+			</filelist>
+		</prepare>
+
+		<!-- jQuery UI library -->
+		<prepare target="${build}/jquery.ui.js" type="js">
+			<filelist dir="${src.js}">
+				<file name="jquery.ui.core.js" />
+				<file name="jquery.ui.widget.js" />
+				<file name="jquery.ui.mouse.js" />
+				<file name="jquery.ui.position.js" />
+				<file name="jquery.ui.draggable.js" />
+				<file name="jquery.ui.droppable.js" />
+				<file name="jquery.ui.autocomplete.js" />
+				<file name="jquery.ui.button.js" />
+				<file name="jquery.ui.dialog.js" />
+				<file name="jquery.ui.tabs.js" />
+				<file name="jquery.ui.progressbar.js" />
+			</filelist>
+		</prepare>
+
+		<!-- jQuery UI style sheet -->
+		<prepare target="${build}/jquery.ui.css" type="css">
+			<filelist dir="${src.css}">
+				<file name="jquery.ui.core.css" />
+				<file name="jquery.ui.autocomplete.css" />
+				<file name="jquery.ui.button.css" />
+				<file name="jquery.ui.dialog.css" />
+				<file name="jquery.ui.tabs.css" />
+				<file name="jquery.ui.progressbar.css" />
+				<file name="jquery.ui.theme.css" />
+			</filelist>
+		</prepare>
+
+		<!-- jQuery UI images -->
+		<copy todir="${build}/images">
+			<fileset dir="${src.img}/ui" />
+		</copy>
+
+		<!-- extension content script -->
+		<prepare target="${build}/mmhk.content.js" type="js">
+			<filelist dir="${src.js}">
+				<!-- utilities -->
+				<file name="mmhk.ext.info.js" />
+				<file name="mmhk.ext.locale.js" />
+				<file name="mmhk.ext.locale.en.js" />
+				<file name="mmhk.ext.locale.fr.js" />
+				<file name="mmhk.ext.units.js" />
+				<file name="mmhk.ext.base.js" />
+				<!-- every module -->
+				<file name="mmhk.ext.kingdom.js" />
+				<file name="mmhk.ext.map.center.js" />
+				<file name="mmhk.ext.halt.js" />
+			</filelist>
+		</prepare>
+
+		<!-- extension logic script -->
+		<prepare target="${build}/mmhk.logic.js" type="js">
+			<filelist dir="${src.js}">
+				<file name="mmhk.ext.logic.js" />
+			</filelist>
+		</prepare>
+
+		<!-- extension style sheet -->
+		<prepare target="${build}/mmhk.css" type="css">
+			<filelist dir="${src.css}">
+				<file name="mmhk.cluetip.css" />
+				<file name="mmhk.ext.css" />
+			</filelist>
+		</prepare>
+
+		<!-- extension options script -->
+		<prepare target="${build}/options.js" type="js">
+			<filelist dir="${src.chrome}">
+				<file name="options.js" />
+			</filelist>
+		</prepare>
+
+		<!-- extension options style sheet -->
+		<prepare target="${build}/options.css" type="css">
+			<filelist dir="${src.chrome}">
+				<file name="options.css" />
+			</filelist>
+		</prepare>
+
+		<replaceregexp match="@VERSION@" replace="${version}" flags="g" file="${build}/manifest.json" />
 	</target>
 
 </project>

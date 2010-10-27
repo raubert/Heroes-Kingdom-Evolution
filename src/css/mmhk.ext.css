@@ -401,6 +401,10 @@
 	background-position: -32px -34px;
 }
 
+#KingdomFrame #KingdomActionsData .action .AUCTION_HOUSE_DELIVERY {
+	background-position: -96px -17px;
+}
+
 #KingdomFrame #KingdomActionsData .action .BUILD_CITYBUILDING {
 	background-position: -16px -17px;
 }
@@ -442,6 +446,7 @@
 }
 
 #KingdomFrame #KingdomActionsData .action .HERO_SCOUT_CITY,
+#KingdomFrame #KingdomActionsData .action .HERO_SCOUT_HALT,
 #KingdomFrame #KingdomActionsData .action .HERO_SCOUT_REGION,
 #KingdomFrame #KingdomActionsData .action .HERO_SCOUT_TROOPS {
 	background-position: -112px 0;
@@ -457,6 +462,10 @@
 
 #KingdomFrame #KingdomActionsData .action .IMPROVE_MINE {
 	background-position: -80px -17px;
+}
+
+#KingdomFrame #KingdomActionsData .action .PLAYER_LEAVE_ALLIANCE {
+	background-position: -32px -34px;
 }
 
 #KingdomFrame #KingdomActionsData .action .RECRUIT_HERO {

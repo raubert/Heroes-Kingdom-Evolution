@@ -1,0 +1,29 @@
+{
+	"locale": {
+		"message": "en"
+	},
+	"product_name": {
+		"message": "Heroes Kingdom Evolution"
+	},
+	"description": {
+		"message": "Provides various improvements over MMHK's interface."
+	},
+	"connect": {
+		"message": "Connection Parameters"
+	},
+	"connect_info": {
+		"message": "These are the connection settings used to reach your alliance website in order to export data such as spy reports and map data."
+	},
+	"url": {
+		"message": "URL Address"
+	},
+	"username": {
+		"message": "Username"
+	},
+	"password": {
+		"message": "Password"
+	},
+	"save": {
+		"message": "Save"
+	}
+}

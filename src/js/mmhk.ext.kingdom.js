@@ -494,7 +494,7 @@ MMHK.modules.push({
 			maintenance += data[ i ].maintenance;
 
 			// recrutable units
-			markup += "<tr>"
+			markup += "<tr>";
 			if (data[i].recruitmessage) {
 				markup += "<td colspan='9'>";
 				markup += data[i].recruitmessage;

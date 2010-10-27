@@ -1,0 +1,29 @@
+{
+	"locale": {
+		"message": "fr"
+	},
+	"product_name": {
+		"message": "Heroes Kingdom : Évolution"
+	},
+	"description": {
+		"message": "Fournit diverses améliorations dans l'interface de Heroes Kingdom."
+	},
+	"connect": {
+		"message": "Paramètres de Connexion"
+	},
+	"connect_info": {
+		"message": "Ces paramètres seront utilisés pour vous connecter au site de votre alliance afin d'y exporter des données telles que vos rapports d'espionnages ou les données de la carte."
+	},
+	"url": {
+		"message": "URL du Site"
+	},
+	"username": {
+		"message": "Utilisateur"
+	},
+	"password": {
+		"message": "Mot de Passe"
+	},
+	"save": {
+		"message": "Sauvegarder"
+	}
+}

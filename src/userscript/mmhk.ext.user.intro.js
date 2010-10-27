@@ -4,6 +4,7 @@
 // @description    Copyright 2010, Raphaël Aubert - userscript for MMHK
 // @include        http://mightandmagicheroeskingdoms.ubi.com/play*
 // @match          http://mightandmagicheroeskingdoms.ubi.com/play*
+// @version        @VERSION
 // @run-at         document-end
 // ==/UserScript==
 
