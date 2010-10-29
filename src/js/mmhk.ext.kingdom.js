@@ -701,7 +701,7 @@ MMHK.modules.push({
 				if (!income)
 					hoursleft = 0.01;
 				else if (income < 0)
-					hoursleft = parseFloat( data[ 3 ] ) * 24 / income;
+					hoursleft = parseFloat( data[ 3 ] ) * -24 / income;
 				else
 					hoursleft = ( parseFloat( data[ 4 ] ) - parseFloat( data[ 3 ] ) ) * 24 / income;
 				var markup = $.i18n.get( data[ 0 ] ) + "|"
