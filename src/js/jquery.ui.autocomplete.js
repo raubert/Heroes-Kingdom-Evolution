@@ -370,7 +370,7 @@ $.extend( $.ui.autocomplete, {
 	}
 });
 
-}( jQuery ));
+}( MMHK.jQuery ));
 
 /*
  * jQuery UI Menu (not officially released)
@@ -552,4 +552,4 @@ $.widget("ui.menu", {
 	}
 });
 
-}(jQuery));
+}(MMHK.jQuery));

@@ -1,3 +1,5 @@
+var MMHK = {};
+
 /*!
  * jQuery JavaScript Library v1.4.3
  * http://jquery.com/
@@ -6879,5 +6881,7 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
 
 });
 
+//Expose jQuery to the global object
+MMHK.jQuery = jQuery.noConflict(true);
 
 })(window);

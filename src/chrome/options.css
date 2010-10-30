@@ -15,7 +15,6 @@ h1 tt {
 
 .content {
 	max-width: 600px;
-	min-width: 460px;
 }
 
 #tabs {
@@ -45,8 +44,8 @@ h1 tt {
 }
 
 #credits {
-	background: rgba( 248, 249, 244, 0.4 );
-	border-color: rgba( 49, 39, 36, 0.4 );
+	background: rgba( 248, 249, 244, 0.8 );
+	border-color: rgba( 49, 39, 36, 0.6 );
 	bottom: 1em;
 	opacity: 0.8;
 	padding: 2px;

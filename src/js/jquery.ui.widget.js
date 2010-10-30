@@ -246,4 +246,4 @@ $.Widget.prototype = {
 	}
 };
 
-})( jQuery );
+})( MMHK.jQuery );

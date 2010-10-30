@@ -794,4 +794,4 @@ $.ui.plugin.add("draggable", "zIndex", {
 	}
 });
 
-})(jQuery);
+})(MMHK.jQuery);

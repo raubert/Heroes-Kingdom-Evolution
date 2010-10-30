@@ -1,12 +1,7 @@
 /**
  * Centers the map around a user-defined location.
  */
-(function( $ ) {
-
-/**
- * Helper to access HOMMK.
- */
-var HOMMK = MMHK.HOMMK;
+(function( $, MMHK, HOMMK ) {
 
 // let's register this module
 MMHK.modules.push({
@@ -104,4 +99,4 @@ MMHK.modules.push({
 
 });
 
-})( MMHK.jQuery );
+})( MMHK.jQuery, MMHK, MMHK.HOMMK );

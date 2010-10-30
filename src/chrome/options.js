@@ -1,3 +1,5 @@
+(function( $ ) {
+
 $(function() {
 
 	$( ".i18n" ).removeClass( "i18n" ).text(function( i, current ) {
@@ -40,3 +42,5 @@ $(function() {
 	}
 
 });
+
+})( MMHK.jQuery );

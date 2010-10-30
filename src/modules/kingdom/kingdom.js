@@ -1,12 +1,7 @@
 /**
  * Kingdom module: adds an additional menu to MMHK.
  */
-(function( $ ) {
-
-/**
- * Helper to access HOMMK.
- */
-var HOMMK = MMHK.HOMMK;
+(function( $, MMHK, HOMMK, MooTools ) {
 
 // let's register this module
 MMHK.modules.push({
@@ -47,7 +42,7 @@ MMHK.modules.push({
 		// sneaky insertion into MMHK's interface
 		$( "#SidebarTop tr:first" ).each( function() {
 			// simulate MMHK's markup with their crappy classes
-			$( "<td><div class=\"relativePosition Voffset3\" title=\"Angarak's KINGDOM v" + MMHK.version + "\"><div class=\"Hoffset0 Hoffset0R clickable\" id=\"KingdomImage\"></div><div class=\"clickable\" id=\"KingdomText\">Kingdom</div></div></td>" )
+			$( "<td><div class=\"relativePosition Voffset3\" title=\"" + $.i18n.get( "kingdom" ) + "\"><div class=\"Hoffset0 Hoffset0R clickable\" id=\"KingdomImage\"></div><div class=\"clickable\" id=\"KingdomText\">" + $.i18n.get( "kingdom" ) + "</div></div></td>" )
 				.find( ".clickable" )
 					// replicate the behavior of the other options
 					.hover( function() {
@@ -122,6 +117,11 @@ MMHK.modules.push({
 	],
 
 	/**
+	 * Content slider object.
+	 */
+	slider: null,
+
+	/**
 	 * Creates the main frame HTML markup, which is static and never changes.
 	 */
 	createFrameMarkup: function() {
@@ -130,7 +130,7 @@ MMHK.modules.push({
 		for ( var i = 1; i <= 7; i++ ) {
 			ahead += "<th>T" + i + "</th>";
 		}
-		ahead += "<th>" + $.i18n.get( "siege.units" ) + "</th>";
+		ahead += "<th style=\"writing-mode:tb-lr\">" + $.i18n.get( "siege.units" ) + "</th>";
 		ahead += "<th class=\"s\"></th></tr>";
 
 		// header for production
@@ -218,7 +218,7 @@ MMHK.modules.push({
 		$( "#KingdomTabs>div" ).click( function() {
 			// unselects everything
 			$( "#KingdomTabs" ).children().removeClass( "selected" );
-			$( "#KingdomArmiesHeader,#KingdomProductionHeader,#KingdomActionsHeader" ).hide();
+			$( "#cluetip,#KingdomArmiesHeader,#KingdomProductionHeader,#KingdomActionsHeader" ).hide();
 			$( "#KingdomArmiesData,#KingdomProductionData,#KingdomActionsData" ).children().hide();
 
 			// select the new tab and display its contents
@@ -234,12 +234,13 @@ MMHK.modules.push({
 	},
 
 	/**
-	 * Oooo... that's dirty!
-	 * 
-	 * Hack to get the slider working.
+	 * Updates the slider size and resets its position.
 	 */
 	updateSlider: function() {
-		setTimeout( "var s = $( \"KingdomDataContainerSlider\" ).slider; s && s.updateDimensions()", 0 );
+		if ( this.slider != null ) {
+			this.slider.updateDimensions();
+			this.slider.toPosition( 0 );
+		}
 	},
 
 	/**
@@ -936,8 +937,7 @@ MMHK.modules.push({
 			$( this.createFrameMarkup() ).appendTo( "#FrameMainContainer" );
 			// then initialize the actions
 			self.setupFrameActions();
-			// Oooo... that's dirty!
-			setTimeout( "$( \"KingdomDataContainerSlider\" ).slider = new HOMMK.ContentSlider( $( \"KingdomDataContainerSlider\" ), $( \"KingdomDataContainer\" ) );", 0 );
+			self.slider = new HOMMK.ContentSlider( MooTools( "KingdomDataContainerSlider" ), MooTools( "KingdomDataContainer" ) );
 		}
 
 		// replace armies HTML
@@ -961,4 +961,4 @@ MMHK.modules.push({
 
 });
 
-})( MMHK.jQuery );
+})( MMHK.jQuery, MMHK, MMHK.HOMMK, window.$ );

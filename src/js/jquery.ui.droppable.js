@@ -282,4 +282,4 @@ $.ui.ddmanager = {
 	}
 };
 
-})(jQuery);
+})(MMHK.jQuery);

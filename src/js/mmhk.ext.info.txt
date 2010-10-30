@@ -1,7 +1,7 @@
 /*!
  * MMHK extension v@VERSION
  *
- * Copyright 2010, Raphaël Aubert
+ * Copyright 2010, Raphaël "Angarak" Aubert, Amroth, Darech
  * Licensed under the GPL Version 2 license.
  *
  * @DATE

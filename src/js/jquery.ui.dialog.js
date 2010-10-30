@@ -834,4 +834,4 @@ $.extend($.ui.dialog.overlay.prototype, {
 	}
 });
 
-}(jQuery));
+}(MMHK.jQuery));

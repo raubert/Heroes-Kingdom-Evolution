@@ -755,4 +755,4 @@ $.extend( $.ui.tabs.prototype, {
 	}
 });
 
-})( jQuery );
+})( MMHK.jQuery );

@@ -1,0 +1,494 @@
+#KingdomFrame {
+	z-index: 2;
+}
+
+#KingdomFrame #KingdomClose {
+	background-position: 0px -160px;
+	height: 24px;
+	width: 23px;
+}
+
+#KingdomFrame .titleBar span {
+	font-family: monospace;
+	font-size: 8px;
+}
+
+#KingdomFrame .kingdom {
+	height: 450px;
+	overflow: hidden;
+}
+
+#KingdomFrame table {
+	border-collapse: collapse;
+}
+
+#KingdomFrame table td {
+	padding: 0;
+}
+
+#KingdomFrame #KingdomDataContainer {
+	height: 374px;
+	overflow: hidden;
+}
+
+#KingdomFrame #KingdomTabs {
+	color: #fffefd;
+	font-size: 11px;
+	font-weight: bold;
+	height: 26px;
+	line-height: 30px;
+	margin-top: 7px;
+	text-align: center;
+}
+
+#KingdomFrame #KingdomTabs div {
+	background-repeat: no-repeat;
+	cursor: pointer;
+	float: left;
+	height: 26px;
+}
+
+#KingdomFrame #KingdomTabs div.armies {
+	background-position: 0 -156px;
+	width: 206px;
+}
+
+#KingdomFrame #KingdomTabs div.armies.selected {
+	background-position: 0 0;
+}
+
+#KingdomFrame #KingdomTabs div.production {
+	background-position: 0 -182px;
+	width: 207px;
+}
+
+#KingdomFrame #KingdomTabs div.production.selected {
+	background-position: 0 -26px;
+}
+
+#KingdomFrame #KingdomTabs div.actions {
+	background-position: 0 -208px;
+	width: 207px;
+}
+
+#KingdomFrame #KingdomTabs div.actions.selected {
+	background-position: 0 -52px;
+}
+
+#KingdomFrame #KingdomTabs a {
+	color: #fffefd;
+}
+
+#KingdomFrame .kingdom table {
+	width: 100%;
+}
+
+#KingdomFrame #KingdomDataContainerSliderKnob {
+	left: 4px;
+	width: 11px;
+}
+
+#KingdomFrame #KingdomDataContainerSliderKnob tr {
+	background: none;
+}
+
+#KingdomFrame #KingdomDataContainerSliderKnob td {
+	width: 9px;
+}
+
+#KingdomFrame .kingdom .header tr {
+	color: #ffffff;
+	height: 76px;
+}
+
+#KingdomFrame #KingdomArmiesHeader {
+	background-color: #d11305;
+}
+
+#KingdomFrame #KingdomProductionHeader {
+	background-color: #ee9c1c;
+}
+
+#KingdomFrame #KingdomActionsHeader {
+	background-color: #255466;
+}
+
+#KingdomFrame .kingdom .header th.s {
+	width: 18px;
+}
+
+#KingdomFrame .kingdom .header th div {
+	margin: auto;
+	height: 32px;
+	width: 32px;
+}
+
+#KingdomFrame #KingdomProductionHeader .gold {
+	background-position: 0 -40px;
+}
+#KingdomFrame #KingdomProductionHeader .wood {
+	background-position: -32px -40px;
+}
+#KingdomFrame #KingdomProductionHeader .ore {
+	background-position: -64px -40px;
+}
+#KingdomFrame #KingdomProductionHeader .mercury {
+	background-position: -96px -40px;
+}
+#KingdomFrame #KingdomProductionHeader .crystal {
+	background-position: -128px -40px;
+}
+#KingdomFrame #KingdomProductionHeader .sulfur {
+	background-position: -160px -40px;
+}
+#KingdomFrame #KingdomProductionHeader .gem {
+	background-position: -192px -40px;
+}
+
+#KingdomFrame .data tbody tr.odd,
+#KingdomFrame .data tr:nth-child(odd) {
+	background: url('data:image/gif;base64,R0lGODlhKQAgAOf/AP/Wh/PPif/ak/PRj//cmb+PPOi1WvK/ZPjEZ+y7Y/jFavPCafzJbvjGbf/McvzKcfjHb/PDbfrJce6/bP/Ndf/Odf3MdPzLdPfIcv/Od/TFcvDCcP3Nd//PefnKdvfIdfvMeOi9b//Qe/zOevjKePTGdvDDdP/RfPLFdvjLeuvAc//RfvzOffvNfPnMe/THefPHeO3Cdf/Sf/vOffnMfO/Ed//RgP3Qf/vOfvXJe/HGefDFeP/SgfzPf/nMfvjLfffLffTIe+i+df/Sgv/Ugv3QgfrNf/TJfPLHe/HGe/DFev3QgvzPgfvPgffLf/fMf//ThP7Rg/nOgfjNgPXKf//UhfvPg/vQg/fMge3EfP/Thv3ShfzRhPnOg/jNgvDHfv/Uh/vQhfrPhPfNg//WiP3Sh/zRhvvRhvnPhffNhPTLgvLJgf/Uif7TiPfOhfXMhPTLg//VivnQh/fOhv/Wi/vSifnQiPPMhP3Ui/vSiv/Wjf3UjPzTi//Wjv/Yj//XkP/Ykf/Ykv/Zlf/alf/Zlv/bl//bmP/cmv/dnf/dnv/en//fov/sy/Phwc6bRa+EO7OIP7WMR62GRLGJR7OKSbSMS7WOTLaQT7aRU/PIfvTJf/3SiPnPh/vRif/VjbehfuTKoOzRpu3TqfPZru/Vq+fOpvTasfziufPasu3VruzUrevTrPjft/XctP/mvfzju/PcuP/ow//oxP/qyf/szP/tz//u0vPjyP/v1ItXCGU/BnNICGZCC2VDEGdEEmhGE2lHFGlIF2lIGbKaeLKbevHWrfjds/fcsvzht/vgtvnetP/kuvTasvPZsfLYsOnQqvfdtfvhufDXse/WsP/lvffet/bdtvTbtfPatPLZs/HYsvviu/rhuvngufjfuffeuPXctv/mv/7lvv3kvfvivPnguv/mwP3kvvzjvfPdu//px/Pevv/qyqmRcK2XeLKbfbSdf7OcfrWfgLaihnJaP2RQOmVSPGNQO2NOOWZRPGZSPWRQPGdTPmhUP2lXRP///yH5BAEAAP8ALAAAAAApACAAAAj+AP0IoOOHDhsodOhAYUPwkEMBAvz4ibKEjsOCUCgu8WGkSRMgQKJI9KOHC5c/f/TE0aNl5Z9DgwY5PPRnEEs9NuNoucJl55MpU4C8eLIyThxAYAAVotOnDx0wSZUWQkS1kFVAiABtAcNFCpctW5iCmfLzClSnhtjoURtobRmUfwzpCWQoUNxEiQz9MWOmjF+1gMOEYRO3LZu0a+e6hSuXrl1DePXy9VsG8FrBhOsmFhwmUCI9Zgj/YUP6j102niWHKTNXbuXKbPje/eMlDJbBiQj82dRlE0o2YfoQbkogUZ9Nm0KjNBNGuaDYvmlnOlOmDYHrgvp0MdqmTZkzbbb+txGkSFAcv3H6xKHeJk736n0A9REj5kycQPcPKTqERjyaNpv0ZxR5hwhyxhmbuLdJd22ggQZ498Xhh4ERBqIff/4BKGAcBBqIoIIMOgghfhOi5IldhByCBxpr1FGHG3h0kgYeeHhCyCKHeFIHHi7W0Uknf/hYh114EBLIiYv8SCMeedTISR6e/CEjJzR6QlWTVebRCR5SeiIIIX94YuUfNSKiByCACAKIHGfyUYceeKyxhhx4yMGHHmcigsedeADCJ55nCqImj3hQpZQgdZ6J54pqqLEjIHXwoaYgfEjKoxxr8vkmIpTSaWghiLIJyKJoNPpopJNWimgdmNoJ56b+neKxSCCCIGLIHnnw0VR2Tz65Rx970BoIrr/usUelnPQRyLBN9ZHHr4hAG0i0dgQryB5z5MGJHYLcKigfdthRaR+6ArvssscGAmxd5O5hiCHA7sGJsXmI+6yg1+aRrR20KtvHrerG24eg/vLhLrzGzourvXvgi+u+/aoLcFPGDpydv8GiS+6t4iLi7L97wDFHuL/W9Wu/fOSR67R0CTpsuYYQTC5VgeTRlB1wcKKzucaqO6zKGfdhK7za8ltrt8Zye62u8upsh7LZ2bwssEX/ygetq8pRx6Fo6qE1Hq+yWuoafAAC9p5pmqmHm2WbrQeol24Natdfhy3H2GWfXXbtrXiyjSbYoHpCI5SChukJlVo2+WMnc6xBpSdYRomotluayCVNYkYZCJhk+qgkmQ52ggaPgosJV401ionHsof4EceCEnVnVIAaHogGcgAyOKFEEvoRiOtG9S7h623E3t7r/wVoO+4Ldre76xL9HrzwrtvXRiBtWH+G74KE14V9+L2+yYe9+9E69MseLygbvP1xXB9mbNIHAWxogoUm8gMXXHK9xcZGs4QJoG/+FYjK6EEvpCmNIczQBS9gITRlCIMX+tKF15CmDHwJYErgkhLWpMQudCGMHprjlwr2xS8MRIliQsOGRLTlDyhkQ0AAADs=');
+}
+
+#KingdomFrame .data tbody tr.even,
+#KingdomFrame .data tr:nth-child(even) {
+	background: url('data:image/gif;base64,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');
+}
+
+#KingdomFrame #KingdomArmiesData tbody tr {
+	height: 50px;
+}
+
+#KingdomFrame #KingdomProductionData {
+	background-position: 0 1px;
+}
+
+#KingdomFrame #KingdomProductionData tbody tr {
+	height: 40px;
+}
+
+#KingdomFrame #KingdomProductionHeader th.g {
+	width: 127px;
+}
+#KingdomFrame #KingdomProductionData td.g {
+	width: 120px;
+}
+#KingdomFrame #KingdomProductionHeader th.rc,
+#KingdomFrame #KingdomProductionHeader th.rr {
+	width: 57px;
+}
+#KingdomFrame #KingdomProductionData td.rc,
+#KingdomFrame #KingdomProductionData td.rr {
+	width: 50px;
+}
+
+#KingdomFrame .kingdom .data tbody td .city {
+	float: right;
+	height: 18px;
+	margin-top: -18px;
+	width: 18px;
+}
+
+#KingdomFrame .kingdom .data tbody td a {
+	display: block;
+}
+
+#KingdomFrame .kingdom #KingdomArmiesData tbody td a {
+	padding-top: 4px;
+}
+
+#KingdomFrame .kingdom .data tbody td .city.HAVEN {
+	background-position: -82px -6px;
+}
+
+#KingdomFrame .kingdom .data tbody td .city.ACADEMY {
+	background-position: -108px -6px;
+}
+
+#KingdomFrame .kingdom .data tbody td .city.INFERNO {
+	background-position: -134px -6px;
+}
+
+#KingdomFrame .kingdom .data tbody td .city.NECROPOLIS {
+	background-position: -160px -6px;
+}
+
+#KingdomFrame .kingdom .data tbody td .city.SYLVAN {
+	background-position: -500px -6px;
+}
+
+#KingdomFrame .kingdom .data #KingdomDataContainer tbody td {
+	border: 1px solid Sienna;
+	padding: 4px;
+}
+
+#KingdomFrame #KingdomArmiesData tbody td {
+	min-width: 2em;
+}
+
+#KingdomFrame #KingdomProductionData tbody td {
+	white-space: nowrap;
+}
+
+#KingdomFrame .kingdom .data tbody td.value {
+	text-align: right;
+}
+
+#KingdomFrame #KingdomArmiesData .unit {
+	float: left;
+	margin: 1px 2px 0;
+	text-align: center;
+}
+
+#KingdomFrame #KingdomArmiesData .unit div {
+	border: 1px solid #4d332e;
+	height: 22px;
+	width: 23px;
+}
+
+#KingdomFrame .unit .T1P {
+	background-position: -23px 0;
+}
+
+#KingdomFrame .unit .T2 {
+	background-position: -46px 0;
+}
+
+#KingdomFrame .unit .T2P {
+	background-position: -69px 0;
+}
+
+#KingdomFrame .unit .T3 {
+	background-position: -92px 0;
+}
+
+#KingdomFrame .unit .T3P {
+	background-position: -115px 0;
+}
+
+#KingdomFrame .unit .T4 {
+	background-position: -138px 0;
+}
+
+#KingdomFrame .unit .T4P {
+	background-position: -161px 0;
+}
+
+#KingdomFrame .unit .T5 {
+	background-position: -184px 0;
+}
+
+#KingdomFrame .unit .T5P {
+	background-position: -207px 0;
+}
+
+#KingdomFrame .unit .T6 {
+	background-position: -230px 0;
+}
+
+#KingdomFrame .unit .T6P {
+	background-position: -253px 0;
+}
+
+#KingdomFrame .unit .T7 {
+	background-position: -276px 0;
+}
+
+#KingdomFrame .unit .T7P {
+	background-position: -299px 0;
+}
+
+#KingdomFrame .unit .T8 {
+	background-position: -322px 0;
+}
+
+#KingdomFrame .unit .T8P {
+	background-position: -345px 0;
+}
+
+#KingdomFrame #KingdomProductionData tbody td .storage {
+	color: #222222;
+	font-weight: bolder;
+}
+
+#KingdomFrame #KingdomProductionData tbody td .maintenance {
+	color: #990000;
+	font-weight: bolder;
+}
+
+#KingdomFrame .kingdom .data tbody tr.total td {
+	background: #634a33;
+	color: #ffffff;
+	font-weight: bolder;
+	vertical-align: middle;
+}
+
+#KingdomFrame #KingdomActionsData tbody {
+	font-size: 11px;
+}
+
+#KingdomFrame #KingdomActionsData tbody tr {
+	cursor: pointer;
+}
+
+#KingdomFrame #KingdomActionsData tbody tr.step {
+	background: #fff2e5;
+	color: #666666;
+	cursor: default;
+	display: none;
+	font-size: 10px;
+}
+
+#KingdomFrame #KingdomActionsHeader th.a {
+	width: 107px;
+}
+#KingdomFrame #KingdomActionsData td.a {
+	text-align: center;
+	width: 100px;
+}
+
+#KingdomFrame #KingdomActionsHeader th.d {
+	width: 250px;
+}
+#KingdomFrame #KingdomActionsData td.d {
+	width: 243px;
+}
+
+#KingdomFrame #KingdomActionsHeader th.t {
+	width: 112px;
+}
+#KingdomFrame #KingdomActionsData td.t {
+	text-align: center;
+	width: 105px;
+}
+
+#KingdomFrame #KingdomActionsData tbody td.open,
+#KingdomFrame #KingdomActionsData tbody td.close {
+	font-family: monospace;
+	text-align: center;
+}
+
+#KingdomFrame #KingdomActionsData td .goods span {
+	margin-right: 2px;
+	white-space: nowrap;
+}
+
+#KingdomFrame #KingdomActionsData td .goods span span {
+	display: inline-block;
+	height: 20px;
+	vertical-align: middle;
+	width: 20px;
+}
+
+#KingdomFrame #KingdomActionsData .action .icon {
+	background-repeat: no-repeat;
+	border: 1px solid #f1bf28;
+	height: 17px;
+	margin-top: 5px;
+	width: 16px;
+}
+
+#KingdomFrame #KingdomActionsData .action .ABILITY_END {
+	background-position: -32px -34px;
+}
+
+#KingdomFrame #KingdomActionsData .action .AUCTION_HOUSE_DELIVERY {
+	background-position: -96px -17px;
+}
+
+#KingdomFrame #KingdomActionsData .action .BUILD_CITYBUILDING {
+	background-position: -16px -17px;
+}
+
+#KingdomFrame #KingdomActionsData .action .CARAVAN_DELIVERY {
+	background-position: -96px -17px;
+}
+
+#KingdomFrame #KingdomActionsData .action .DOWNGRADE_MINE {
+	background-position: -64px -34px;
+}
+
+#KingdomFrame #KingdomActionsData .action .HERO_ATTACK_NPC {
+	background-position: 0 0;
+}
+
+#KingdomFrame #KingdomActionsData .action .HERO_ATTACK_REGION {
+	background-position: -16px 0;
+}
+
+#KingdomFrame #KingdomActionsData .action .HERO_BUILD_ZONEBUILDING {
+	background-position: -32px -17px;
+}
+
+#KingdomFrame #KingdomActionsData .action .HERO_LEARN_CLASS {
+	background-position: -112px -17px;
+}
+
+#KingdomFrame #KingdomActionsData .action .HERO_LEARN_SKILL {
+	background-position: -128px -17px;
+}
+
+#KingdomFrame #KingdomActionsData .action .HERO_MOVE {
+	background-position: -48px 0;
+}
+
+#KingdomFrame #KingdomActionsData .action .HERO_PILLAGE_ZONE {
+	background-position: -32px 0;
+}
+
+#KingdomFrame #KingdomActionsData .action .HERO_SCOUT_CITY,
+#KingdomFrame #KingdomActionsData .action .HERO_SCOUT_HALT,
+#KingdomFrame #KingdomActionsData .action .HERO_SCOUT_REGION,
+#KingdomFrame #KingdomActionsData .action .HERO_SCOUT_TROOPS {
+	background-position: -112px 0;
+}
+
+#KingdomFrame #KingdomActionsData .action .HERO_SETTLE_REGION {
+	background-position: 0 -17px;
+}
+
+#KingdomFrame #KingdomActionsData .action .HERO_UPGRADE_ZONEBUILDING {
+	background-position: -48px -17px;
+}
+
+#KingdomFrame #KingdomActionsData .action .IMPROVE_MINE {
+	background-position: -80px -17px;
+}
+
+#KingdomFrame #KingdomActionsData .action .PLAYER_LEAVE_ALLIANCE {
+	background-position: -32px -34px;
+}
+
+#KingdomFrame #KingdomActionsData .action .RECRUIT_HERO {
+	background-position: 0 -34px;
+}
+
+#KingdomFrame #KingdomActionsData .action .REGION_RECRUIT {
+	background-position: -128px 0;
+}
+
+#KingdomFrame #KingdomActionsData .action .UPGRADE_MINE {
+	background-position: -64px -17px;
+}
+
+#KingdomFrame #KingdomActionsData .gold {
+	background-position: 0 0;
+}
+#KingdomFrame #KingdomActionsData .wood {
+	background-position: -20px 0;
+}
+#KingdomFrame #KingdomActionsData .ore {
+	background-position: -40px 0;
+}
+#KingdomFrame #KingdomActionsData .mercury {
+	background-position: -60px 0;
+}
+#KingdomFrame #KingdomActionsData .crystal {
+	background-position: -80px 0;
+}
+#KingdomFrame #KingdomActionsData .sulfur {
+	background-position: -100px 0;
+}
+#KingdomFrame #KingdomActionsData .gem {
+	background-position: -120px 0;
+}

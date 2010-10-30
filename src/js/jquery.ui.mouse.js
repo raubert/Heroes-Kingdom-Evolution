@@ -148,4 +148,4 @@ $.widget("ui.mouse", {
 	_mouseCapture: function(event) { return true; }
 });
 
-})(jQuery);
+})(MMHK.jQuery);

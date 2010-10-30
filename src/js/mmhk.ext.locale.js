@@ -1,9 +1,7 @@
 /**
  * Utilities: contains locale definition.
  */
-(function( $ ) {
-
-$.extend({
+MMHK.jQuery.extend({
 
 	i18n: {
 
@@ -29,10 +27,12 @@ $.extend({
 				s = s.replace( "{" + i + "}", arguments[ i ] );
 			}
 			return s;
+		},
+
+		add: function( lang, messages ) {
+			MMHK.jQuery.extend( this.resources[ lang ] || {}, messages );
 		}
 
 	}
 
 });
-
-})( MMHK.jQuery );

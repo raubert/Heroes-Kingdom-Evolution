@@ -248,4 +248,4 @@ if ( !$.offset.setOffset ) {
 	};
 }
 
-}( jQuery ));
+}( MMHK.jQuery ));

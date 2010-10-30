@@ -1,0 +1,8 @@
+.haltFrameHaltInformationZone>:nth-child(2)>:not(:nth-child(1)) {
+	margin-left: 50px;
+	text-align: left;
+}
+
+.haltFrameHaltInformationZone a {
+	cursor: pointer;
+}

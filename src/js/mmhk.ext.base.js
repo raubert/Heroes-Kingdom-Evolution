@@ -1,12 +1,7 @@
 /**
  * Defines the base attributes and methods used by modules.
  */
-(function( $ ) {
-
-/**
- * Helper to access HOMMK.
- */
-var HOMMK = unsafeWindow.HOMMK;
+(function( $, MMHK, HOMMK ) {
 
 /**
  * Script version; for reference purpose.
@@ -29,7 +24,7 @@ MMHK.url = null;
 MMHK.modules = [];
 
 /**
- * Store the HOMMK object so that modules can access it without calling unsafeWindow.
+ * Store the HOMMK object so that modules can access it easily.
  */
 MMHK.HOMMK = HOMMK;
 
@@ -261,4 +256,4 @@ MMHK.initialize = function() {
 
 };
 
-})( MMHK.jQuery );
+})( MMHK.jQuery, MMHK, HOMMK );

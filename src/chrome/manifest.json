@@ -1,6 +1,6 @@
 {
 	"name": "__MSG_product_name__",
-	"version": "@VERSION@",
+	"version": "@VERSION",
 	"description": "__MSG_description__",
 	"icons": {
 		"16": "mmhk-16.png",
@@ -14,12 +14,15 @@
 				"http://mightandmagicheroeskingdoms.ubi.com/play*"
 			],
 			"css": [
-				"mmhk.css"
+				"mmhk.ext.css"
 			],
 			"js": [
-				"mmhk.content.js"
+				"mmhk.ext.logic.js"
 			]
 		}
 	],
-	"options_page": "options.html"
+	"options_page": "options.html",
+	"permissions": [
+		"http://*/"
+	]
 }

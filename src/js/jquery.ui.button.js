@@ -369,4 +369,4 @@ $.widget( "ui.buttonset", {
 	}
 });
 
-}( jQuery ) );
+}( MMHK.jQuery ) );
