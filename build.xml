@@ -11,7 +11,15 @@
 	<property name="src.modules" location="${src}/modules" />
 	<property name="src.chrome" location="${src}/chrome" />
 	<property name="src.userscript" location="${src}/userscript" />
+
 	<property name="build" location="build" />
+	<property name="build.lang" value="en,fr" />
+	<property name="build.jquery.js" value="jquery.js" />
+	<property name="build.jquery.ui.js" value="jquery.ui.js" />
+	<property name="build.jquery.ui.css" value="jquery.ui.css" />
+	<property name="build.mmhk.inject" value="mmhk.ext.js" />
+	<property name="build.mmhk.logic" value="mmhk.ext.logic.js" />
+	<property name="build.mmhk.css" value="mmhk.ext.css" />
 
 	<property name="chrome" value="" />
 
@@ -65,69 +73,78 @@
 		</sequential>
 	</macrodef>
 
-	<target name="all" depends="chrome" />
-
-	<target name="append">
-		<echo message="Concatenating ${file} to ${target}" />
-		<concat destfile="${target}" append="yes">
-			<path>
-				<pathelement location="${file}" />
-			</path>
-		</concat>
-	</target>
+	<macrodef name="append">
+		<attribute name="file" />
+		<attribute name="to" />
+		<sequential>
+			<concat destfile="@{to}" append="yes">
+				<path>
+					<pathelement location="@{file}" />
+				</path>
+			</concat>
+		</sequential>
+	</macrodef>
 
 	<target name="locale">
-		<echo message="Dealing with locale '${lang}' for '${base}'" />
-		<antcall target="append">
-			<param name="target" value="${target}" />
-			<param name="file" value="${base}/messages_${lang}.js" />
-		</antcall>
+		<append file="${base}/messages_${lang}.js" to="${target}" />
 	</target>
 
-	<target name="module">
+	<target name="module-inject">
 		<basename property="base" file="${dir}" />
-		<foreach list="en,fr" target="locale" param="lang">
-			<param name="target" value="${js}" />
+		<foreach list="${build.lang}" target="locale" param="lang">
+			<param name="target" value="${target}" />
 			<param name="base" value="${dir}" />
 		</foreach>
-		<antcall target="append">
-			<param name="target" value="${js}" />
-			<param name="file" value="${dir}/${base}.js" />
-		</antcall>
-		<antcall target="append">
-			<param name="target" value="${logic}" />
-			<param name="file" value="${dir}/logic.js" />
-		</antcall>
-		<antcall target="append">
-			<param name="target" value="${css}" />
-			<param name="file" value="${dir}/${base}.css" />
-		</antcall>
+		<append file="${dir}/${base}.js" to="${target}" />
 	</target>
 
-	<target name="chrome">
-		<delete dir="${build}" />
-		<mkdir dir="${build}" />
+	<target name="module-logic">
+		<append file="${dir}/logic.js" to="${target}" />
+	</target>
 
+	<target name="module-css">
+		<basename property="base" file="${dir}" />
+		<append file="${dir}/${base}.css" to="${target}" />
+	</target>
+
+	<target name="all" depends="clean,chrome" />
+
+	<target name="clean">
+		<delete dir="${build}" />
+	</target>
+
+	<target name="chrome" depends="jQuery,jQuery-UI,mmhk-injected,mmhk-logic,mmhk-css,mmhk-chrome-options">
 		<!-- copy chrome files -->
 		<copy todir="${build}">
 			<fileset dir="${src.chrome}">
-				<!-- these files will be included at a later time -->
+				<!-- these files have their own target -->
 				<exclude name="options.js" />
 				<exclude name="options.css" />
 			</fileset>
 		</copy>
 
-		<!-- jQuery library and plugins -->
-		<concat destfile="${build}/jquery.js">
+		<!-- update manifest -->
+		<replaceregexp match="@VERSION" replace="${version}" flags="g" file="${build}/manifest.json" />
+	</target>
+
+	<!-- jQuery library and plugins -->
+	<target name="jQuery">
+		<mkdir dir="${build}" />
+
+		<merge-and-prepare target="${build}/${build.jquery.js}" type="js">
 			<filelist dir="${src.js}">
 				<file name="jquery-1.4.3.js" />
 				<file name="jquery.cluetip.js" />
 				<file name="jquery.hoverIntent.js" />
 			</filelist>
-		</concat>
+		</merge-and-prepare>
+	</target>
 
-		<!-- jQuery UI library -->
-		<concat destfile="${build}/jquery.ui.js">
+	<!-- jQuery UI library, plugins and style -->
+	<target name="jQuery-UI">
+		<mkdir dir="${build}" />
+
+		<merge-and-prepare target="${build}/${build.jquery.ui.js}" type="js">
 			<filelist dir="${src.js}">
 				<file name="jquery.ui.core.js" />
 				<file name="jquery.ui.widget.js" />
@@ -141,10 +158,9 @@
 				<file name="jquery.ui.tabs.js" />
 				<file name="jquery.ui.progressbar.js" />
 			</filelist>
-		</concat>
+		</merge-and-prepare>
 
-		<!-- jQuery UI style sheet -->
-		<concat destfile="${build}/jquery.ui.css">
+		<merge-and-prepare target="${build}/${build.jquery.ui.css}" type="css">
 			<filelist dir="${src.css}">
 				<file name="jquery.ui.core.css" />
 				<file name="jquery.ui.autocomplete.css" />
@@ -154,9 +170,19 @@
 				<file name="jquery.ui.progressbar.css" />
 				<file name="jquery.ui.theme.css" />
 			</filelist>
-		</concat>
+		</merge-and-prepare>
 
-		<concat destfile="${build}/mmhk.ext.js">
+		<copy todir="${build}/images">
+			<fileset dir="${src.img}/ui" />
+		</copy>
+	</target>
+
+	<!-- MMHK injected scripts -->
+	<target name="mmhk-injected" depends="jQuery,jQuery-UI">
+		<mkdir dir="${build}" />
+
+		<!-- start with opening, libs and base scripts -->
+		<concat destfile="${build}/${build.mmhk.inject}">
 			<filelist dir="${src.js}">
 				<!-- intro -->
 				<file name="mmhk.ext.inject.intro.js" />
@@ -180,8 +206,64 @@
 			</filelist>
 		</concat>
 
+		<!-- concat corresponding files for each module -->
+		<foreach target="module-inject" param="dir">
+			<path>
+				<dirset dir="${src.modules}" includes="*" />
+			</path>
+			<param name="target" value="${build}/${build.mmhk.inject}" />
+		</foreach>
+
+		<!-- close script -->
+		<concat destfile="${build}/${build.mmhk.inject}" append="true">
+			<filelist dir="${src.js}">
+				<!-- outro -->
+				<file name="mmhk.ext.inject.outro.js" />
+			</filelist>
+		</concat>
+
+		<!-- prepare the file for redistribution -->
+		<prepare target="${build}/${build.mmhk.inject}" type="js" />
+	</target>
+
+	<!-- MMHK logic scripts -->
+	<target name="mmhk-logic">
+		<mkdir dir="${build}" />
+
+		<!-- start with opening, libs and base scripts -->
+		<concat destfile="${build}/${build.mmhk.logic}">
+			<filelist dir="${src.js}">
+				<!-- intro -->
+				<file name="mmhk.ext.logic.intro.js" />
+			</filelist>
+		</concat>
+
+		<!-- concat corresponding files for each module -->
+		<foreach target="module-logic" param="dir">
+			<path>
+				<dirset dir="${src.modules}" includes="*" />
+			</path>
+			<param name="target" value="${build}/${build.mmhk.logic}" />
+		</foreach>
+
+		<!-- close script -->
+		<concat destfile="${build}/${build.mmhk.logic}" append="true">
+			<filelist dir="${src.js}">
+				<!-- outro -->
+				<file name="mmhk.ext.logic.outro.js" />
+			</filelist>
+		</concat>
+
+		<!-- prepare the file for redistribution -->
+		<prepare target="${build}/${build.mmhk.logic}" type="js" />
+	</target>
+
+	<!-- MMHK custom CSS -->
+	<target name="mmhk-css" depends="jQuery-UI">
+		<mkdir dir="${build}" />
+
 		<!-- global CSS -->
-		<concat destfile="${build}/mmhk.ext.css">
+		<concat destfile="${build}/${build.mmhk.css}">
 			<filelist dir="${src.css}">
 				<file name="mmhk.ext.cluetip.css" />
 				<file name="mmhk.ext.css" />
@@ -189,47 +271,30 @@
 		</concat>
 
 		<!-- concat corresponding files for each module -->
-		<foreach target="module" param="dir">
+		<foreach target="module-css" param="dir">
 			<path>
-				<dirset dir="${src.modules}" />
+				<dirset dir="${src.modules}" includes="*" />
 			</path>
-			<param name="js" value="${build}/mmhk.ext.js" />
-			<param name="logic" value="${build}/mmhk.ext.logic.js" />
-			<param name="css" value="${build}/mmhk.ext.css" />
+			<param name="target" value="${build}/${build.mmhk.css}" />
 		</foreach>
 
-		<concat destfile="${build}/mmhk.ext.js" append="true">
-			<filelist dir="${src.js}">
-				<!-- outro -->
-				<file name="mmhk.ext.inject.outro.js" />
-			</filelist>
-		</concat>
+		<!-- prepare the file for redistribution -->
+		<prepare target="${build}/${build.mmhk.css}" type="js" />
+	</target>
 
-		<!-- now each file can be prepared properly -->
-		<prepare target="${build}/mmhk.ext.js" type="js" />
-		<prepare target="${build}/mmhk.ext.logic.js" type="js" />
-		<prepare target="${build}/mmhk.ext.css" type="css" />
-
-		<!-- jQuery UI images -->
-		<copy todir="${build}/images">
-			<fileset dir="${src.img}/ui" />
-		</copy>
-
-		<!-- extension options - unfortunately, we need to repackage jQuery -->
+	<!-- MMHK options page for chrome -->
+	<target name="mmhk-chrome-options" depends="jQuery,jQuery-UI">
 		<merge-and-prepare target="${build}/options.js" type="js">
 			<filelist dir="${src.chrome}">
 				<file name="options.js" />
 			</filelist>
 		</merge-and-prepare>
 
-		<!-- extension options style sheet -->
 		<merge-and-prepare target="${build}/options.css" type="css">
 			<filelist dir="${src.chrome}">
 				<file name="options.css" />
 			</filelist>
 		</merge-and-prepare>
-
-		<replaceregexp match="@VERSION" replace="${version}" flags="g" file="${build}/manifest.json" />
 	</target>
 
 </project>
