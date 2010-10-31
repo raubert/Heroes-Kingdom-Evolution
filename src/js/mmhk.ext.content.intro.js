@@ -10,7 +10,14 @@ MMHK.appendChild( div );
 
 chrome.extension.sendRequest({
 	module: "main",
-	action: "rights"
+	action: "login"
 }, function( data ) {
-	document.getElementById( "MMHK-rights" ).innerText = data || '';
+	if ( data && data.status == "success" ) {
+		chrome.extension.sendRequest({
+			module: "main",
+			action: "rights"
+		}, function( data ) {
+			document.getElementById( "MMHK-rights" ).innerText = data || '';
+		});
+	}
 });

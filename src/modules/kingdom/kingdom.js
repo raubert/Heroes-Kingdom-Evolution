@@ -937,8 +937,9 @@ MMHK.modules.push({
 			// add the frame first
 			$( this.createFrameMarkup() ).appendTo( "#FrameMainContainer" );
 			// then initialize the actions
-			self.setupFrameActions();
-			self.slider = new HOMMK.ContentSlider( MooTools( "KingdomDataContainerSlider" ), MooTools( "KingdomDataContainer" ) );
+			this.setupFrameActions();
+			this.slider = new HOMMK.ContentSlider( MooTools( "KingdomDataContainerSlider" ), MooTools( "KingdomDataContainer" ) );
+			this.setupSave();
 		}
 
 		var rights = $( "#MMHK-rights" ).text();
@@ -961,6 +962,57 @@ MMHK.modules.push({
 
 		// if not initialized, click on resources production
 		MMHK.click( $( "#KingdomTabs" ).children( initialized ? ".selected" : ".production" )[0] );
+	},
+
+	setupSave: function() {
+		$( "#KingdomSave" ).click(function() {
+			var data = {
+					player: HOMMK.elementPool.get( "Player" ).values()[0].content.name,
+					cities: []
+				};
+				var cities = HOMMK.elementPool.get( "RegionCity" ).values();
+				for (var i = 0; i < cities.length; i++) {
+					var city = cities[i], current = {
+						name: city.content.cityName,
+						faction: city.content.factionEntityTagName
+					};
+					for (var j = 0; j < city.completeView_ressourceStackList.elementList.length; j++) {
+						var res = city.completeView_ressourceStackList.elementList[j];
+						current[res.content.ressourceEntityTagName.toLowerCase()] = {
+							prod: res.content.income
+						};
+					}
+					data.cities.push(current);
+				}
+
+				$( "#KingdomSave" )
+					.addClass( "wait" )
+					.removeClass( "error" )
+					.attr( "title", $.i18n.get( "kingdom.saving" ) );
+
+				var evt = document.createEvent( "Event" );
+				evt.initEvent( "kingdom:save", true, true );
+				$( "#KingdomSaveContent" )
+					.text( JSON.stringify( data ) )
+					[0].dispatchEvent( evt );
+		});
+
+		$( "#KingdomSaveContent" ).bind( "kingdom:done", function( data ) {
+			if ( data.status == "success" ) {
+				$( "#KingdomSave" ).removeClass( "wait" ).attr( "title", $.i18n.get( "kingdom.save" ) );
+			} else {
+				$( "#KingdomSave" ).addClass( "error" ).removeClass( "wait" ).attr( "title", status || $.i18n.get( "kingdom.error" ) );
+				setTimeout(function() {
+					$( "#KingdomSave" ).animate({
+						opacity: 0
+					}, "slow", function() {
+						$( this ).removeClass( "error" ).attr( "title", $.i18n.get( "kingdom.save" ) ).animate({
+							opacity: 1
+						});
+					});
+				}, 5000);
+			}
+		});
 	}
 
 });

@@ -18,8 +18,8 @@
 	<property name="build.jquery.ui.js" value="jquery.ui.js" />
 	<property name="build.jquery.ui.css" value="jquery.ui.css" />
 	<property name="build.mmhk.inject" value="mmhk.ext.js" />
-	<property name="build.mmhk.logic" value="mmhk.ext.logic.js" />
-	<property name="build.mmhk.process" value="mmhk.ext.process.js" />
+	<property name="build.mmhk.content" value="mmhk.ext.content.js" />
+	<property name="build.mmhk.background" value="mmhk.ext.background.js" />
 	<property name="build.mmhk.css" value="mmhk.ext.css" />
 
 	<property name="chrome" value="" />
@@ -66,11 +66,11 @@
 		<attribute name="type" />
 		<sequential>
 			<compress file="@{target}" type="@{type}" />
-			<replaceregexp match="@VERSION" replace="${version}" flags="g" file="@{target}" />
+			<replace token="@VERSION" value="${version}" file="@{target}" />
 			<tstamp>
 				<format property="now" pattern="d-MMMM-yyyy hh:mm aa z" locale="en,US" />
 			</tstamp>
-			<replaceregexp match="@DATE" replace="Date: ${now}" flags="g" file="@{target}" />
+			<replace token="@DATE" value="Date: ${now}" file="@{target}" />
 		</sequential>
 	</macrodef>
 
@@ -119,7 +119,7 @@
 		<delete dir="${build}" />
 	</target>
 
-	<target name="chrome" depends="jQuery,jQuery-UI,mmhk-injected,mmhk-logic,mmhk-process,mmhk-css,mmhk-chrome-options">
+	<target name="chrome" depends="jQuery,jQuery-UI,mmhk-injected,mmhk-content,mmhk-background,mmhk-css,mmhk-chrome-options">
 		<!-- copy chrome files -->
 		<copy todir="${build}">
 			<fileset dir="${src.chrome}">
@@ -133,6 +133,11 @@
 		<copy todir="${build}/images">
 			<fileset dir="${src.img}" includes="*.*" />
 		</copy>
+
+		<!-- fix images path in CSS -->
+		<property name="images.path" value="chrome-extension://mlppaobjfimkapfpaeioaibennjegfce" />
+		<replace token="@EXTENSION_PATH" value="${images.path}" file="${build}/${build.jquery.ui.css}" />
+		<replace token="@EXTENSION_PATH" value="${images.path}" file="${build}/${build.mmhk.css}" />
 
 		<!-- update manifest -->
 		<replaceregexp match="@VERSION" replace="${version}" flags="g" file="${build}/manifest.json" />
@@ -237,7 +242,7 @@
 		<prepare target="${build}/${build.mmhk.inject}" type="js" />
 	</target>
 
-	<macrodef name="assemble-module-script">
+	<macrodef name="assemble-modules-scripts">
 		<attribute name="type" />
 		<sequential>
 			<mkdir dir="${build}" />
@@ -272,14 +277,14 @@
 		</sequential>
 	</macrodef>
 
-	<!-- MMHK logic scripts -->
-	<target name="mmhk-logic">
-		<assemble-module-script type="logic" />
+	<!-- MMHK content scripts -->
+	<target name="mmhk-content">
+		<assemble-modules-scripts type="content" />
 	</target>
 
-	<!-- MMHK processing scripts -->
-	<target name="mmhk-process">
-		<assemble-module-script type="process" />
+	<!-- MMHK background scripts -->
+	<target name="mmhk-background">
+		<assemble-modules-scripts type="background" />
 	</target>
 
 	<!-- MMHK custom CSS -->

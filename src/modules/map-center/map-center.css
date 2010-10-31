@@ -26,7 +26,7 @@
 #map-center .button.disabled .left,
 #map-center .button.disabled .text,
 #map-center .button.disabled .right {
-	background-image: url('chrome-extension://mlppaobjfimkapfpaeioaibennjegfce/images/button-disabled.gif');
+	background-image: url('@EXTENSION_PATH/images/button-disabled.gif');
 }
 
 #map-center .button .left {

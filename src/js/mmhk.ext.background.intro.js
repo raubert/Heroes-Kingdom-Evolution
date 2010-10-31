@@ -3,19 +3,20 @@
 var HANDLERS = {
 
 	main: function( action, data, callback ) {
-		if ( action == "rights" ) {
+		switch ( action ) {
+		case "login":
+			_logIn( callback );
+			break;
+		case "rights":
 			var conn = getConnection();
 			if ( conn != null ) {
-				_logIn( conn, function( result ) {
-					if ( result === true ) {
-						_httpRequest( "GET", conn.url + "/process/status.php", null, function( data ) {
-							callback( data && data.rights || "none" );
-						});
-					} else {
-						callback( "none" );
-					}
+				_httpRequest( "GET", conn.url + "/process/status.php", null, function( data ) {
+					callback( data && data.rights || "none" );
 				});
+			} else {
+				callback( "none" );
 			}
+			break;
 		}
 	}
 
@@ -27,10 +28,12 @@ function _httpRequest( type, url, data, callback ) {
 	xhr.onreadystatechange = function() {
 		if ( xhr.readyState == 4 ) {
 			if ( xhr.status == 200 ) {
-				callback( JSON.parse( xhr.responseText ) );
-			} else {
-				callback( null );
+				try {
+					callback( JSON.parse( xhr.responseText ) );
+					return;
+				} catch ( e ) {};
 			}
+			callback( null );
 		}
 	};
 	xhr.open( type, url, true );
@@ -62,29 +65,24 @@ function getConnection() {
 	return JSON.parse( connection );
 };
 
-function _logIn( conn, callback ) {
+function _logIn( callback ) {
 
-	_httpRequest( "POST", conn.url + "/process/login.php", {
-		username: conn.user,
-		password: conn.pass
-	}, function( data ) {
-		if ( data && data.status == "success" ) {
-			callback( true );
-		} else {
-			callback( false );
-		}
-	});
+	var conn = getConnection();
+	if ( conn != null ) {
+		_httpRequest( "POST", conn.url + "/process/login.php", {
+			username: conn.user,
+			password: conn.pass
+		}, callback );
+	}
 
 };
 
 function sendData( page, data, callback ) {
-	if ( rights != "none" ) {
-		var conn = getConnection();
-		if ( conn != null ) {
-			// connection valid; send data
-			_httpRequest( "POST", connection.url + "/" + page, data, callback );
-			return;
-		}
+	var conn = getConnection();
+	if ( conn != null ) {
+		// connection valid; send data
+		_httpRequest( "POST", conn.url + "/process/" + page, data, callback );
+		return;
 	}
 
 	callback( false );

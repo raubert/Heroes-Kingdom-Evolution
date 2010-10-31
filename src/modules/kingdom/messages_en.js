@@ -7,6 +7,8 @@ MMHK.jQuery.i18n.add( "en", {
 
 	close: "Close",
 	"kingdom.save": "Save data into the alliance file",
+	"kingdom.saving": "Save in progress...",
+	"kingdom.error": "An unknown error occurred!",
 
 	armies: "ARMIES",
 	resources: "RESOURCES",

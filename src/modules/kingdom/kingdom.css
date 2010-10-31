@@ -9,7 +9,7 @@
 }
 
 #KingdomFrame #KingdomSave {
-	background: url('chrome-extension://mlppaobjfimkapfpaeioaibennjegfce/images/save.png');
+	background: url('@EXTENSION_PATH/images/save.png');
 	display: none;
 	height: 24px;
 	width: 23px;
@@ -18,12 +18,12 @@
 }
 
 #KingdomFrame #KingdomSave.disabled {
-	background-image: url('chrome-extension://mlppaobjfimkapfpaeioaibennjegfce/images/save-disabled.png');
+	background-image: url('@EXTENSION_PATH/images/save-disabled.png');
 	cursor: not-allowed;
 }
 
 #KingdomFrame #KingdomSave.wait {
-	background: url('chrome-extension://mlppaobjfimkapfpaeioaibennjegfce/images/wait.gif') no-repeat 50% 50%;
+	background: url('@EXTENSION_PATH/images/wait.gif') no-repeat 50% 50%;
 	cursor: wait;
 	height: 32px;
 	width: 32px;
@@ -32,7 +32,7 @@
 }
 
 #KingdomFrame #KingdomSave.error {
-	background: url('chrome-extension://mlppaobjfimkapfpaeioaibennjegfce/images/error.png') no-repeat 50% 50%;
+	background: url('@EXTENSION_PATH/images/error.png') no-repeat 50% 50%;
 	cursor: not-allowed;
 }
 
@@ -175,12 +175,12 @@
 
 #KingdomFrame .data tbody tr.odd,
 #KingdomFrame .data tr:nth-child(odd) {
-	background: url('chrome-extension://mlppaobjfimkapfpaeioaibennjegfce/images/line-odd.gif');
+	background: url('@EXTENSION_PATH/images/line-odd.gif');
 }
 
 #KingdomFrame .data tbody tr.even,
 #KingdomFrame .data tr:nth-child(even) {
-	background: url('chrome-extension://mlppaobjfimkapfpaeioaibennjegfce/images/line-even.gif');
+	background: url('@EXTENSION_PATH/images/line-even.gif');
 }
 
 #KingdomFrame #KingdomArmiesData tbody tr {
@@ -493,6 +493,10 @@
 
 #KingdomFrame #KingdomActionsData .action .REGION_RECRUIT {
 	background-position: -128px 0;
+}
+
+#KingdomFrame #KingdomActionsData .action .RELAY_DELIVERY {
+	background-position: -96px -17px;
 }
 
 #KingdomFrame #KingdomActionsData .action .UPGRADE_MINE {

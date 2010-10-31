@@ -18,7 +18,7 @@
 				"mmhk.ext.css"
 			],
 			"js": [
-				"mmhk.ext.logic.js"
+				"mmhk.ext.content.js"
 			]
 		}
 	],
