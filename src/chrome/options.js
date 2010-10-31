@@ -9,7 +9,7 @@ $(function() {
 	$( "button" ).button({
 		disabled: true
 	}).click(function() {
-		localStorage[ "connect" ] = JSON.stringify({
+		localStorage[ "connection" ] = JSON.stringify({
 			url: $( "#url" ).val(),
 			user: $( "#username" ).val(),
 			pass: $( "#password" ).val()
@@ -20,16 +20,16 @@ $(function() {
 		$( "button" ).button( "enable" );
 	});
 	var xhr = new XMLHttpRequest();
-	xhr.open( "GET", chrome.extension.getURL( "manifest.json" ), false );
 	xhr.onreadystatechange = function() {
 		if ( this.readyState == 4 ) {
 			var man = JSON.parse( this.responseText );
 			$( "#version" ).text( "v" + man.version );
 		}
 	};
+	xhr.open( "GET", chrome.extension.getURL( "manifest.json" ), false );
 	xhr.send();
 
-	var connect = localStorage[ "connect" ];
+	var connect = localStorage[ "connection" ];
 	if ( connect ) {
 		try {
 			connect = JSON.parse( connect );

@@ -148,6 +148,7 @@ MMHK.modules.push({
 					+ "<td class=\"size0 frameContainerTopLeft\"></td>"
 					+ "<td class=\"size0 frameContainerTop\"></td>"
 					+ "<td class=\"size0 frameContainerTopRight\">"
+						+ "<div id=\"KingdomSave\" class=\"zIndex1 absolutePosition clickable\" title=\"" + $.i18n.get( "kingdom.save" ) + "\"></div>"
 						+ "<div id=\"KingdomClose\" class=\"zIndex1 frameContainerCloseImage absolutePosition clickable\" title=\"" + $.i18n.get( "close" ) + "\"></div>"
 					+ "</td>"
 				+ "</tr>"
@@ -939,6 +940,9 @@ MMHK.modules.push({
 			self.setupFrameActions();
 			self.slider = new HOMMK.ContentSlider( MooTools( "KingdomDataContainerSlider" ), MooTools( "KingdomDataContainer" ) );
 		}
+
+		var rights = $( "#MMHK-rights" ).text();
+		$( "#KingdomSave" )[ rights == "read" || rights == "write" ? "show" : "hide" ]();
 
 		// replace armies HTML
 		$( "#KingdomArmiesData tbody" ).html( this.createArmiesMarkup( this.extractArmiesData() ) ).find( "tr:first" ).children().each( function( i ) {

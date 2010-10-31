@@ -6,6 +6,7 @@ MMHK.jQuery.i18n.add( "en", {
 	kingdom: "Kingdom",
 
 	close: "Close",
+	"kingdom.save": "Save data into the alliance file",
 
 	armies: "ARMIES",
 	resources: "RESOURCES",

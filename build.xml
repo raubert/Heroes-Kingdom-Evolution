@@ -19,6 +19,7 @@
 	<property name="build.jquery.ui.css" value="jquery.ui.css" />
 	<property name="build.mmhk.inject" value="mmhk.ext.js" />
 	<property name="build.mmhk.logic" value="mmhk.ext.logic.js" />
+	<property name="build.mmhk.process" value="mmhk.ext.process.js" />
 	<property name="build.mmhk.css" value="mmhk.ext.css" />
 
 	<property name="chrome" value="" />
@@ -77,11 +78,16 @@
 		<attribute name="file" />
 		<attribute name="to" />
 		<sequential>
-			<concat destfile="@{to}" append="yes">
-				<path>
-					<pathelement location="@{file}" />
-				</path>
-			</concat>
+			<if>
+				<available file="@{file}" />
+				<then>
+					<concat destfile="@{to}" append="yes">
+						<filelist dir=".">
+							<file name="@{file}" />
+						</filelist>
+					</concat>
+				</then>
+			</if>
 		</sequential>
 	</macrodef>
 
@@ -98,8 +104,8 @@
 		<append file="${dir}/${base}.js" to="${target}" />
 	</target>
 
-	<target name="module-logic">
-		<append file="${dir}/logic.js" to="${target}" />
+	<target name="module-script">
+		<append file="${dir}/${type}.js" to="${target}" />
 	</target>
 
 	<target name="module-css">
@@ -113,7 +119,7 @@
 		<delete dir="${build}" />
 	</target>
 
-	<target name="chrome" depends="jQuery,jQuery-UI,mmhk-injected,mmhk-logic,mmhk-css,mmhk-chrome-options">
+	<target name="chrome" depends="jQuery,jQuery-UI,mmhk-injected,mmhk-logic,mmhk-process,mmhk-css,mmhk-chrome-options">
 		<!-- copy chrome files -->
 		<copy todir="${build}">
 			<fileset dir="${src.chrome}">
@@ -121,6 +127,11 @@
 				<exclude name="options.js" />
 				<exclude name="options.css" />
 			</fileset>
+		</copy>
+
+		<!-- copy images -->
+		<copy todir="${build}/images">
+			<fileset dir="${src.img}" includes="*.*" />
 		</copy>
 
 		<!-- update manifest -->
@@ -226,36 +237,49 @@
 		<prepare target="${build}/${build.mmhk.inject}" type="js" />
 	</target>
 
+	<macrodef name="assemble-module-script">
+		<attribute name="type" />
+		<sequential>
+			<mkdir dir="${build}" />
+
+			<!-- start with opening, libs and base scripts -->
+			<concat destfile="${build}/${build.mmhk.@{type}}">
+				<filelist dir="${src.js}">
+					<!-- intro -->
+					<file name="mmhk.ext.@{type}.intro.js" />
+				</filelist>
+			</concat>
+
+			<!-- concat corresponding files for each module -->
+			<foreach target="module-script" param="dir">
+				<path>
+					<dirset dir="${src.modules}" includes="*" />
+				</path>
+				<param name="type" value="@{type}" />
+				<param name="target" value="${build}/${build.mmhk.@{type}}" />
+			</foreach>
+
+			<!-- close script -->
+			<concat destfile="${build}/${build.mmhk.@{type}}" append="true">
+				<filelist dir="${src.js}">
+					<!-- outro -->
+					<file name="mmhk.ext.@{type}.outro.js" />
+				</filelist>
+			</concat>
+
+			<!-- prepare the file for redistribution -->
+			<prepare target="${build}/${build.mmhk.@{type}}" type="js" />
+		</sequential>
+	</macrodef>
+
 	<!-- MMHK logic scripts -->
 	<target name="mmhk-logic">
-		<mkdir dir="${build}" />
+		<assemble-module-script type="logic" />
+	</target>
 
-		<!-- start with opening, libs and base scripts -->
-		<concat destfile="${build}/${build.mmhk.logic}">
-			<filelist dir="${src.js}">
-				<!-- intro -->
-				<file name="mmhk.ext.logic.intro.js" />
-			</filelist>
-		</concat>
-
-		<!-- concat corresponding files for each module -->
-		<foreach target="module-logic" param="dir">
-			<path>
-				<dirset dir="${src.modules}" includes="*" />
-			</path>
-			<param name="target" value="${build}/${build.mmhk.logic}" />
-		</foreach>
-
-		<!-- close script -->
-		<concat destfile="${build}/${build.mmhk.logic}" append="true">
-			<filelist dir="${src.js}">
-				<!-- outro -->
-				<file name="mmhk.ext.logic.outro.js" />
-			</filelist>
-		</concat>
-
-		<!-- prepare the file for redistribution -->
-		<prepare target="${build}/${build.mmhk.logic}" type="js" />
+	<!-- MMHK processing scripts -->
+	<target name="mmhk-process">
+		<assemble-module-script type="process" />
 	</target>
 
 	<!-- MMHK custom CSS -->

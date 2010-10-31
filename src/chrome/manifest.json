@@ -8,6 +8,7 @@
 		"128": "mmhk-128.png"
 	},
 	"default_locale": "en",
+	"background_page": "background.html",
 	"content_scripts": [
 		{
 			"matches": [
