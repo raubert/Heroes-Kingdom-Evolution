@@ -156,7 +156,7 @@ MMHK.modules.push({
 					+ "<td class=\"frameContainerMiddleLeft\"></td>"
 					+ "<td class=\"beigeBg\">"
 						+ "<div>"
-							+ "<div class=\"center size11 white boldFont titleBar\">Angarak's KINGDOM <span class=\"version\">v" + MMHK.version + "</span></div>"
+							+ "<div class=\"center size11 white boldFont titleBar\">" + $.i18n.get( "kingdom" ) + "</span></div>"
 							+ "<div id=\"KingdomTabs\">"
 								+ "<div class=\"armies\"><a rel=\"KingdomArmies\">" + $.i18n.get( "armies" ) + "</a></div>"
 								+ "<div class=\"production\"><a rel=\"KingdomProduction\">" + $.i18n.get( "resources" ) + "</a></div>"
@@ -939,11 +939,8 @@ MMHK.modules.push({
 			// then initialize the actions
 			this.setupFrameActions();
 			this.slider = new HOMMK.ContentSlider( MooTools( "KingdomDataContainerSlider" ), MooTools( "KingdomDataContainer" ) );
-			this.setupSave();
+			this.setupSave( $( "#MMHK-rights" ).text() );
 		}
-
-		var rights = $( "#MMHK-rights" ).text();
-		$( "#KingdomSave" )[ rights == "read" || rights == "write" ? "show" : "hide" ]();
 
 		// replace armies HTML
 		$( "#KingdomArmiesData tbody" ).html( this.createArmiesMarkup( this.extractArmiesData() ) ).find( "tr:first" ).children().each( function( i ) {
@@ -964,8 +961,13 @@ MMHK.modules.push({
 		MMHK.click( $( "#KingdomTabs" ).children( initialized ? ".selected" : ".production" )[0] );
 	},
 
-	setupSave: function() {
-		$( "#KingdomSave" ).click(function() {
+	setupSave: function( rights ) {
+		if ( rights != "read" && rights != "write" ) {
+			$( "#KingdomSave" ).hide();
+			return;
+		}
+
+		$( "#KingdomSave" ).show().click(function() {
 			var data = {
 					player: HOMMK.elementPool.get( "Player" ).values()[0].content.name,
 					cities: []
@@ -992,12 +994,21 @@ MMHK.modules.push({
 
 				var evt = document.createEvent( "Event" );
 				evt.initEvent( "kingdom:save", true, true );
-				$( "#KingdomSaveContent" )
+				$( "#KingdomMessageContent" )
 					.text( JSON.stringify( data ) )
 					[0].dispatchEvent( evt );
 		});
 
-		$( "#KingdomSaveContent" ).bind( "kingdom:done", function( data ) {
+		$( "#KingdomMessageContent" ).bind( "kingdom:done", function() {
+			var data;
+			try {
+				data = JSON.parse( $( this ).text() );
+			} catch ( e ) {
+				data = {};
+			} finally {
+				$( this ).empty();
+			}
+
 			if ( data.status == "success" ) {
 				$( "#KingdomSave" ).removeClass( "wait" ).attr( "title", $.i18n.get( "kingdom.save" ) );
 			} else {

@@ -1,0 +1,42 @@
+.spy {
+	background: no-repeat -360px 0;
+	bottom: 6px;
+	cursor: pointer;
+	height: 40px;
+	position: absolute;
+	right: 3px;
+	width: 40px;
+}
+
+.spy:hover {
+	background-position: -360px -40px;
+}
+
+.spy.disabled {
+	background-position: -360px -120px !important;
+	cursor: not-allowed;
+}
+
+.spy.working {
+	background-position: -360px -80px !important;
+	cursor: wait;
+}
+
+.spy.done {
+	background-position: -360px -120px;
+	cursor: default;
+}
+
+.spy div {
+	margin: 26px 0 0 26px;
+	height: 16px;
+	width: 16px;
+}
+
+.spy .okay {
+	background-image: url('@EXTENSION_PATH/images/okay.png');
+}
+
+.spy .error {
+	background-image: url('@EXTENSION_PATH/images/error.png');
+}
