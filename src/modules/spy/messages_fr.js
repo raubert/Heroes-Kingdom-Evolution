@@ -3,7 +3,7 @@
  */
 MMHK.jQuery.i18n.add( "fr", {
 
-	"spy.disabled": "Vous ne pouvez pas utiliser cette option :(",
+	"spy.title": "Sauvegarde le Rapport d'Espionnage",
 	"spy.saved": "Rapport Sauvegardé",
 	"spy.city": "Ville inconnue !"
 

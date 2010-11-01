@@ -961,44 +961,54 @@ MMHK.modules.push({
 		MMHK.click( $( "#KingdomTabs" ).children( initialized ? ".selected" : ".production" )[0] );
 	},
 
+	/**
+	 * Sends production data on demand.
+	 * 
+	 * @param rights {String}
+	 *            the connection rights
+	 */
 	setupSave: function( rights ) {
 		if ( rights != "read" && rights != "write" ) {
 			$( "#KingdomSave" ).hide();
 			return;
 		}
 
+		// the save button is hidden by default
 		$( "#KingdomSave" ).show().click(function() {
+			// we need player name and per-city data
 			var data = {
-					player: HOMMK.elementPool.get( "Player" ).values()[0].content.name,
-					cities: []
+				player: HOMMK.elementPool.get( "Player" ).values()[0].content.name,
+				cities: []
+			};
+			var cities = HOMMK.elementPool.get( "RegionCity" ).values();
+			for (var i = 0; i < cities.length; i++) {
+				var city = cities[i], current = {
+					name: city.content.cityName,
+					faction: city.content.factionEntityTagName
 				};
-				var cities = HOMMK.elementPool.get( "RegionCity" ).values();
-				for (var i = 0; i < cities.length; i++) {
-					var city = cities[i], current = {
-						name: city.content.cityName,
-						faction: city.content.factionEntityTagName
+				for (var j = 0; j < city.completeView_ressourceStackList.elementList.length; j++) {
+					var res = city.completeView_ressourceStackList.elementList[j];
+					current[res.content.ressourceEntityTagName.toLowerCase()] = {
+						prod: res.content.income
 					};
-					for (var j = 0; j < city.completeView_ressourceStackList.elementList.length; j++) {
-						var res = city.completeView_ressourceStackList.elementList[j];
-						current[res.content.ressourceEntityTagName.toLowerCase()] = {
-							prod: res.content.income
-						};
-					}
-					data.cities.push(current);
 				}
+				data.cities.push(current);
+			}
 
-				$( "#KingdomSave" )
-					.addClass( "wait" )
-					.removeClass( "error" )
-					.attr( "title", $.i18n.get( "kingdom.saving" ) );
+			$( "#KingdomSave" )
+				.addClass( "wait" )
+				.removeClass( "error" )
+				.attr( "title", $.i18n.get( "kingdom.saving" ) );
 
-				var evt = document.createEvent( "Event" );
-				evt.initEvent( "kingdom:save", true, true );
-				$( "#KingdomMessageContent" )
-					.text( JSON.stringify( data ) )
-					[0].dispatchEvent( evt );
+			// event-based communication with background script
+			var evt = document.createEvent( "Event" );
+			evt.initEvent( "kingdom:save", true, true );
+			$( "#KingdomMessageContent" )
+				.text( JSON.stringify( data ) )
+				[0].dispatchEvent( evt );
 		});
 
+		// event-based communication with background script
 		$( "#KingdomMessageContent" ).bind( "kingdom:done", function() {
 			var data;
 			try {
@@ -1009,6 +1019,7 @@ MMHK.modules.push({
 				$( this ).empty();
 			}
 
+			// give some feedback to the user
 			if ( data.status == "success" ) {
 				$( "#KingdomSave" ).removeClass( "wait" ).attr( "title", $.i18n.get( "kingdom.save" ) );
 			} else {

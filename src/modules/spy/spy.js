@@ -6,26 +6,42 @@
 // let's register this module
 MMHK.modules.push({
 
+	/**
+	 * Module name.
+	 */
 	name: "Spy",
 
+	/**
+	 * Own event for communication with background script.
+	 */
 	event: null,
 
+	/**
+	 * Initializes the module
+	 */
 	initialize: function(rights) {
 		var rights = $( "#MMHK-rights" ).text();
 		if ( rights != "" && rights != "write" ) {
-			// not allowed
+			// not allowed; no need to go further
 			return;
 		}
 
-		MMHK.hijack( HOMMK.ScoutingResultDetailedMessage.prototype, "addToDOM", this.addExport, this);
+		// icon has to be added in scouting reports
+		MMHK.hijack( HOMMK.ScoutingResultDetailedMessage.prototype, "addToDOM", this.addExportIcon, this);
 
+		// event-based communication with background script
 		this.event = document.createEvent( "Event" );
 		this.event.initEvent( "spy:save", true, true );
-
 		$( "#SpyMessageContent" ).bind( "spy:done", this.showExportResult );
 	},
 
-	addExport: function( obj ) {
+	/**
+	 * Adds the icon that will trigger the spy report export.
+	 * 
+	 * @param obj {Object}
+	 *            the spy report object
+	 */
+	addExportIcon: function( obj ) {
 		// test rights again, just in case they were not ready the first time
 		var rights = $( "#MMHK-rights" ).text();
 		if ( rights != "write" ) {
@@ -35,26 +51,22 @@ MMHK.modules.push({
 		var self = this;
 		$("<div></div>", {
 			id: obj.elementType + obj.elementId + "Export",
-			title: "Sauvegarde le rapport d'espionnage"
+			title: $.i18n.get( "spy.title" )
 		})
 			.addClass( "spy" )
 			.css( "background-image", "url('" + HOMMK.IMG_URL + "/css_sprite/SideBar_Shortcuts.gif')" )
-			.each(function() {
-				if ( rights == "write" ) {
-					$( this ).click(function() {
-						if ( !$( this ).hasClass( "working" ) && !$( this ).hasClass( "done" ) ) {
-							var data = self.process( obj );
-							if ( data ) {
-								$( this ).empty().addClass( "working" );
-								$( "#SpyMessageContent" )
-									.attr( "rel", "#" + obj.elementType + obj.elementId + "Export" )
-									.text( JSON.stringify( data ) )
-									[0].dispatchEvent( self.event );
-							}
-						}
-					});
-				} else {
-					$( this ).addClass( "disabled" ).attr( "title", $.i18n.get( "spy.disabled" ) );
+			.click(function() {
+				if ( !$( this ).hasClass( "working" ) && !$( this ).hasClass( "done" ) ) {
+					// process if not already working
+					var data = self.process( obj );
+					if ( data ) {
+						$( this ).empty().addClass( "working" );
+						// event-based communication with background script
+						$( "#SpyMessageContent" )
+							.attr( "rel", "#" + obj.elementType + obj.elementId + "Export" )
+							.text( JSON.stringify( data ) )
+							[0].dispatchEvent( self.event );
+					}
 				}
 			})
 			.insertAfter( "#" + obj.elementType + obj.elementId + "Comments" )
@@ -62,6 +74,9 @@ MMHK.modules.push({
 				.css( "position", "relative" );
 	},
 
+	/**
+	 * Gives some feedback to the user.
+	 */
 	showExportResult: function() {
 		var data;
 		try {
@@ -81,6 +96,9 @@ MMHK.modules.push({
 		}
 	},
 
+	/**
+	 * What needs to be cleaned up in the spy report markup.
+	 */
 	cleanup: [
 		{ pattern: / stackPosition="[^"]+"/gi, replace: "" },
 		{ pattern: / (unitstack)?id="[^"]+"/gi, replace: "" },
@@ -91,7 +109,15 @@ MMHK.modules.push({
 		{ pattern: /http:\/\/static5.cdn.ubi.com\/u\/HOMMK\/mightandmagicheroeskingdoms.ubi.com\/[0-9\.\-]+-MTR\/img\//gi, replace: "img/mmhk/" }
 	],
 
+	/**
+	 * Processes the given spy report object.
+	 * 
+	 * @param obj {Object}
+	 *            the spy report object
+	 * @return {Object} the data to send
+	 */
 	process: function( obj ) {
+		// we only support some report types
 		var type = obj.elementType, report = obj.content;
 		switch( type ) {
 		case "TroopScoutingResultDetailedMessage":
@@ -108,6 +134,7 @@ MMHK.modules.push({
 			break;
 		}
 
+		// don't export non-standalone reports
 		if ( type != null && report.contentJSON && !report.linked_messageId ) {
 			var spy = {
 				id: report.id,
@@ -136,11 +163,13 @@ MMHK.modules.push({
 				spy.markup = spy.markup.replace( this.cleanup[ i ].pattern, this.cleanup[ i ].replace );
 			}
 
+			// add heroes data, if available
 			if ( !report.contentJSON.heroList ) {
 				heroes = null;
 			} else {
 				for ( var i = 0; i < report.contentJSON.heroList.length; i++ ) {
 					var hero = report.contentJSON.heroList[ i ], classes = [], artefacts = {};
+					// hero classes (but not skills)
 					if ( !hero.heroClassList ) {
 						classes = null;
 					} else {
@@ -148,6 +177,7 @@ MMHK.modules.push({
 							classes.push( hero.heroClassList[ j ].heroClassEntityTagName );
 						}
 					}
+					// hero artefacts
 					if ( !hero.artefactList ) {
 						artefacts = null;
 					} else {
