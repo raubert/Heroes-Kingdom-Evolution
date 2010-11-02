@@ -1,4 +1,4 @@
-HANDLERS.spy = function( action, data, callback ) {
+HANDLERS[ "spy" ] = function( action, data, callback ) {
 
 	if ( action == "save" ) {
 		sendData( "spy.php", {

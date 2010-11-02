@@ -1,4 +1,4 @@
-HANDLERS.kingdom = function( action, data, callback ) {
+HANDLERS[ "kingdom" ] = function( action, data, callback ) {
 
 	if ( action == "save" ) {
 		sendData( "google.php", {

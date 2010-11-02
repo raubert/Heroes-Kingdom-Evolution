@@ -12,16 +12,10 @@ MMHK.modules.push({
 	name: "Spy",
 
 	/**
-	 * Own event for communication with background script.
-	 */
-	event: null,
-
-	/**
 	 * Initializes the module
 	 */
 	initialize: function(rights) {
-		var rights = $( "#MMHK-rights" ).text();
-		if ( rights != "" && rights != "write" ) {
+		if ( $( "#MMHK-rights" ).text() != "write" ) {
 			// not allowed; no need to go further
 			return;
 		}
@@ -30,8 +24,6 @@ MMHK.modules.push({
 		MMHK.hijack( HOMMK.ScoutingResultDetailedMessage.prototype, "addToDOM", this.addExportIcon, this);
 
 		// event-based communication with background script
-		this.event = document.createEvent( "Event" );
-		this.event.initEvent( "spy:save", true, true );
 		$( "#SpyMessageContent" ).bind( "spy:done", this.showExportResult );
 	},
 
@@ -42,12 +34,6 @@ MMHK.modules.push({
 	 *            the spy report object
 	 */
 	addExportIcon: function( obj ) {
-		// test rights again, just in case they were not ready the first time
-		var rights = $( "#MMHK-rights" ).text();
-		if ( rights != "write" ) {
-			return;
-		}
-		
 		var self = this;
 		$("<div></div>", {
 			id: obj.elementType + obj.elementId + "Export",
@@ -62,10 +48,12 @@ MMHK.modules.push({
 					if ( data ) {
 						$( this ).empty().addClass( "working" );
 						// event-based communication with background script
+						var evt = document.createEvent( "Event" );
+						evt.initEvent( "spy:save", true, true );
 						$( "#SpyMessageContent" )
 							.attr( "rel", "#" + obj.elementType + obj.elementId + "Export" )
 							.text( JSON.stringify( data ) )
-							[0].dispatchEvent( self.event );
+							[0].dispatchEvent( evt );
 					}
 				}
 			})

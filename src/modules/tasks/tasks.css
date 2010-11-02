@@ -1,0 +1,97 @@
+#mmhk-tasks {
+	background-position: 2px 0;
+	background-repeat: no-repeat;
+	bottom: 6px;
+	left: 350px;
+	padding: 6px 0 0;
+	position: absolute;
+	z-index: 6666;
+}
+
+#mmhk-tasks .items {
+	background: #f4ebe1;
+	border: 1px solid #4f2a21;
+	border-bottom: none;
+	display: none;
+	margin-left: 7px;
+	width: 147px;
+}
+
+#mmhk-tasks.expanded .items {
+	display: block;
+}
+
+#mmhk-tasks .item {
+	background-color: #f4ebe1;
+	border-bottom: 1px solid #ccb595;
+	padding: 5px;
+	width: 137px;
+}
+
+#mmhk-tasks .item:hover {
+	border-bottom: 1px solid #ffffff;
+	color: #ffffff;
+}
+
+#mmhk-tasks .button {
+	cursor: pointer;
+	display: inline-block;
+	vertical-align: -6px;
+}
+
+#mmhk-tasks .button div {
+	float: left;
+	font-weight: bolder;
+	height: 23px;
+	line-height: 22px;
+}
+
+#mmhk-tasks .button .left {
+	background-position: -460px -6px;
+	width: 7px;
+}
+
+#mmhk-tasks .button.working .left {
+	background-position: -140px -170px;
+}
+
+#mmhk-tasks .button:hover .left {
+	background-position: -460px -35px;
+}
+
+#mmhk-tasks .button .text {
+	background-position: 0 -450px;
+	text-align: center;
+	width: 150px;
+}
+
+#mmhk-tasks .button.working .text {
+	background-position: 0 -808px;
+	color: DarkBlue;
+}
+
+#mmhk-tasks .button:hover .text {
+	background-position: 0 -473px;
+	color: #ffffff;
+}
+
+#mmhk-tasks .button .right {
+	background-position: -453px -6px;
+	width: 7px;
+}
+
+#mmhk-tasks .button.working .right {
+	background-position: -156px -170px;
+}
+
+#mmhk-tasks .button:hover .right {
+	background-position: -453px -35px;
+}
+
+#mmhk-tasks .item .result {
+	text-align: right;
+}
+
+#mmhk-tasks .item .result.inline {
+	float: right;
+}

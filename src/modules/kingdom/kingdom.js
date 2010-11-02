@@ -156,7 +156,7 @@ MMHK.modules.push({
 					+ "<td class=\"frameContainerMiddleLeft\"></td>"
 					+ "<td class=\"beigeBg\">"
 						+ "<div>"
-							+ "<div class=\"center size11 white boldFont titleBar\">" + $.i18n.get( "kingdom" ) + "</span></div>"
+							+ "<div class=\"center size11 white boldFont uppercase titleBar\">" + $.i18n.get( "kingdom" ) + "</span></div>"
 							+ "<div id=\"KingdomTabs\">"
 								+ "<div class=\"armies\"><a rel=\"KingdomArmies\">" + $.i18n.get( "armies" ) + "</a></div>"
 								+ "<div class=\"production\"><a rel=\"KingdomProduction\">" + $.i18n.get( "resources" ) + "</a></div>"
@@ -589,10 +589,11 @@ MMHK.modules.push({
 			fx: {
 				open: "fadeIn",
 				openSpeed: "normal"
-			}
+			},
+			clickThrough: true
 		});
 		$( "#KingdomArmiesData a[rel]" ).click(function() {
-			MMHK.click( $( "#RegionCity" + $(this).attr( "rel" ) + "SummaryViewImage" )[0] );
+			MMHK.click( $( "#RegionCity" + $( this ).attr( "rel" ) + "SummaryViewImage" )[ 0 ] );
 			return false;
 		});
 	},
@@ -735,10 +736,11 @@ MMHK.modules.push({
 			fx: {
 				open: "fadeIn",
 				openSpeed: "normal"
-			}
+			},
+			clickThrough: true
 		});
 		$( "#KingdomProductionData a[rel]" ).click(function() {
-			MMHK.click( $( "#RegionCity" + $(this).attr( "rel" ) + "SummaryViewImage" )[0] );
+			MMHK.click( $( "#RegionCity" + $( this ).attr( "rel" ) + "SummaryViewImage" )[ 0 ] );
 			return false;
 		});
 	},
@@ -958,7 +960,7 @@ MMHK.modules.push({
 		$( "#KingdomFrame" ).show().css( "visibility", "visible" );
 
 		// if not initialized, click on resources production
-		MMHK.click( $( "#KingdomTabs" ).children( initialized ? ".selected" : ".production" )[0] );
+		$( "#KingdomTabs" ).children( initialized ? ".selected" : ".production" ).click();
 	},
 
 	/**
@@ -969,7 +971,7 @@ MMHK.modules.push({
 	 */
 	setupSave: function( rights ) {
 		if ( rights != "read" && rights != "write" ) {
-			$( "#KingdomSave" ).hide();
+			$( "#KingdomSave" ).remove();
 			return;
 		}
 

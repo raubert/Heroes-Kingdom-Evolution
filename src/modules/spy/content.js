@@ -1,11 +1,6 @@
-(function() {
-
 var spy = document.createElement( "div" );
 spy.setAttribute( "id", "SpyMessageContent" );
 MMHK.appendChild( spy );
-
-var evt = document.createEvent( "Event" );
-evt.initEvent( "spy:done", true, true );
 
 spy.addEventListener( "spy:save", function() {
 	chrome.extension.sendRequest({
@@ -14,8 +9,8 @@ spy.addEventListener( "spy:save", function() {
 		data: JSON.parse( spy.innerText )
 	}, function( data ) {
 		spy.innerText = data && JSON.stringify( data ) || '';
+		var evt = document.createEvent( "Event" );
+		evt.initEvent( "spy:done", true, true );
 		spy.dispatchEvent( evt );
 	});
 });
-
-})();

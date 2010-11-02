@@ -36,11 +36,6 @@
 	cursor: not-allowed;
 }
 
-#KingdomFrame .titleBar span {
-	font-family: monospace;
-	font-size: 8px;
-}
-
 #KingdomFrame .kingdom {
 	height: 450px;
 	overflow: hidden;

@@ -1,7 +1,7 @@
 /**
  * Defines the base attributes and methods used by modules.
  */
-(function( $, MMHK, HOMMK ) {
+(function( $, MMHK, HOMMK, undefined ) {
 
 /**
  * Script version; for reference purpose.
@@ -37,37 +37,15 @@ MMHK.HOMMK = HOMMK;
 MMHK.log = console ? function( message ) { console.log( message ); } : ( GM_log || function() {} );
 
 /**
- * Custom click event: in GM, we can't use jQuery's click function.
+ * Custom click event: jQuery's default click does not work on handlers setup by HOMMK.
  * 
  * @param elt
  *            the DOM element to apply the event on
  */
 MMHK.click = function( elt ) {
 	var evt = document.createEvent( "HTMLEvents" );
-	evt.initEvent( "click", true, true ); // event type, bubbling, cancelable
+	evt.initEvent( "click", true, true );
 	elt.dispatchEvent( evt );
-};
-
-/**
- * Sends some data at the configured location.
- * 
- * @param page
- *            the target page
- * @param data
- *            the data to push
- * @param callback
- *            the response callback
- */
-MMHK.sendData = function( page, data, callback ) {
-	GM_xmlhttpRequest({
-		method: 'POST',
-		url: MMHK.url + page,
-		headers: {
-			'Content-type': 'application/x-www-form-urlencoded'
-		},
-		data: data,
-		onload: callback
-	});
 };
 
 /**
@@ -106,7 +84,7 @@ MMHK.waitFor = function( condition, callback, _limit ) {
 	if ( condition() ) {
 		callback();
 	} else {
-		if ( !_limit || _limit > 20 ) {
+		if ( _limit === undefined || _limit > 20 ) {
 			_limit = 20;
 		}
 		if ( _limit > 0 ) {
@@ -251,8 +229,14 @@ MMHK.initialize = function() {
 		$( "#mmhk-ext-time" ).text( now.toLocaleDateString() + " " + $.formatTime( now.getHours(), now.getMinutes(), now.getSeconds() ) );
 	}, 1000 );
 
-	initModules();
-	MMHK.log( "MMHK: initialization complete [" + ( new Date().getTime() - start ) + "ms]." );
+	MMHK.log( "MMHK: waiting for rights before proceeding..." );
+	MMHK.waitFor(function() {
+		return $( "#MMHK-rights" ).text() != "";
+	}, function() {
+		MMHK.log( "MMHK: running with '" + $( "#MMHK-rights" ).text() + "' permissions." );
+		initModules();
+		MMHK.log( "MMHK: initialization complete [" + ( new Date().getTime() - start ) + "ms]." );
+	});
 
 };
 

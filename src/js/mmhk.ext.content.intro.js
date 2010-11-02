@@ -17,7 +17,9 @@ chrome.extension.sendRequest({
 			module: "main",
 			action: "rights"
 		}, function( data ) {
-			document.getElementById( "MMHK-rights" ).innerText = data || '';
+			document.getElementById( "MMHK-rights" ).innerText = data || "none";
 		});
+	} else {
+		document.getElementById( "MMHK-rights" ).innerText = "none";
 	}
 });
