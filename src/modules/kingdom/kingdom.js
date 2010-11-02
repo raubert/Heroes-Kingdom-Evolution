@@ -12,7 +12,7 @@ MMHK.modules.push({
 	name: "Kingdom",
 
 	/**
-	 * Initializes the module
+	 * Initializes the module.
 	 */
 	initialize: function() {
 		// add some dynamic CSS commands

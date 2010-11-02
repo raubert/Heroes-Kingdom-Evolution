@@ -1,19 +1,34 @@
 /**
- * Spy module: adds spy export button.
+ * Mines module: adds global 'mines' export button in tasks.
  */
 (function( $, MMHK, HOMMK ) {
 
 // let's register this module
 MMHK.modules.push({
 
+	/**
+	 * Module name.
+	 */
 	name: "Mines",
 
+	/**
+	 * Task button labels.
+	 */
 	button: null,
 
+	/**
+	 * Communication message selector.
+	 */
 	message: "#MinesMessageContent",
 
+	/**
+	 * Event prefix.
+	 */
 	event: "mines",
 
+	/**
+	 * Initializes the module.
+	 */
 	initialize: function() {
 		if ( $( "#MMHK-rights" ).text() != "write" ) {
 			// not allowed; no need to go further
@@ -25,13 +40,28 @@ MMHK.modules.push({
 		MMHK.Tasks.setupInterval( this );
 	},
 
+	/**
+	 * Provides feedback about the current progress.
+	 */
 	feedback: function(sent, total) {
 		return "<tt>" + ( sent <= 0 ? "-" : sent ) + "</tt> / <tt>" + ( total <= 0 ? "-" : total ) + "</tt> " + $.i18n.get( "mines.spots" );
 	},
 
+	/**
+	 * Starts processing.
+	 */
 	start: function() {
+		// not used in this module
 	},
 
+	/**
+	 * Processes the current pool and fills the given parameters accordingly.
+	 * 
+	 * @param data {Array}
+	 *            the array of data to fill
+	 * @param done {Array}
+	 *            what has already been done until now
+	 */
 	process: function( data, done ) {
 		// only use regions that are in the pool
 		var regions = HOMMK.elementPool.get( "RegionMap" ).values();
@@ -75,7 +105,11 @@ MMHK.modules.push({
 		}
 	},
 
+	/**
+	 * Stops processing.
+	 */
 	stop: function() {
+		// not used in this module
 	}
 
 });

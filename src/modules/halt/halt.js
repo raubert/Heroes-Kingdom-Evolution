@@ -14,7 +14,7 @@ MMHK.modules.push({
 	replace: "</div> <div id=\"HaltFrameModelSamePlayer\"",
 
 	/**
-	 * Initializes the module
+	 * Initializes the module.
 	 */
 	initialize: function() {
 		var model = HOMMK.elementModelPool.get( "HaltFrame" );

@@ -12,7 +12,7 @@ MMHK.modules.push({
 	name: "Map-Center",
 
 	/**
-	 * Initializes the module
+	 * Initializes the module.
 	 */
 	initialize: function() {
 		var self = this;
