@@ -10,9 +10,7 @@ var HANDLERS = {
 		case "rights":
 			var conn = getConnection();
 			if ( conn != null ) {
-				_httpRequest( "GET", conn.url + "/process/status.php", null, function( data ) {
-					callback( data && data.rights || "none" );
-				});
+				_httpRequest( "GET", conn.url + "/process/status.php", null, callback );
 			} else {
 				callback( "none" );
 			}

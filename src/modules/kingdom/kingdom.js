@@ -331,7 +331,7 @@ MMHK.modules.push({
 		// for each stack available
 		var stacks = HOMMK.elementPool.get( "UnitStack" ).values();
 		for ( var i = 0; i < stacks.length; i++ ) {
-			if (stacks[ i ].parentRegionCity) {
+			if ( stacks[ i ].parentRegionCity ) {
 				var city = stacks[ i ].parentRegionCity.content, current = null;
 				for ( var j = 0; j < data.length; j++ ) {
 					if ( data[ j ].id == city.id ) {
@@ -762,7 +762,9 @@ MMHK.modules.push({
 				steps: []
 			};
 			// special handling for caravans
-			if ( current.type == "CARAVAN_DELIVERY" ) {
+			switch ( current.type ) {
+			case "CARAVAN_DELIVERY":
+			case "RELAY_DELIVERY":
 				current.goods = {
 					gold: action.paramList[ 1 ],
 					wood: action.paramList[ 2 ],
@@ -772,6 +774,7 @@ MMHK.modules.push({
 					sulfur: action.paramList[ 7 ],
 					gem: action.paramList[ 6 ]
 				};
+				break;
 			}
 			// recover every involved step
 			action = actions[ i ];

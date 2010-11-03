@@ -57,8 +57,8 @@ MMHK.modules.push({
 	/**
 	 * Processes the current pool and fills the given parameters accordingly.
 	 * 
-	 * @param data {Array}
-	 *            the array of data to fill
+	 * @param data {Object}
+	 *            the object containing the array of values to fill
 	 * @param done {Array}
 	 *            what has already been done until now
 	 */
@@ -98,7 +98,7 @@ MMHK.modules.push({
 							grail: region.hasGrailBuilding == "1"
 						};
 					}
-					data.push( cell );
+					data.values.push( cell );
 					done[ key ] = true;
 				}
 			}

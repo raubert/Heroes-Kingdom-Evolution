@@ -37,27 +37,52 @@ MMHK.Tasks = {
 	 * 
 	 * @param name {String}
 	 *            the displayed name of the button
+	 * @param css {String}
+	 *            the css class to apply to the button
 	 */
-	addButton: function( name ) {
-		return $( "<div class=\"item\">" + name + "</div>" ).appendTo( "#mmhk-tasks>.items" );
+	addButton: function( name, css ) {
+		return $( "<div class=\"item " + css + "\">" + name + "</div>" ).appendTo( "#mmhk-tasks>.items" );
+	},
+
+	/**
+	 * Sets a one-time on-demand task up.
+	 * 
+	 * @param module {Object}
+	 *            the task module to be setup
+	 */
+	setupOndemand: function( module ) {
+		if ( $( "#mmhk-tasks").length == 0 ) {
+			this.addContainer();
+		}
+
+		this
+		// action is triggered through a dedicated button
+		.addButton( $.i18n.get( module.button ), module.name )
+		.click(function() {
+			var result = $( "<div></div>" ).addClass( "result" ).appendTo( $( this ) );
+			module.run(function( feedback ) {
+				result.html( feedback );
+			});
+			return false;
+		});
 	},
 
 	/**
 	 * Sets a periodic task up.
 	 * 
 	 * @param module {Object}
-	 *            the map module to be setup
+	 *            the task module to be setup
 	 */
 	setupInterval: function( module ) {
 		if ( $( "#mmhk-tasks").length == 0 ) {
-			MMHK.Tasks.addContainer();
+			this.addContainer();
 		}
 
 		var id = null, done = {};
 
 		this
-		// action is triggered through a map-tools button
-		.addButton( module.button[ 0 ] )
+		// action is triggered through a dedicated button
+		.addButton( $.i18n.get( module.button[ 0 ] ), module.name )
 		// start/stop based on button clicks
 		.toggle(function() {
 			var self = $( this ), ok = 0, processing = 0, total = 0;
@@ -65,7 +90,7 @@ MMHK.Tasks = {
 			self.addClass( "working" );
 			$( "#mmhk-tasks>.button" ).addClass( "working" );
 			module.start();
-			var result = $( "<div class=\"result\">" + module.feedback( ok, total ) + "</div>" ).appendTo( self.text( module.button[ 1 ] ) );
+			var result = $( "<div class=\"result\">" + module.feedback( ok, total ) + "</div>" ).appendTo( self.text( $.i18n.get( module.button[ 1 ] ) ) );
 
 			// event-based communication with background script
 			$( module.message ).bind( module.event + ":done", function() {
@@ -89,11 +114,13 @@ MMHK.Tasks = {
 			id = setInterval(function() {
 				if ( processing != 0 ) return; // still processing
 
-				var data = [];
+				var data = {
+					values: []
+				};
 				module.process( data, done );
-				if (data.length > 0) {
+				if (data.values.length > 0) {
 					// there's data: send it
-					processing = data.length;
+					processing = data.values.length;
 					total += processing;
 					result.html( module.feedback( ok, total ) );
 
@@ -115,7 +142,7 @@ MMHK.Tasks = {
 			module.stop();
 			// revert to default state
 			$( module.message ).unbind( module.event + ":done" );
-			$( this ).removeClass( "working" ).text( module.button[ 0 ] );
+			$( this ).removeClass( "working" ).text( $.i18n.get( module.button[ 0 ] ) );
 			if ( $( "#mmhk-tasks>.items>.working" ).length == 0 ) {
 				$( "#mmhk-tasks>.button" ).removeClass( "working" );
 			}

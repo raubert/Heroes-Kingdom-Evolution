@@ -14,7 +14,7 @@ MMHK.modules.push({
 	/**
 	 * Task button labels.
 	 */
-	button: null,
+	button: [ "map.button", "map.stop" ],
 
 	/**
 	 * Communication message selector.
@@ -34,8 +34,6 @@ MMHK.modules.push({
 			// not allowed; no need to go further
 			return;
 		}
-
-		this.button = [ $.i18n.get( "map.button" ), $.i18n.get( "map.stop" ) ];
 
 		MMHK.Tasks.setupInterval( this );
 	},
@@ -57,8 +55,8 @@ MMHK.modules.push({
 	/**
 	 * Processes the current pool and fills the given parameters accordingly.
 	 * 
-	 * @param data {Array}
-	 *            the array of data to fill
+	 * @param data {Object}
+	 *            the object containing the array of values to fill
 	 * @param done {Array}
 	 *            what has already been done until now
 	 */
@@ -82,7 +80,7 @@ MMHK.modules.push({
 			};
 			regions = regions.regionList.elementList;
 			for ( var i = 0; i < regions.length; i++ ) {
-				data.push( this.extractCellData( regions[ i ].content ) );
+				data.values.push( this.extractCellData( regions[ i ].content ) );
 			}
 			done[ key ] = true;
 		}

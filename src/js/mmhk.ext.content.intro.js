@@ -17,7 +17,17 @@ chrome.extension.sendRequest({
 			module: "main",
 			action: "rights"
 		}, function( data ) {
-			document.getElementById( "MMHK-rights" ).innerText = data || "none";
+			var div  = document.getElementById( "MMHK-rights" );
+			div.innerText = data && data.rights || "none";
+			div.className = "";
+			if ( data && data.roles ) {
+				for ( var i = 0; i < data.roles.length; i++ ) {
+					if ( div.className.length > 0 ) {
+						div.className += " ";
+					}
+					div.className += data.roles[ i ];
+				}
+			}
 		});
 	} else {
 		document.getElementById( "MMHK-rights" ).innerText = "none";

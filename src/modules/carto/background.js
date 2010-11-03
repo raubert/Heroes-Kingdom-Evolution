@@ -1,4 +1,4 @@
-HANDLERS[ "map" ] = function( action, data, callback ) {
+HANDLERS[ "carto" ] = function( action, data, callback ) {
 
 	if ( action == "save" ) {
 		sendData( "raw.php", {

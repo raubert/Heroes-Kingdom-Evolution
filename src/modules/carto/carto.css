@@ -1,0 +1,19 @@
+#mmhk-tasks .item .result .carto table {
+	border-collapse: collapse;
+	margin-left: auto;
+}
+
+#mmhk-tasks .item .result .carto table td {
+	background-color: #ccb595;
+	border: 1px solid #f4ebe1;
+	font-family: monospace;
+	height: 7px;
+	line-height: 8px;
+	padding: 2px;
+	width: 7px;
+}
+
+#mmhk-tasks .item .result .carto span {
+	font-family: monospace;
+	font-size: xx-small;
+}
