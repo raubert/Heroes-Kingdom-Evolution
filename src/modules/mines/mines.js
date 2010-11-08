@@ -43,7 +43,7 @@ MMHK.modules.push({
 	/**
 	 * Provides feedback about the current progress.
 	 */
-	feedback: function(sent, total) {
+	feedback: function( sent, total ) {
 		return "<tt>" + ( sent <= 0 ? "-" : sent ) + "</tt> / <tt>" + ( total <= 0 ? "-" : total ) + "</tt> " + $.i18n.get( "mines.spots" );
 	},
 
