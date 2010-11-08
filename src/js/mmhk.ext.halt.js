@@ -1,5 +1,5 @@
 /**
- * Centers the map around a user-defined location.
+ * Shows extra information inside the Halt Frame.
  */
 (function( $ ) {
 

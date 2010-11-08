@@ -27,16 +27,6 @@ MMHK.units = {
 	 * Academy units, based on tier.
 	 */
 	ACADEMY: {
-		T0: {
-			name: "balist",
-			type: 2,
-			power: 300
-		},
-		T0P: {
-			name: "catapult",
-			type: 2,
-			power: 450
-		},
 		T1: {
 			name: "gremlin",
 			type: 2,
@@ -113,16 +103,6 @@ MMHK.units = {
 	 * Haven units, based on tier.
 	 */
 	HAVEN: {
-		T0: {
-			name: "balist",
-			type: 2,
-			power: 300
-		},
-		T0P: {
-			name: "catapult",
-			type: 2,
-			power: 450
-		},
 		T1: {
 			name: "peasant",
 			type: 0,
@@ -209,16 +189,6 @@ MMHK.units = {
 	 * Inferno units, based on tier.
 	 */
 	INFERNO: {
-		T0: {
-			name: "balist",
-			type: 2,
-			power: 300
-		},
-		T0P: {
-			name: "catapult",
-			type: 2,
-			power: 450
-		},
 		T1: {
 			name: "imp",
 			type: 0,
@@ -295,16 +265,6 @@ MMHK.units = {
 	 * Necropolis units, based on tier.
 	 */
 	NECROPOLIS: {
-		T0: {
-			name: "balist",
-			type: 2,
-			power: 300
-		},
-		T0P: {
-			name: "catapult",
-			type: 2,
-			power: 450
-		},
 		T1: {
 			name: "skeleton",
 			type: 0,
@@ -381,16 +341,6 @@ MMHK.units = {
 	 * Sylvan units, based on tier.
 	 */
 	SYLVAN: {
-		T0: {
-			name: "balist",
-			type: 2,
-			power: 300
-		},
-		T0P: {
-			name: "catapult",
-			type: 2,
-			power: 450
-		},
 		T1: {
 			name: "pixie",
 			type: 1,
