@@ -44,7 +44,7 @@ $.i18n.resources.en = {
 	cities: "Cities",
 	"recruits.none.message":	"You must open the '<u><b>Recruitment</b></u>' window of each town at least once to see all the recruitable units!",
 	"no.recruits.message":	"The '<u><b>Recruitment</b></u>' window of {1} hasn't been opened yet!",
-	"recruitable.header": "Recruitable<br />(+production)",
+	"recruitable.header": "Recruitable<br />(+production/d)",
 	"total.recruitable": "Total Recruitable",
 	"total.incomplete": " (incomplete)",
 

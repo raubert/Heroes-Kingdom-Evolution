@@ -551,14 +551,17 @@ MMHK.modules.push({
 	 */
 	setupArmies: function() {
 		$( "#KingdomArmiesData tr" ).each(function() {
-			var cityCount = 0, cityPower = 0;
+			var cityCount = -1, cityPower = 0;
 			$( this ).find( ".unit" ).attr( "title", function() {
 				var metadata = $( this ).children().get( 0 ).className.split( " " );
 				var stats = MMHK.units.get( metadata[ 0 ], metadata[ 1 ] );
 				var quantity = parseInt( $( this ).text() );
 				var stackPower = stats.power * quantity;
 				// add to line total
-				cityCount += quantity;
+				if (cityCount < 0)
+					cityCount = quantity;
+				else
+					cityCount += quantity;
 				cityPower += stackPower;
 				return "<tt>[" + metadata[ 1 ].replace( "P", "+" ) + "]</tt>" + $.i18n.get( stats.name ) + "|"
 					+ "<div class=\"unit\">"
@@ -569,12 +572,13 @@ MMHK.modules.push({
 			});
 			// add global line information
 			$( this ).find( "td:first" ).attr( "title", function( i, data ) {
-				return $( this ).text().split( "[" )[ 0 ] + "|"
-					+ "<div class=\"unit\">"
-					+ "<p>" + $.i18n.get( "unit.count", "<b>" + $.formatNumber( cityCount ) + "</b>" ) + "</p>"
-					+ "<p>" + $.i18n.get( "unit.total", "<b>" + $.formatNumber( cityPower ) + "</b>" ) + "</p>"
-					+ "<p>" + $.i18n.get( "unit.cost", "<b>" + $.formatNumber( data ) + "</b>" ) + "</p>"
-					+ "</div>";
+				if (cityCount >= 0)
+					return $( this ).text().split( "[" )[ 0 ] + "|"
+						+ "<div class=\"unit\">"
+						+ "<p>" + $.i18n.get( "unit.count", "<b>" + $.formatNumber( cityCount ) + "</b>" ) + "</p>"
+						+ "<p>" + $.i18n.get( "unit.total", "<b>" + $.formatNumber( cityPower ) + "</b>" ) + "</p>"
+						+ "<p>" + $.i18n.get( "unit.cost", "<b>" + $.formatNumber( data ) + "</b>" ) + "</p>"
+						+ "</div>";
 			});
 		}).find( "[title]" ).cluetip({
 			splitTitle: "|",
@@ -664,7 +668,7 @@ MMHK.modules.push({
 				markup += ">";
 				markup += "<tt" + ( current.stock + current.income > current.storage ? " class=\"storage\"" : "" ) + ">" + $.formatNumber( current.stock ) + "</tt> / ";
 				markup += "<tt" + ( current.stock + current.income > current.storage ? " class=\"storage\"" : "" ) + ">" + $.formatNumber( current.storage ) + "</tt><br/>";
-				markup += "<tt" + ( current.income < 0 ? " class=\"maintenance\">" : ">+" ) + $.formatNumber( Math.floor( current.income ) ) + "</tt>";
+				markup += "<tt" + ( current.income < 0 ? " class=\"maintenance\">-" : ">+" ) + $.formatNumber( Math.floor( Math.abs( current.income ) ) ) + "</tt>";
 				markup += "</td>";
 			}
 			markup += "</tr>";
@@ -679,7 +683,7 @@ MMHK.modules.push({
 				markup += "title=\"" + tag + ":" + current.income + ":" + current.wealth + ":0:0\"";
 			}
 			markup += "<tt>" + $.formatNumber( current.stock ) + "</tt><br/>";
-			markup += "<tt" + ( current.income < 0 ? " class=\"maintenance\">" : ">+" ) + $.formatNumber( Math.floor( current.income ) ) + "</tt>";
+			markup += "<tt" + ( current.income < 0 ? " class=\"maintenance\">-" : ">+" ) + $.formatNumber( Math.floor( Math.abs( current.income ) ) ) + "</tt>";
 			markup += "</td>";
 		}
 		markup += "</tr>";
@@ -705,10 +709,10 @@ MMHK.modules.push({
 				else
 					hoursleft = ( parseFloat( data[ 4 ] ) - parseFloat( data[ 3 ] ) ) * 24 / income;
 				var markup = $.i18n.get( data[ 0 ] ) + "|"
-					+ "<div class=\"wealth\">"
-					+ "<p>" + $.i18n.get( "prod.hourly" ) + " <b>" + $.formatNumber( income / 24 ) + "</b></p>"
-					+ "<p>" + $.i18n.get( "prod.real" ) + " <b>" + $.formatNumber( income ) + "</b></p>"
-					+ "<p>" + $.i18n.get( "wealth.daily" ) + " <b>" + $.formatNumber( parseFloat( data[ 2 ] ) ) + "</b></p>";
+					+ "<div class=\"wealth" + (income < 0 ? " alert\">" : "\">")
+					+ "<p>" + $.i18n.get( "prod.hourly" ) + " <b>" + ( income < 0 ? "-" : "+") + $.formatNumber( Math.abs( income ) / 24 ) + "</b></p>"
+					+ "<p>" + $.i18n.get( "prod.real" ) + " <b>" + ( income < 0 ? "-" : "+") + $.formatNumber( Math.abs( income ) ) + "</b></p>"
+					+ "<p>" + $.i18n.get( "wealth.daily" ) + " <b>" + ( income < 0 ? "-" : "+") + $.formatNumber( Math.abs( parseFloat( data[ 2 ] ) ) ) + "</b></p>";
 				if ( parseFloat( data[ 4 ] ) > 0 )
 					markup += "<p>" + ( income < 0 ? $.i18n.get( "stock.empty" ) : $.i18n.get( "stock.full" ) ) + " <b>" + $.i18n.get( "day", Math.floor( hoursleft / 24 ) ) + " " + $.i18n.get( "hour", Math.floor(hoursleft) - ( Math.floor( hoursleft / 24 ) * 24 ) ) + "</b></p>";
 				markup += "</div>";
@@ -717,9 +721,9 @@ MMHK.modules.push({
 				// summary on a line
 				var income = parseFloat( data );
 				return $( this ).text().split( "[" )[ 0 ] + "|"
-					+ "<div class=\"wealth\">"
-					+ "<p>" + $.i18n.get( "wealth.hourly" ) + " <b>" + $.formatNumber( income / 24 ) + "</b></p>"
-					+ "<p>" + $.i18n.get( "wealth.daily" ) + " <b>" + $.formatNumber( income ) + "</b></p>"
+					+ "<div class=\"wealth" + (income < 0 ? " alert\">" : "\">")
+					+ "<p>" + $.i18n.get( "wealth.hourly" ) + " <b>" + ( income < 0 ? "-" : "+") + $.formatNumber( Math.abs( income ) / 24 ) + "</b></p>"
+					+ "<p>" + $.i18n.get( "wealth.daily" ) + " <b>" + ( income < 0 ? "-" : "+") + $.formatNumber( Math.abs( income ) ) + "</b></p>"
 					+ "</div>";
 			}
 		}).cluetip({

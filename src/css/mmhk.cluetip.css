@@ -96,6 +96,10 @@
 	font-weight: bolder;
 }
 
+.cluetip-default #cluetip-inner .alert b {
+	color: red;
+}
+
 .cluetip-default #cluetip-inner .unit p,
 .cluetip-default #cluetip-inner .wealth p {
 	line-height: 22px;

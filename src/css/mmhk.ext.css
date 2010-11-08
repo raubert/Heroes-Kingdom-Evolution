@@ -316,12 +316,12 @@
 }
 
 #KingdomFrame #KingdomProductionData tbody td .storage {
-	color: #222222;
+	color: #FF0000;
 	font-weight: bolder;
 }
 
 #KingdomFrame #KingdomProductionData tbody td .maintenance {
-	color: #990000;
+	color: #CC0000;
 	font-weight: bolder;
 }
 
