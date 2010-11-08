@@ -54,6 +54,11 @@ h1 tt {
 	text-align: right;
 }
 
+#credits.fixed {
+	bottom: auto;
+	top: 745px;
+}
+
 #credits span {
 	display: block;
 	font-family: monospace;

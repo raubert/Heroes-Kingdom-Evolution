@@ -2,7 +2,8 @@
 
 	<property name="version" value="1.99" />
 
-	<property name="DEBUG" value="true" />
+	<property environment="env" />
+	<property name="DEBUG" value="false" />
 
 	<property name="src" location="src" />
 	<property name="src.js" location="${src}/js" />
@@ -22,7 +23,12 @@
 	<property name="build.mmhk.background" value="mmhk.ext.background.js" />
 	<property name="build.mmhk.css" value="mmhk.ext.css" />
 
-	<property name="chrome" value="" />
+	<property name="redist" location="redist" />
+	<property name="host" value="http://angarak.com/MMHK/chrome" />
+
+	<property name="chrome-id" value="gloedkpafdknpopjjdjdhdcbadidmkio" />
+	<!-- change this path to fit your environment -->
+	<property name="chrome" value="${env.LOCALAPPDATA}\Google\Chrome\Application\chrome.exe" />
 
 	<!-- ant-contrib required -->
 	<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
@@ -113,16 +119,39 @@
 		<append file="${dir}/${base}.css" to="${target}" />
 	</target>
 
-	<target name="all" depends="clean,chrome" />
+	<target name="all" depends="clean,chrome,chrome-redist" />
 
 	<target name="clean">
 		<delete dir="${build}" />
+	</target>
+
+	<target name="chrome-redist" unless="noRedist">
+		<!-- package extension -->
+		<exec executable="${chrome}">
+			<arg value="--pack-extension=${build}" />
+			<arg value="--pack-extension-key=${src.chrome}/HeroesKingdomEvolution.pem" />
+			<arg value="--no-message-box" />
+			<arg value="--no-first-run" />
+		</exec>
+
+		<delete file="${redist}/HeroesKingdomEvolution.crx" />
+		<move file="build.crx" tofile="${redist}/HeroesKingdomEvolution.crx" />
+
+		<delete file="${redist}/updates.xml" />
+		<copy file="${src.chrome}/updates.xml" todir="${redist}" />
+		<replaceregexp match="@ID" replace="${chrome-id}" flags="g" file="${redist}/updates.xml" />
+		<replaceregexp match="@VERSION" replace="${version}" flags="g" file="${redist}/updates.xml" />
+		<replaceregexp match="@HOST" replace="${host}" flags="g" file="${redist}/updates.xml" />
 	</target>
 
 	<target name="chrome" depends="jQuery,jQuery-UI,mmhk-injected,mmhk-content,mmhk-background,mmhk-css,mmhk-chrome-options">
 		<!-- copy chrome files -->
 		<copy todir="${build}">
 			<fileset dir="${src.chrome}">
+				<!-- we don't give the key :P -->
+				<exclude name="*.pem" />
+				<!-- updates file is not needed -->
+				<exclude name="updates.xml" />
 				<!-- these files have their own target -->
 				<exclude name="options.js" />
 				<exclude name="options.css" />
@@ -135,12 +164,13 @@
 		</copy>
 
 		<!-- fix images path in CSS -->
-		<property name="images.path" value="chrome-extension://mlppaobjfimkapfpaeioaibennjegfce" />
+		<property name="images.path" value="chrome-extension://${chrome-id}" />
 		<replace token="@EXTENSION_PATH" value="${images.path}" file="${build}/${build.jquery.ui.css}" />
 		<replace token="@EXTENSION_PATH" value="${images.path}" file="${build}/${build.mmhk.css}" />
 
 		<!-- update manifest -->
 		<replaceregexp match="@VERSION" replace="${version}" flags="g" file="${build}/manifest.json" />
+		<replaceregexp match="@HOST" replace="${host}" flags="g" file="${build}/manifest.json" />
 	</target>
 
 	<!-- jQuery library and plugins -->
@@ -150,6 +180,7 @@
 		<merge-and-prepare target="${build}/${build.jquery.js}" type="js">
 			<filelist dir="${src.js}">
 				<file name="jquery-1.4.3.js" />
+				<file name="jquery.ba-throttle-debounce.js" />
 				<file name="jquery.cluetip.js" />
 				<file name="jquery.hoverIntent.js" />
 			</filelist>
@@ -308,7 +339,7 @@
 		</foreach>
 
 		<!-- prepare the file for redistribution -->
-		<prepare target="${build}/${build.mmhk.css}" type="js" />
+		<prepare target="${build}/${build.mmhk.css}" type="css" />
 	</target>
 
 	<!-- MMHK options page for chrome -->

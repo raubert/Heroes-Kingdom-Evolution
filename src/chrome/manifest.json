@@ -25,5 +25,6 @@
 	"options_page": "options.html",
 	"permissions": [
 		"http://*/"
-	]
+	],
+	"update_url": "@HOST/crxupdate.xml"
 }

@@ -66,11 +66,13 @@ function getConnection() {
 function _logIn( callback ) {
 
 	var conn = getConnection();
-	if ( conn != null ) {
+	if ( conn != null && conn.url != "" ) {
 		_httpRequest( "POST", conn.url + "/process/login.php", {
 			username: conn.user,
-			password: conn.pass
+			password: sjcl.decrypt( "oOzY!pHoN+kyar91", conn.pass )
 		}, callback );
+	} else {
+		callback( null );
 	}
 
 };
