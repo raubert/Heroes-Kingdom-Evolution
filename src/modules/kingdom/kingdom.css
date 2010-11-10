@@ -146,6 +146,26 @@
 	width: 32px;
 }
 
+#KingdomFrame #KingdomArmiesHeader th.recruits {
+	vertical-align: bottom;
+}
+
+#KingdomFrame #KingdomArmiesHeader th.recruits div {
+	height: auto;
+	text-align: right;
+	width: auto;
+	white-space: nowrap;
+}
+
+#KingdomFrame #KingdomArmiesHeader th.recruits div input {
+	vertical-align: bottom;
+}
+
+#KingdomFrame #KingdomArmiesHeader th.siege {
+	-moz-transform: rotate(-90deg);
+	-webkit-transform: rotate(-90deg);
+}
+
 #KingdomFrame #KingdomProductionHeader .gold {
 	background-position: 0 -40px;
 }
@@ -168,18 +188,43 @@
 	background-position: -192px -40px;
 }
 
-#KingdomFrame .data tbody tr.odd,
-#KingdomFrame .data tr:nth-child(odd) {
+#KingdomFrame #KingdomArmiesData tr:nth-child(4n+1),
+#KingdomFrame #KingdomArmiesData tr:nth-child(4n+2),
+#KingdomFrame #KingdomProductionData tr:nth-child(odd),
+#KingdomFrame #KingdomActionsData tbody tr.odd {
 	background: url('@EXTENSION_PATH/images/line-odd.gif');
 }
 
-#KingdomFrame .data tbody tr.even,
-#KingdomFrame .data tr:nth-child(even) {
+#KingdomFrame #KingdomArmiesData tr:nth-child(4n+3),
+#KingdomFrame #KingdomArmiesData tr:nth-child(4n+4),
+#KingdomFrame #KingdomProductionData tr:nth-child(even),
+#KingdomFrame #KingdomActionsData tbody tr.even {
 	background: url('@EXTENSION_PATH/images/line-even.gif');
 }
 
 #KingdomFrame #KingdomArmiesData tbody tr {
 	height: 50px;
+}
+
+#KingdomFrame #KingdomArmiesData tbody tr td:first-child {
+	width: 111px !important;
+}
+
+#KingdomFrame #KingdomArmiesData tbody tr.recruits {
+	display: none;
+}
+
+#KingdomFrame #KingdomArmiesData tbody tr.recruits td:first-child {
+	padding-top: 8px;
+}
+
+#KingdomFrame #KingdomArmiesData tbody tr.recruits td.empty {
+	padding: 0 10px;
+	vertical-align: middle;
+}
+
+#KingdomFrame #KingdomArmiesData tbody tr.recruits td .unit {
+	font-size: smaller;
 }
 
 #KingdomFrame #KingdomProductionData {
@@ -330,12 +375,12 @@
 }
 
 #KingdomFrame #KingdomProductionData tbody td .storage {
-	color: #222222;
+	color: brown;
 	font-weight: bolder;
 }
 
 #KingdomFrame #KingdomProductionData tbody td .maintenance {
-	color: #990000;
+	color: #cc0000;
 	font-weight: bolder;
 }
 
@@ -344,6 +389,10 @@
 	color: #ffffff;
 	font-weight: bolder;
 	vertical-align: middle;
+}
+
+#KingdomFrame #KingdomProductionData tbody tr.total td .maintenance {
+	color: #ff0000;
 }
 
 #KingdomFrame #KingdomActionsData tbody {

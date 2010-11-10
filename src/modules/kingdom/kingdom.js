@@ -126,11 +126,11 @@ MMHK.modules.push({
 	 */
 	createFrameMarkup: function() {
 		// header for armies
-		var ahead = "<tr><th></th>";
+		var ahead = "<tr><th class=\"recruits\"><div>" + $.i18n.get( "recruits.show" ) + " <input type=\"checkbox\" /></div></th>";
 		for ( var i = 1; i <= 7; i++ ) {
 			ahead += "<th>T" + i + "</th>";
 		}
-		ahead += "<th style=\"writing-mode:tb-lr\">" + $.i18n.get( "siege.units" ) + "</th>";
+		ahead += "<th class=\"siege\">" + $.i18n.get( "siege.units" ) + "</th>";
 		ahead += "<th class=\"s\"></th></tr>";
 
 		// header for production
@@ -232,6 +232,11 @@ MMHK.modules.push({
 			self.updateSlider();
 			return false;
 		} );
+
+		$( "#KingdomArmiesHeader th.recruits input" ).change(function() {
+			$( "#KingdomArmiesData tr.recruits" )[ $( this ).is( ":checked" ) ? "show" : "hide" ]();
+			self.updateSlider();
+		});
 	},
 
 	/**
@@ -255,7 +260,7 @@ MMHK.modules.push({
 		var type = unit.unitEntityTagName;
 		// units are ordered by tier
 		if ( units[ tier ] == undefined ) {
-			units[ tier ]	= {};
+			units[ tier ] = {};
 		}
 		units = units [ tier ];
 		// and then by type
@@ -285,7 +290,7 @@ MMHK.modules.push({
 		var type = "UNIT_" + unit.factionEntityTagName + "_" + unit.tier;
 		// units are ordered by tier
 		if ( units[ tier ] == undefined ) {
-			units[ tier ]	= {};
+			units[ tier ] = {};
 		}
 		var units = units [ tier ];
 		// and then by type
@@ -303,7 +308,6 @@ MMHK.modules.push({
 		}
 		units[ type ].reserve += unit.avail;
 		units[ type ].production += unit.income;
-
 	},
 
 	/**
@@ -322,9 +326,9 @@ MMHK.modules.push({
 				faction: city.factionEntityTagName,
 				x: city.x,
 				y: city.y,
-				recruitmessage: $.i18n.get( "no.recruits.message", city.cityName ),
 				maintenance: city.maintenanceGoldCost,
-				units: {}
+				units: {},
+				recruits: false
 			});
 		}
 
@@ -345,21 +349,21 @@ MMHK.modules.push({
 			}
 		}
 
-		// for each recrutable unit available
+		// for each recruitable unit available
 		var recruits = HOMMK.elementPool.get( "RecruitableUnit" );
 		if ( recruits ) {
 			recruits = recruits.values();
 			for ( var i = 0; i < recruits.length; i++ ) {
 				var current = null;
+				var cityid = recruits[i].content.id.split( "_" )[0];
 				for ( var j = 0; j < data.length; j++ ) {
-					var cityid = recruits[i].content.id.split( "_" )[0];
 					if ( data[ j ].id == cityid ) {
 						current = data[ j ];
 						break;
 					}
 				}
 				if ( current != null ) {
-					data [ j ].recruitmessage = '';
+					current.recruits = true;
 					this.extractUnitRecruitData( recruits[ i ].content, current.units );
 					this.extractUnitRecruitData( recruits[ i ].content.upgraded, current.units );
 				}
@@ -431,14 +435,8 @@ MMHK.modules.push({
 			for ( var tag in tier ) {
 				var unit = tier [ tag ];
 				if (unit.production > 0) {
-					//calculate total power of units and format the result
-					var totalpower = unit.power*unit.reserve+'';
-					var rgx = /(\d+)(\d{3})/;
-					while (rgx.test(totalpower)) {
-						totalpower = totalpower.replace(rgx, '$1' + ' ' + '$2');
-					}
 					// the markup for this unit
-					markup += "<div class=\"unit\" title=\"" + unit.name + " (Puissance: "+totalpower+")\"><div class=\"" + unit.faction + " " + tag.split( "_" )[2] + "\"></div>" + unit.reserve + "&nbsp(+" + unit.production + ")</div>";
+					markup += "<div class=\"unit\"><div class=\"" + unit.faction + " " + tag.split( "_" )[ 2 ] + "\"></div>" + unit.reserve + "<br/>(+" + unit.production + ")</div>";
 					// add count to the total
 					if ( total != undefined ) {
 						// total is ordered per ID
@@ -475,7 +473,7 @@ MMHK.modules.push({
 	 * @param data	the collected army data
 	 */
 	createArmiesMarkup: function( data ) {
-		var total = {}, maintenance = 0, markup = "", recruitscomplet = 1;
+		var total = {}, maintenance = 0, markup = "", allRecruits = true;
 
 		// for each city
 		for ( var i = 0; i < data.length; i++ ) {
@@ -496,16 +494,16 @@ MMHK.modules.push({
 			maintenance += data[ i ].maintenance;
 
 			// recrutable units
-			markup += "<tr>";
-			if (data[i].recruitmessage) {
-				markup += "<td colspan='9'>";
-				markup += data[i].recruitmessage;
+			markup += "<tr class=\"recruits\">";
+			markup += "<td>";
+			markup += $.i18n.get( "recruits.available" );
+			markup += "</td>";
+			if ( !data[ i ].recruits ) {
+				markup += "<td class=\"empty\" colspan=\"8\">";
+				markup += $.i18n.get( "recruits.unavailable" );
 				markup += "</td>";
-				recruitscomplet = 0;
+				allRecruits = false;
 			} else {
-				markup += "<td>";
-				markup += $.i18n.get( "recruitable.header" );
-				markup += "</td>";
 				// for each tier
 				for ( var j = 1; j <= 8; j++ ) {
 					markup += "<td>";
@@ -514,8 +512,6 @@ MMHK.modules.push({
 					markup += "</td>";
 				}
 			}
-			markup += "</tr>";
-
 		}
 
 		// then display the units total
@@ -532,11 +528,12 @@ MMHK.modules.push({
 		markup += "</tr>";
 
 		// then display the recrutable units total
-		markup += "<tr class=\"total\">";
+		markup += "<tr class=\"total recruits\">";
 		markup += "<td>";
-		markup += $.i18n.get( "total.recruitable" );
-		if (!recruitscomplet)
-			markup += $.i18n.get( "total.incomplete" );
+		markup += $.i18n.get( "recruits.total" );
+		if ( !allRecruits ) {
+			markup += " (" + $.i18n.get( "recruits.total.incomplete" ) + ")";
+		}
 		markup += "</td>";
 		for ( var i = 1; i <= 8; i++ ) {
 			markup += "<td>";
@@ -570,7 +567,7 @@ MMHK.modules.push({
 					+ "</div>";
 			});
 			// add global line information
-			$( this ).find( "td:first" ).attr( "title", function( i, data ) {
+			$( this ).filter( ":not(.recruits)" ).find( "td:first" ).attr( "title", function( i, data ) {
 				return $( this ).text().split( "[" )[ 0 ] + "|"
 					+ "<div class=\"unit\">"
 					+ "<p>" + $.i18n.get( "unit.count", "<b>" + $.formatNumber( cityCount ) + "</b>" ) + "</p>"
@@ -700,20 +697,36 @@ MMHK.modules.push({
 				// default cell for a specific type of resource
 				data = data.split( ":" );
 				var income = parseFloat( data[ 1 ] );
-				var hoursleft = 0;
-				if (!income)
-					hoursleft = 0.01;
-				else if (income < 0)
-					hoursleft = parseFloat( data[ 3 ] ) * 24 / income;
-				else
-					hoursleft = ( parseFloat( data[ 4 ] ) - parseFloat( data[ 3 ] ) ) * 24 / income;
 				var markup = $.i18n.get( data[ 0 ] ) + "|"
 					+ "<div class=\"wealth\">"
 					+ "<p>" + $.i18n.get( "prod.hourly" ) + " <b>" + $.formatNumber( income / 24 ) + "</b></p>"
 					+ "<p>" + $.i18n.get( "prod.real" ) + " <b>" + $.formatNumber( income ) + "</b></p>"
 					+ "<p>" + $.i18n.get( "wealth.daily" ) + " <b>" + $.formatNumber( parseFloat( data[ 2 ] ) ) + "</b></p>";
-				if ( parseFloat( data[ 4 ] ) > 0 )
-					markup += "<p>" + ( income < 0 ? $.i18n.get( "stock.empty" ) : $.i18n.get( "stock.full" ) ) + " <b>" + $.i18n.get( "day", Math.floor( hoursleft / 24 ) ) + " " + $.i18n.get( "hour", Math.floor(hoursleft) - ( Math.floor( hoursleft / 24 ) * 24 ) ) + "</b></p>";
+				var hoursLeft = 0;
+				var stock = parseFloat( data[ 3 ] );
+				var storage = parseFloat( data[ 4 ] );
+				markup += "<p>";
+				if ( income < 0 ) {
+					markup += $.i18n.get( "stock.empty" );
+				} else {
+					markup += $.i18n.get( "stock.full" );
+				}
+				markup += " <b>";
+				if ( income < 0 ? stock == 0 : stock == storage ) {
+					markup += $.i18n.get( "stock.now" );
+				} else {
+					if ( income == 0 ) {
+						hoursLeft = 0;
+					} else if ( income < 0 ) {
+						hoursLeft = stock / ( -income / 24 );
+					} else {
+						hoursLeft = ( storage - stock ) / ( income / 24 );
+					}
+					var daysLeft = Math.floor( hoursLeft / 24 );
+					markup += $.i18n.get( "stock.in", ( daysLeft > 0 ? $.i18n.get( "day", daysLeft ) + " " : "" ) + $.i18n.get( "hour", Math.floor( hoursLeft ) - ( daysLeft * 24 ) ) );
+				}
+				markup += "</b>";
+				markup += "</p>";
 				markup += "</div>";
 				return markup;
 			} else {
@@ -791,6 +804,12 @@ MMHK.modules.push({
 		return data;
 	},
 
+	/**
+	 * Pretty print for an action date.
+	 * 
+	 * @param time {int}
+	 *            the timestamp to format
+	 */
 	formatActionDate: function( time ) {
 		var now = new Date(), date = new Date( time * 1000 ), res = "";
 		now.setHours( date.getHours() );
@@ -952,6 +971,8 @@ MMHK.modules.push({
 				$( "#KingdomArmiesHeader th:eq(" + i + ")" ).width( $( this ).outerWidth() - 2 );
 		} );
 		this.setupArmies();
+		// update recruits display
+		$( "#KingdomArmiesHeader th.recruits input" ).change();
 		// replace resource production HTML
 		$( "#KingdomProductionData tbody" ).html( this.createProductionMarkup( this.extractProductionData() ) );
 		this.setupProduction();

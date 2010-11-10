@@ -15,6 +15,13 @@ MMHK.jQuery.i18n.add( "fr", {
 	actions: "ACTIONS",
 
 	total: "Total",
+	cities: "Cités",
+
+	"recruits.show": "voir les réserves",
+	"recruits.unavailable": "Il faut ouvrir au moins une fois la fenêtre '<tt>Recruter</tt>' de la cité avant d'avoir accès aux réserves de troupes disponibles.",
+	"recruits.available": "Troupes en Réserve",
+	"recruits.total": "Total des Réserves",
+	"recruits.total.incomplete": "incomplet",
 
 	"unit.type": "Type d'Unité : {1}",
 	"unit.power": "Puissance de la Créature : {1}",
@@ -37,20 +44,14 @@ MMHK.jQuery.i18n.add( "fr", {
 	"prod.real": "Production Exacte :",
 	"wealth.hourly": "Richesse par Heure :",
 	"wealth.daily": "Richesse par Jour :",
-	"stock.full": "Entrepôt Plein dans :",
-	"stock.empty": "Entrepôt Vide dans :",
-
+	"stock.full": "Entrepôt Plein :",
+	"stock.empty": "Entrepôt Vide :",
+	"stock.in": "dans {1}",
+	"stock.now": "maintenant",
 
 	description: "Description",
 	start: "Début",
 	end: "Fin",
-
-	cities: "Cités",
-	"recruits.none.message":	"Il faut ouvrir au moins 1 fois la fenêtre '<u><b>Recruter</b></u>' de chaque Cité avant d'afficher le Rapport pour avoir les Productions des Troupes!",
-	"no.recruits.message":	"La fenêtre '<u><b>Recruter</b></u>' de {1} n'a pas encore été ouverte!",
-	"recruitable.header": "En reserve<br />(+production)",
-	"total.recruitable": "Total en reserve",
-	"total.incomplete": " (incomplet)",
 
 	yesterday: "hier",
 	today: "aujourd'hui",

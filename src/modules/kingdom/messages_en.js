@@ -15,6 +15,13 @@ MMHK.jQuery.i18n.add( "en", {
 	actions: "ACTIONS",
 
 	total: "Total",
+	cities: "Cities",
+
+	"recruits.show": "show recruits",
+	"recruits.available": "Available Recruits",
+	"recruits.unavailable": "The '<tt>Recruitment</tt>' window of this city needs to be opened once before the available recruits can be displayed.",
+	"recruits.total": "Total Recruits",
+	"recruits.total.incomplete": "incomplete",
 
 	"unit.type": "Unit Type: {1}",
 	"unit.power": "Unit Power: {1}",
@@ -37,19 +44,14 @@ MMHK.jQuery.i18n.add( "en", {
 	"prod.real": "Real Production:",
 	"wealth.hourly": "Hourly Wealth:",
 	"wealth.daily": "Daily Wealth:",
-	"stock.full": "Stock Full in :",
-	"stock.empty": "Stock Empty in :",
+	"stock.full": "Stock Full:",
+	"stock.empty": "Stock Empty:",
+	"stock.in": "in {1}",
+	"stock.now": "now",
 
 	description: "Description",
 	start: "Start",
 	end: "End",
-
-	cities: "Cities",
-	"recruits.none.message":	"You must open the '<u><b>Recruitment</b></u>' window of each town at least once to see all the recruitable units!",
-	"no.recruits.message":	"The '<u><b>Recruitment</b></u>' window of {1} hasn't been opened yet!",
-	"recruitable.header": "Recruitable<br />(+production)",
-	"total.recruitable": "Total Recruitable",
-	"total.incomplete": " (incomplete)",
 
 	yesterday: "yesterday",
 	today: "today",
