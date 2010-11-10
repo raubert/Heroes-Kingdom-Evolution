@@ -18,9 +18,14 @@ $.i18n.resources.fr = {
 	"unit.stack": "Puissance du Peloton : {1}",
 	"unit.count": "Nombre de Créatures : {1}",
 	"unit.total": "Puissance Totale : {1}",
-	"unit.cost": "Coût de Maintenance : {1} <tt>/j</tt>",
+	"units.maintenance": "Coût de Maintenance : {1} <tt>/j</tt>",
+	"unit.cost": "Prix de la Créature: {1}",
+	"stock.cost": "Prix du Stock: {1}",
+	"prod.max": "Prod. par Jour / Prod. Max : {1}",
+	"prod.cost": "Prix Production par Jour: {1}",
+	"max.prod.cost": "Prix Max par Jour: {1}",
 
-	"siege.units": "SIEGE",
+	"siege.units": "Armes de Siège",
 
 	gold: "or",
 	wood: "bois",
@@ -42,12 +47,14 @@ $.i18n.resources.fr = {
 	start: "Début",
 	end: "Fin",
 
-	cities: "Cités",
+	cities: "{1}/{2} Cités",
 	"recruits.none.message":	"Il faut ouvrir au moins 1 fois la fenêtre '<u><b>Recruter</b></u>' de chaque Cité avant d'afficher le Rapport pour avoir les Productions des Troupes!",
 	"no.recruits.message":	"La fenêtre '<u><b>Recruter</b></u>' de {1} n'a pas encore été ouverte!",
-	"recruitable.header": "En reserve<br />(+production/j)",
+	"recruitable.header": "En Stock (+Production par Jour)",
 	"total.recruitable": "Total en reserve",
 	"total.incomplete": " (incomplet)",
+	"armysection.units": "UNITES DISPONIBLES",
+	"armysection.recruitable": "UNITES POUVANT ETRE RECRUTEES",
 
 	yesterday: "hier",
 	today: "aujourd'hui",

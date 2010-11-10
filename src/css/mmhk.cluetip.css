@@ -113,17 +113,45 @@
 	vertical-align: middle;
 	width: 22px;
 }
-
 .cluetip-default #cluetip-inner .unit .type.INFANTRY {
 	background-position: 0 0;
 }
-
 .cluetip-default #cluetip-inner .unit .type.SHOOTER {
 	background-position: -22px 0;
 }
-
 .cluetip-default #cluetip-inner .unit .type.CAVALRY {
 	background-position: -44px 0;
+}
+
+.cluetip-default #cluetip-inner .unit .goods {
+	margin-right: 5px;
+	white-space: nowrap;
+
+	display: inline-block;
+	height: 20px;
+	vertical-align: middle;
+	width: 20px;
+}
+.cluetip-default #cluetip-inner .unit .goods.gold {
+	background-position: 0px 0;
+}
+.cluetip-default #cluetip-inner .unit .goods.wood {
+	background-position: -20px 0;
+}
+.cluetip-default #cluetip-inner .unit .goods.ore {
+	background-position: -40px 0;
+}
+.cluetip-default #cluetip-inner .unit .goods.mercury {
+	background-position: -60px 0;
+}
+.cluetip-default #cluetip-inner .unit .goods.crystal {
+	background-position: -80px 0;
+}
+.cluetip-default #cluetip-inner .unit .goods.sulfur {
+	background-position: -120px 0;
+}
+.cluetip-default #cluetip-inner .unit .goods.gem {
+	background-position: -100px 0;
 }
 
 /* default arrows */

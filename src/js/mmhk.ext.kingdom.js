@@ -41,6 +41,7 @@ MMHK.modules.push({
 			+ "#KingdomFrame #KingdomActionsData .goods span span { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Ressources.gif') }"
 			+ ".cluetip-default h3#cluetip-title { background-image:url('" + HOMMK.IMG_URL + "/frame/tooltips/npc/titleBg_00.gif') }"
 			+ ".cluetip-default #cluetip-inner .unit .type { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/UnitStack_types.gif') }"
+			+ ".cluetip-default #cluetip-inner .unit .goods { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Ressources.gif') }"
 		);
 
 		var self = this;
@@ -128,9 +129,9 @@ MMHK.modules.push({
 		// header for armies
 		var ahead = "<tr><th></th>";
 		for ( var i = 1; i <= 7; i++ ) {
-			ahead += "<th>T" + i + "</th>";
+			ahead += "<th class='armytier'>T" + i + "</th>";
 		}
-		ahead += "<th>" + $.i18n.get( "siege.units" ) + "</th>";
+		ahead += "<th class='armytier'>" + $.i18n.get( "siege.units" ) + "</th>";
 		ahead += "<th class=\"s\"></th></tr>";
 
 		// header for production
@@ -263,9 +264,15 @@ MMHK.modules.push({
 				type: unit.unitEntityType,
 				tier: unit.tier,
 				faction: unit.factionEntityTagName,
-				power: unit.power,
+				power: unit.unitEntityPower,
+				goldCost: 0,
+				mercuryCost: 0,
+				cristalCost: 0,
+				sulfurCost: 0,
+				gemCost: 0,
 				reserve: 0,
 				production: 0,
+				maxProduction: 0,
 				quantity: 0
 			};
 		}
@@ -294,13 +301,25 @@ MMHK.modules.push({
 				tier: unit.tier,
 				faction: unit.factionEntityTagName,
 				power: unit.power,
+				goldCost: 0,
+				mercuryCost: 0,
+				cristalCost: 0,
+				sulfurCost: 0,
+				gemCost: 0,
 				reserve: 0,
 				production: 0,
+				maxProduction: 0,
 				quantity: 0
 			};
 		}
+		units[ type ].goldCost = unit.goldCost;
+		units[ type ].mercuryCost = unit.mercuryCost;
+		units[ type ].cristalCost = unit.crystalCost;
+		units[ type ].sulfurCost = unit.sulfurCost;
+		units[ type ].gemCost = unit.gemCost;
 		units[ type ].reserve += unit.avail;
 		units[ type ].production += unit.income;
+		units[ type ].maxProduction += unit.baseIncome;
 
 	},
 
@@ -383,7 +402,9 @@ MMHK.modules.push({
 				var unit = tier [ tag ];
 				if (unit.quantity > 0) {
 					// the markup for this unit
-					markup += "<div class=\"unit\"><div class=\"" + unit.faction + " " + unit.tier + "\"></div>" + unit.quantity + "</div>";
+					markup += "<div class=\"unit\"";
+					markup += " title=\"" + unit.name + ":" + unit.type + ":" + unit.tier + ":" + unit.power + ":" + unit.quantity + ":" + unit.production + ":" + unit.maxProduction + ":" + unit.goldCost + ":" + unit.mercuryCost + ":" + unit.cristalCost + ":" + unit.sulfurCost + ":" + unit.gemCost + ":unit\"";
+					markup += "><div class=\"" + unit.faction + " " + unit.tier + "\"></div>" + unit.quantity + "</div>";
 					// add count to the total
 					if ( total != undefined ) {
 						// total is ordered per ID
@@ -399,8 +420,14 @@ MMHK.modules.push({
 								faction: unit.faction,
 								tier: unit.tier,
 								power: unit.power,
+								goldCost: unit.goldCost,
+								mercuryCost: unit.mercuryCost,
+								cristalCost: unit.cristalCost,
+								sulfurCost: unit.sulfurCost,
+								gemCost: unit.gemCost,
 								reserve: 0,
 								production: 0,
+								maxProduction: 0,
 								quantity: 0
 							};
 						}
@@ -429,14 +456,10 @@ MMHK.modules.push({
 			for ( var tag in tier ) {
 				var unit = tier [ tag ];
 				if (unit.production > 0) {
-					//calculate total power of units and format the result
-					var totalpower = unit.power*unit.reserve+'';
-					var rgx = /(\d+)(\d{3})/;
-					while (rgx.test(totalpower)) {
-						totalpower = totalpower.replace(rgx, '$1' + ' ' + '$2');
-					}
 					// the markup for this unit
-					markup += "<div class=\"unit\" title=\"" + unit.name + " (Puissance: "+totalpower+")\"><div class=\"" + unit.faction + " " + tag.split( "_" )[2] + "\"></div>" + unit.reserve + "&nbsp(+" + unit.production + ")</div>";
+					markup += "<div class=\"unit\"";
+					markup += " title=\"" + unit.name + ":" + unit.type + ":" + unit.tier + ":" + unit.power + ":" + unit.reserve + ":" + unit.production + ":" + unit.maxProduction + ":" + unit.goldCost + ":" + unit.mercuryCost + ":" + unit.cristalCost + ":" + unit.sulfurCost + ":" + unit.gemCost + ":recruitable\"";
+					markup += "><div class=\"" + unit.faction + " " + tag.split( "_" )[2] + "\"></div>" + unit.reserve + " (+" + unit.production + ")</div>";
 					// add count to the total
 					if ( total != undefined ) {
 						// total is ordered per ID
@@ -452,13 +475,25 @@ MMHK.modules.push({
 								faction: unit.faction,
 								tier: unit.tier,
 								power: unit.power,
+								goldCost: 0,
+								mercuryCost: 0,
+								cristalCost: 0,
+								sulfurCost: 0,
+								gemCost: 0,
 								reserve: 0,
 								production: 0,
+								maxProduction: 0,
 								quantity: 0
 							};
 						}
+						total[ tag ].goldCost = unit.goldCost;
+						total[ tag ].mercuryCost = unit.mercuryCost;
+						total[ tag ].cristalCost = unit.cristalCost;
+						total[ tag ].sulfurCost = unit.sulfurCost;
+						total[ tag ].gemCost = unit.gemCost;
 						total[ tag ].reserve += unit.reserve;
 						total[ tag ].production += unit.production;
+						total[ tag ].maxProduction += unit.maxProduction;
 					}
 				}
 			}
@@ -475,33 +510,65 @@ MMHK.modules.push({
 	createArmiesMarkup: function( data ) {
 		var total = {}, maintenance = 0, markup = "", recruitscomplet = 1;
 
+		// SECTION Units in Town
+		markup += "<tr class=\"section\">";
+		markup += "<td colspan='9'>";
+		markup += $.i18n.get( "armysection.units" );
+		markup += "</td>";
+		markup += "</tr>";
 		// for each city
 		for ( var i = 0; i < data.length; i++ ) {
 			// recruted units
 			markup += "<tr>";
-			markup += "<td title=\"" + data[ i ].maintenance + "\">";
+			markup += "<td class='clickable' title=\"" + data[ i ].maintenance + "\">";
 			markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\">" + data[ i ].name + "<br/>[<tt>" + data[ i ].x + "," + data[ i ].y + "</tt>]</a>";
 			markup += "<div class=\"city " + data[ i ].faction + "\"></div>";
 			markup += "</td>";
 			// for each tier
 			for ( var j = 1; j <= 8; j++ ) {
-				markup += "<td>";
+				markup += "<td class='armytier'>";
 				markup += this.createTierMarkup( data[ i ].units[ "T" + j ], j, total );
 				markup += this.createTierMarkup( data[ i ].units[ "T" + j + "P" ], j, total );
 				markup += "</td>";
 			}
 			markup += "</tr>";
 			maintenance += data[ i ].maintenance;
+		}
 
+		// then display the units total
+		markup += "<tr class=\"total\">";
+		markup += "<td title=\"" + maintenance + "\">";
+		markup += $.i18n.get( "total" );
+		markup += "<br />[" + $.i18n.get("cities", HOMMK.player.content.activeOrSubscribedCityCount, HOMMK.player.content.cityNumberMinThreshold ) + "]";
+		markup += "</td>";
+		for ( var i = 1; i <= 8; i++ ) {
+			markup += "<td>";
+			markup += this.createTierMarkup( total[ i ] );
+			markup += "</td>";
+		}
+		markup += "</tr>";
+
+		// SECTION Recruitable Units
+		markup += "<tr class=\"section\">";
+		markup += "<td colspan='9'>";
+		markup += $.i18n.get( "armysection.recruitable" );
+		markup += "</td>";
+		markup += "</tr>";
+		// for each city
+		for ( var i = 0; i < data.length; i++ ) {
 			// recrutable units
 			markup += "<tr>"
 			if (data[i].recruitmessage) {
-				markup += "<td colspan='9'>";
+				markup += "<td class='clickable' colspan='9'>";
+				markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\">";
 				markup += data[i].recruitmessage;
+				markup += "</a>";
 				markup += "</td>";
 				recruitscomplet = 0;
 			} else {
-				markup += "<td>";
+				markup += "<td class='clickable'>";
+				markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\">" + data[ i ].name + "<br/>[<tt>" + data[ i ].x + "," + data[ i ].y + "</tt>]</a>";
+				markup += "<div class=\"city " + data[ i ].faction + "\"></div>";
 				markup += $.i18n.get( "recruitable.header" );
 				markup += "</td>";
 				// for each tier
@@ -513,22 +580,7 @@ MMHK.modules.push({
 				}
 			}
 			markup += "</tr>";
-
 		}
-
-		// then display the units total
-		markup += "<tr class=\"total\">";
-		markup += "<td title=\"" + maintenance + "\">";
-		markup += $.i18n.get( "total" );
-		markup += "<br />[" + HOMMK.player.content.activeOrSubscribedCityCount + "/" + HOMMK.player.content.cityNumberMinThreshold + " " + $.i18n.get("cities") + "]";
-		markup += "</td>";
-		for ( var i = 1; i <= 8; i++ ) {
-			markup += "<td>";
-			markup += this.createTierMarkup( total[ i ] );
-			markup += "</td>";
-		}
-		markup += "</tr>";
-
 		// then display the recrutable units total
 		markup += "<tr class=\"total\">";
 		markup += "<td>";
@@ -552,22 +604,79 @@ MMHK.modules.push({
 	setupArmies: function() {
 		$( "#KingdomArmiesData tr" ).each(function() {
 			var cityCount = -1, cityPower = 0;
-			$( this ).find( ".unit" ).attr( "title", function() {
-				var metadata = $( this ).children().get( 0 ).className.split( " " );
-				var stats = MMHK.units.get( metadata[ 0 ], metadata[ 1 ] );
-				var quantity = parseInt( $( this ).text() );
-				var stackPower = stats.power * quantity;
-				// add to line total
-				if (cityCount < 0)
-					cityCount = quantity;
-				else
-					cityCount += quantity;
-				cityPower += stackPower;
-				return "<tt>[" + metadata[ 1 ].replace( "P", "+" ) + "]</tt>" + $.i18n.get( stats.name ) + "|"
+			$( this ).find( ".unit" ).attr( "title", function( i, data ) {
+				data = data.split( ":" );
+				var name = data[0];
+				var type = data[1];
+				var tier = data[2];
+				var power = parseInt( data[3] );
+				var quantity = parseInt( data[4] );
+				var production = parseFloat( data[5] );
+				var maxProduction = parseInt( data[6] );
+				var goldCost = parseInt( data[7] );
+				var mercuryCost = parseInt( data[8] );
+				var cristalCost = parseInt( data[9] );
+				var sulfurCost = parseInt( data[10] );
+				var gemCost = parseInt( data[11] );
+				var recruitable = data[12] == "recruitable";
+				// create string for recruitable units
+				var markup = ""
+				if (recruitable) {
+					// create string with gold + ressource cost for stack
+					var unitCost = "", stackCost = "", prodCost = "", maxProdCost = "";
+					if (goldCost) {
+						unitCost += "" + $.formatNumber( goldCost ) + "<span class=\"goods gold\"></span>";
+						stackCost += "" + $.formatNumber( quantity * goldCost ) + "<span class=\"goods gold\"></span>";
+						prodCost += "" + $.formatNumber( production * goldCost ) + "<span class=\"goods gold\"></span>";
+						maxProdCost += "" + $.formatNumber( maxProduction * goldCost ) + "<span class=\"goods gold\"></span>";
+					}
+					if (mercuryCost) {
+						unitCost += "" + $.formatNumber( mercuryCost ) + "<span class=\"goods mercury\"></span>";
+						stackCost += "" + $.formatNumber( quantity * mercuryCost ) + "<span class=\"goods mercury\"></span>";
+						prodCost += "" + $.formatNumber( production * mercuryCost ) + "<span class=\"goods mercury\"></span>";
+						maxProdCost += "" + $.formatNumber( maxProduction * mercuryCost ) + "<span class=\"goods mercury\"></span>";
+					}
+					if (cristalCost) {
+						unitCost += "" + $.formatNumber( cristalCost ) + "<span class=\"goods crystal\"></span>";
+						stackCost += "" + $.formatNumber( quantity * cristalCost ) + "<span class=\"goods crystal\"></span>";
+						prodCost += "" + $.formatNumber( production * cristalCost ) + "<span class=\"goods crystal\"></span>";
+						maxProdCost += "" + $.formatNumber( maxProduction * cristalCost ) + "<span class=\"goods crystal\"></span>";
+					}
+					if (sulfurCost) {
+						unitCost += "" + $.formatNumber( sulfurCost ) + "<span class=\"goods sulfur\"></span>";
+						stackCost += "" + $.formatNumber( quantity * sulfurCost ) + "<span class=\"goods sulfur\"></span>";
+						prodCost += "" + $.formatNumber( production * sulfurCost ) + "<span class=\"goods sulfur\"></span>";
+						maxProdCost += "" + $.formatNumber( maxProduction * sulfurCost ) + "<span class=\"goods sulfur\"></span>";
+					}
+					if (gemCost) {
+						unitCost += "" + $.formatNumber( gemCost ) + "<span class=\"goods gem\"></span>";
+						stackCost += "" + $.formatNumber( quantity * gemCost ) + "<span class=\"goods gem\"></span>";
+						prodCost += "" + $.formatNumber( production * gemCost ) + "<span class=\"goods gem\"></span>";
+						maxProdCost += "" + $.formatNumber( maxProduction * gemCost ) + "<span class=\"goods gem\"></span>";
+					}
+
+					markup += "<p>" + $.i18n.get( "unit.cost", "<b>" + unitCost + "</b>" ) + "</p>";
+					markup += "<p>" + $.i18n.get( "stock.cost", "<b>" + stackCost + "</b>" ) + "</p>";
+					markup += "<br />";
+					markup += "<p>" + $.i18n.get( "prod.max", "<b>+" + production + " / +" + maxProduction + "</b>" ) + "</p>";
+					markup += "<p>" + $.i18n.get( "prod.cost", "<b>" + prodCost + "</b>" ) + "</p>";
+					markup += "<p>" + $.i18n.get( "max.prod.cost", "<b>" + maxProdCost + "</b>" ) + "</p>";
+				}
+				// add to line total if non recruitable units
+				if (!recruitable) {
+					if (cityCount < 0)
+						cityCount = quantity;
+					else
+						cityCount += quantity;
+					cityPower += (quantity * power);
+				}
+				return "<tt>[" + tier.replace( "P", "+" ) + "]</tt>"
+				  + name + "|"
 					+ "<div class=\"unit\">"
-					+ "<p>" + $.i18n.get( "unit.type", "<span class=\"type " + MMHK.units.types[ stats.type ] + "\"></span>" ) + "</p>"
-					+ "<p>" + $.i18n.get( "unit.power", "<b>" + $.formatNumber( stats.power ) + "</b>" ) + "</p>"
-					+ "<p>" + $.i18n.get( "unit.stack", "<b>" + $.formatNumber( stackPower ) + "</b>" ) + "</p>";
+					+ "<p>" + $.i18n.get( "unit.type", "<span class=\"type " + type + "\"></span>" ) + "</p>"
+					+ "<p>" + $.i18n.get( "unit.power", "<b>" + $.formatNumber( power ) + "</b>" ) + "</p>"
+					+ "<p>" + $.i18n.get( "unit.stack", "<b>" + $.formatNumber( quantity * power ) + "</b>" ) + "</p>"
+					+ markup
 					+ "</div>";
 			});
 			// add global line information
@@ -577,7 +686,7 @@ MMHK.modules.push({
 						+ "<div class=\"unit\">"
 						+ "<p>" + $.i18n.get( "unit.count", "<b>" + $.formatNumber( cityCount ) + "</b>" ) + "</p>"
 						+ "<p>" + $.i18n.get( "unit.total", "<b>" + $.formatNumber( cityPower ) + "</b>" ) + "</p>"
-						+ "<p>" + $.i18n.get( "unit.cost", "<b>" + $.formatNumber( data ) + "</b>" ) + "</p>"
+						+ "<p>" + $.i18n.get( "units.maintenance", "<b>" + $.formatNumber( data ) + "</b>" ) + "</p>"
 						+ "</div>";
 			});
 		}).find( "[title]" ).cluetip({
@@ -594,6 +703,7 @@ MMHK.modules.push({
 			}
 		});
 		$( "#KingdomArmiesData a[rel]" ).click(function() {
+//			MMHK.click( $( "#Sidebar" + $(this).attr( "rel" ) + "RegionRecruitShortcut" )[0] );
 			MMHK.click( $( "#RegionCity" + $(this).attr( "rel" ) + "SummaryViewImage" )[0] );
 			return false;
 		});
@@ -668,7 +778,7 @@ MMHK.modules.push({
 				markup += ">";
 				markup += "<tt" + ( current.stock + current.income > current.storage ? " class=\"storage\"" : "" ) + ">" + $.formatNumber( current.stock ) + "</tt> / ";
 				markup += "<tt" + ( current.stock + current.income > current.storage ? " class=\"storage\"" : "" ) + ">" + $.formatNumber( current.storage ) + "</tt><br/>";
-				markup += "<tt" + ( current.income < 0 ? " class=\"maintenance\">-" : ">+" ) + $.formatNumber( Math.floor( Math.abs( current.income ) ) ) + "</tt>";
+				markup += "<tt" + ( current.income < 0 ? " class=\"maintenance\">" : ">+" ) + $.formatNumber( Math.floor( current.income ) ) + "</tt>";
 				markup += "</td>";
 			}
 			markup += "</tr>";
@@ -945,9 +1055,7 @@ MMHK.modules.push({
 		}
 
 		// replace armies HTML
-		$( "#KingdomArmiesData tbody" ).html( this.createArmiesMarkup( this.extractArmiesData() ) ).find( "tr:first" ).children().each( function( i ) {
-				$( "#KingdomArmiesHeader th:eq(" + i + ")" ).width( $( this ).outerWidth() - 2 );
-		} );
+		$( "#KingdomArmiesData tbody" ).html( this.createArmiesMarkup( this.extractArmiesData() ) );
 		this.setupArmies();
 		// replace resource production HTML
 		$( "#KingdomProductionData tbody" ).html( this.createProductionMarkup( this.extractProductionData() ) );

@@ -18,9 +18,14 @@ $.i18n.resources.en = {
 	"unit.stack": "Stack Power: {1}",
 	"unit.count": "Unit Count: {1}",
 	"unit.total": "Total Power: {1}",
-	"unit.cost": "Maintenance Cost: {1} <tt>/d</tt>",
+	"units.maintenance": "Maintenance Cost: {1} <tt>/d</tt>",
+	"unit.cost": "Unit Price: {1}",
+	"stock.cost": "Stock Price: {1}",
+	"prod.max": "Current Prod. / Max Prod : {1}",
+	"prod.cost": "Price Daily Production: {1}",
+	"max.prod.cost": "Price Daily Max Production: {1}",
 
-	"siege.units": "SIEGE",
+	"siege.units": "Siege Units",
 
 	gold: "gold",
 	wood: "wood",
@@ -41,12 +46,15 @@ $.i18n.resources.en = {
 	start: "Start",
 	end: "End",
 
-	cities: "Cities",
-	"recruits.none.message":	"You must open the '<u><b>Recruitment</b></u>' window of each town at least once to see all the recruitable units!",
-	"no.recruits.message":	"The '<u><b>Recruitment</b></u>' window of {1} hasn't been opened yet!",
-	"recruitable.header": "Recruitable<br />(+production/d)",
+	cities: "{1}/{2} Cities",
+	"recruits.none.message":	"You must open the '<u><b>Recruitment</b></u>' frame of each town at least once to see all the recruitable units!",
+	"no.recruits.message":	"The '<u><b>Recruitment</b></u>' frame of {1} hasn't been opened yet!",
+	"recruitable.header": "Recruitable Units (+Daily Production)",
 	"total.recruitable": "Total Recruitable",
 	"total.incomplete": " (incomplete)",
+	"armysection.units": "ACTUAL UNITS",
+	"armysection.recruitable": "RECRUITABLE UNITS",
+
 
 	yesterday: "yesterday",
 	today: "today",
