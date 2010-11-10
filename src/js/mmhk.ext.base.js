@@ -133,7 +133,11 @@ $.extend({
 	 * @param number	the value to format
 	 */
 	formatNumber: function( number ) {
-		if ( number < 100 ) {
+		if ( !number ) {
+			return number;
+		}
+
+		if ( Math.abs( number ) < 1000 ) {
 			return Math.round( number * 100 ) / 100;
 		}
 
