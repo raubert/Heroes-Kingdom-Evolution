@@ -129,9 +129,9 @@ MMHK.modules.push({
 		// header for armies
 		var ahead = "<tr><th></th>";
 		for ( var i = 1; i <= 7; i++ ) {
-			ahead += "<th class='armytier'>T" + i + "</th>";
+			ahead += "<th>T" + i + "</th>";
 		}
-		ahead += "<th class='armytier'>" + $.i18n.get( "siege.units" ) + "</th>";
+		ahead += "<th>" + $.i18n.get( "siege.units" ) + "</th>";
 		ahead += "<th class=\"s\"></th></tr>";
 
 		// header for production
@@ -511,7 +511,7 @@ MMHK.modules.push({
 
 		// SECTION Units in Town
 		markup += "<tr class=\"section\">";
-		markup += "<td colspan='9'>";
+		markup += "<td colspan=\"9\">";
 		markup += $.i18n.get( "armysection.units" );
 		markup += "</td>";
 		markup += "</tr>";
@@ -519,13 +519,13 @@ MMHK.modules.push({
 		for ( var i = 0; i < data.length; i++ ) {
 			// recruted units
 			markup += "<tr>";
-			markup += "<td class='clickable' title=\"" + data[ i ].maintenance + "\">";
+			markup += "<td title=\"" + data[ i ].maintenance + "\">";
 			markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\">" + data[ i ].name + "<br/>[<tt>" + data[ i ].x + "," + data[ i ].y + "</tt>]</a>";
 			markup += "<div class=\"city " + data[ i ].faction + "\"></div>";
 			markup += "</td>";
 			// for each tier
 			for ( var j = 1; j <= 8; j++ ) {
-				markup += "<td class='armytier'>";
+				markup += "<td>";
 				markup += this.createTierMarkup( data[ i ].units[ "T" + j ], j, total );
 				markup += this.createTierMarkup( data[ i ].units[ "T" + j + "P" ], j, total );
 				markup += "</td>";
@@ -549,23 +549,23 @@ MMHK.modules.push({
 
 		// SECTION Recruitable Units
 		markup += "<tr class=\"section\">";
-		markup += "<td colspan='9'>";
+		markup += "<td colspan=\"9\">";
 		markup += $.i18n.get( "armysection.recruitable" );
 		markup += "</td>";
 		markup += "</tr>";
 		// for each city
 		for ( var i = 0; i < data.length; i++ ) {
 			// recruitable units
-			markup += "<tr>"
+			markup += "<tr>";
 			if (data[i].recruitmessage) {
-				markup += "<td class='clickable' colspan='9'>";
+				markup += "<td colspan=\"9\">";
 				markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\">";
 				markup += data[i].recruitmessage;
 				markup += "</a>";
 				markup += "</td>";
 				recruitscomplet = 0;
 			} else {
-				markup += "<td class='clickable'>";
+				markup += "<td>";
 				markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\">" + data[ i ].name + "<br/>[<tt>" + data[ i ].x + "," + data[ i ].y + "</tt>]</a>";
 				markup += "<div class=\"city " + data[ i ].faction + "\"></div>";
 				markup += $.i18n.get( "recruitable.header" );
@@ -619,7 +619,7 @@ MMHK.modules.push({
 				var gemCost = parseInt( data[11] );
 				var recruitable = data[12] == "recruitable";
 				// create string for recruitable units
-				var markup = ""
+				var markup = "";
 				if (recruitable) {
 					// create string with gold + ressource cost for stack
 					var unitCost = "", stackCost = "", prodCost = "", maxProdCost = "";
@@ -654,6 +654,7 @@ MMHK.modules.push({
 						maxProdCost += "" + $.formatNumber( maxProduction * gemCost ) + "<span class=\"goods gem\"></span>";
 					}
 
+					markup += "<br />";
 					markup += "<p>" + $.i18n.get( "unit.cost", "<b>" + unitCost + "</b>" ) + "</p>";
 					markup += "<p>" + $.i18n.get( "stock.cost", "<b>" + stackCost + "</b>" ) + "</p>";
 					markup += "<br />";
@@ -680,13 +681,14 @@ MMHK.modules.push({
 			});
 			// add global line information
 			$( this ).find( "td:first" ).attr( "title", function( i, data ) {
-				if (cityCount >= 0)
-					return $( this ).text().split( "[" )[ 0 ] + "|"
-						+ "<div class=\"unit\">"
-						+ "<p>" + $.i18n.get( "unit.count", "<b>" + $.formatNumber( cityCount ) + "</b>" ) + "</p>"
-						+ "<p>" + $.i18n.get( "unit.total", "<b>" + $.formatNumber( cityPower ) + "</b>" ) + "</p>"
-						+ "<p>" + $.i18n.get( "units.maintenance", "<b>" + $.formatNumber( data ) + "</b>" ) + "</p>"
-						+ "</div>";
+				if (cityCount < 0) return null;
+
+				return $( this ).text().split( "[" )[ 0 ] + "|"
+					+ "<div class=\"unit\">"
+					+ "<p>" + $.i18n.get( "unit.count", "<b>" + $.formatNumber( cityCount ) + "</b>" ) + "</p>"
+					+ "<p>" + $.i18n.get( "unit.total", "<b>" + $.formatNumber( cityPower ) + "</b>" ) + "</p>"
+					+ "<p>" + $.i18n.get( "units.maintenance", "<b>" + $.formatNumber( data ) + "</b>" ) + "</p>"
+					+ "</div>";
 			});
 		}).find( "[title]" ).cluetip({
 			splitTitle: "|",
@@ -878,16 +880,20 @@ MMHK.modules.push({
 				steps: []
 			};
 			// special handling for caravans
-			if ( current.type == "CARAVAN_DELIVERY" ) {
+			switch ( current.type ) {
+			case "CARAVAN_DELIVERY":
+			case "RELAY_DELIVERY":
 				current.goods = {
 					gold: action.paramList[ 1 ],
 					wood: action.paramList[ 2 ],
 					ore: action.paramList[ 3 ],
 					mercury: action.paramList[ 4 ],
 					crystal: action.paramList[ 5 ],
-					sulfur: action.paramList[ 7 ],
-					gem: action.paramList[ 6 ]
+					sulfur: action.paramList[ 6 ],
+					gem: action.paramList[ 7 ]
 				};
+				break;
+			default:
 			}
 			// recover every involved step
 			action = actions[ i ];

@@ -52,8 +52,8 @@ $.i18n.resources.fr = {
 	"recruitable.header": "En Stock (+Production par Jour)",
 	"total.recruitable": "Total en reserve",
 	"total.incomplete": " (incomplet)",
-	"armysection.units": "UNITES DISPONIBLES",
-	"armysection.recruitable": "UNITES POUVANT ETRE RECRUTEES",
+	"armysection.units": "UNITÉS DISPONIBLES",
+	"armysection.recruitable": "UNITÉS POUVANT ÊTRE RECRUTÉES",
 
 	yesterday: "hier",
 	today: "aujourd'hui",

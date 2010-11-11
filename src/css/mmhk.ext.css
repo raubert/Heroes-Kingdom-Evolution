@@ -168,10 +168,10 @@
 	height: 50px;
 }
 
-#KingdomFrame #KingdomArmiesHeader th.armytier {
+#KingdomFrame #KingdomArmiesHeader th:not(:first-child):not(.s) {
 	width: 57px;
 }
-#KingdomFrame #KingdomArmiesData td.armytier {
+#KingdomFrame #KingdomArmiesData td:not(:first-child) {
 	width: 50px;
 }
 
@@ -323,12 +323,12 @@
 }
 
 #KingdomFrame #KingdomProductionData tbody td .storage {
-	color: #FF0000;
+	color: brown;
 	font-weight: bolder;
 }
 
 #KingdomFrame #KingdomProductionData tbody td .maintenance {
-	color: #CC0000;
+	color: #cc0000;
 	font-weight: bolder;
 }
 
