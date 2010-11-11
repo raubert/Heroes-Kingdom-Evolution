@@ -48,8 +48,7 @@ $.i18n.resources.fr = {
 	end: "Fin",
 
 	cities: "{1}/{2} Cités",
-	"recruits.none.message":	"Il faut ouvrir au moins 1 fois la fenêtre '<u><b>Recruter</b></u>' de chaque Cité avant d'afficher le Rapport pour avoir les Productions des Troupes!",
-	"no.recruits.message":	"La fenêtre '<u><b>Recruter</b></u>' de {1} n'a pas encore été ouverte!",
+	"no.recruits.message":	"La fenêtre '<tt>Recruter</tt>' de {1} n'a pas encore été ouverte!",
 	"recruitable.header": "En Stock (+Production par Jour)",
 	"total.recruitable": "Total en reserve",
 	"total.incomplete": " (incomplet)",
