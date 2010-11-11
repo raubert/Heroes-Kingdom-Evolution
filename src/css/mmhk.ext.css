@@ -240,6 +240,7 @@
 
 #KingdomFrame #KingdomArmiesData tbody td {
 	min-width: 2em;
+	vertical-align: middle;
 }
 
 #KingdomFrame #KingdomProductionData tbody td {
@@ -251,7 +252,7 @@
 }
 
 #KingdomFrame #KingdomArmiesData .unit {
-	float: left;
+	float: none;
 	margin: 1px 2px 0;
 	text-align: center;
 }
@@ -260,6 +261,7 @@
 	border: 1px solid #4d332e;
 	height: 22px;
 	width: 23px;
+	margin: auto;
 }
 
 #KingdomFrame .unit .T1P {

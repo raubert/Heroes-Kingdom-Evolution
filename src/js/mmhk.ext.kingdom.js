@@ -458,7 +458,7 @@ MMHK.modules.push({
 					// the markup for this unit
 					markup += "<div class=\"unit\"";
 					markup += " title=\"" + unit.name + ":" + unit.type + ":" + unit.tier + ":" + unit.power + ":" + unit.reserve + ":" + unit.production + ":" + unit.maxProduction + ":" + unit.goldCost + ":" + unit.mercuryCost + ":" + unit.cristalCost + ":" + unit.sulfurCost + ":" + unit.gemCost + ":recruitable\"";
-					markup += "><div class=\"" + unit.faction + " " + tag.split( "_" )[2] + "\"></div>" + unit.reserve + " (+" + unit.production + ")</div>";
+					markup += "><div class=\"" + unit.faction + " " + tag.split( "_" )[2] + "\"></div>" + $.formatNumber ( unit.reserve ) + "<br />(+" + unit.production + ")</div>";
 					// add count to the total
 					if ( total != undefined ) {
 						// total is ordered per ID
@@ -585,7 +585,7 @@ MMHK.modules.push({
 		markup += "<td>";
 		markup += $.i18n.get( "total.recruitable" );
 		if ( !isRecruitsComplete ) {
-			markup += $.i18n.get( "total.incomplete" );
+			markup += "<br />" + $.i18n.get( "total.incomplete" );
 		}
 		markup += "</td>";
 		for ( var i = 1; i <= 8; i++ ) {

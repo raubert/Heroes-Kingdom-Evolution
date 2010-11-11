@@ -48,9 +48,9 @@ $.i18n.resources.en = {
 
 	cities: "{1}/{2} Cities",
 	"no.recruits.message":	"The '<tt>Recruitment</tt>' window of {1} hasn't been opened yet!",
-	"recruitable.header": "Recruitable Units (+Daily Production)",
+	"recruitable.header": "<br />Recruitable Units<br />(+Daily Production)",
 	"total.recruitable": "Total Recruitable",
-	"total.incomplete": " (incomplete)",
+	"total.incomplete": "! incomplete list !",
 	"armysection.units": "ACTUAL UNITS",
 	"armysection.recruitable": "RECRUITABLE UNITS",
 

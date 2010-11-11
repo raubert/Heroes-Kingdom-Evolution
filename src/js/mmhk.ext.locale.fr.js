@@ -49,9 +49,9 @@ $.i18n.resources.fr = {
 
 	cities: "{1}/{2} Cités",
 	"no.recruits.message":	"La fenêtre '<tt>Recruter</tt>' de {1} n'a pas encore été ouverte!",
-	"recruitable.header": "En Stock (+Production par Jour)",
+	"recruitable.header": "<br />En Stock<br />(+Production par Jour)",
 	"total.recruitable": "Total en reserve",
-	"total.incomplete": " (incomplet)",
+	"total.incomplete": "! Liste incomplete !",
 	"armysection.units": "UNITÉS DISPONIBLES",
 	"armysection.recruitable": "UNITÉS POUVANT ÊTRE RECRUTÉES",
 
