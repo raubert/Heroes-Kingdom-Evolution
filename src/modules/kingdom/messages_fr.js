@@ -18,7 +18,7 @@ MMHK.jQuery.i18n.add( "fr", {
 	cities: "Cités",
 
 	"recruits.show": "voir les réserves",
-	"recruits.unavailable": "Il faut ouvrir au moins une fois la fenêtre '<tt>Recruter</tt>' de la cité avant d'avoir accès aux réserves de troupes disponibles.",
+	"recruits.unavailable": "Il faut ouvrir au moins une fois la fenêtre <tt>'Recruter'</tt> de la cité avant d'avoir accès aux réserves de troupes disponibles.",
 	"recruits.available": "Troupes en Réserve",
 	"recruits.total": "Total des Réserves",
 	"recruits.total.incomplete": "incomplet",

@@ -19,7 +19,7 @@ MMHK.jQuery.i18n.add( "en", {
 
 	"recruits.show": "show recruits",
 	"recruits.available": "Available Recruits",
-	"recruits.unavailable": "The '<tt>Recruitment</tt>' window of this city needs to be opened once before the available recruits can be displayed.",
+	"recruits.unavailable": "The <tt>'Recruitment'</tt> window of this city needs to be opened once before the available recruits can be displayed.",
 	"recruits.total": "Total Recruits",
 	"recruits.total.incomplete": "incomplete",
 
