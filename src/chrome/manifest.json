@@ -26,5 +26,5 @@
 	"permissions": [
 		"http://*/"
 	],
-	"update_url": "@HOST/crxupdate.xml"
+	"update_url": "@HOST/updates-chrome.xml"
 }
