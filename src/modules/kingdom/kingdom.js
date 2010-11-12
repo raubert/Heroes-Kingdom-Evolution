@@ -784,8 +784,8 @@ MMHK.modules.push({
 					ore: action.paramList[ 3 ],
 					mercury: action.paramList[ 4 ],
 					crystal: action.paramList[ 5 ],
-					sulfur: action.paramList[ 7 ],
-					gem: action.paramList[ 6 ]
+					sulfur: action.paramList[ 6 ],
+					gem: action.paramList[ 7 ]
 				};
 				break;
 			}
