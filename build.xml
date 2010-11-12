@@ -24,11 +24,12 @@
 	<property name="build.mmhk.css" value="mmhk.ext.css" />
 
 	<property name="redist" location="redist" />
-	<property name="host" value="http://angarak.com/MMHK/chrome" />
+	<property name="host" value="http://angarak.com/MMHK/extension" />
 
 	<property name="chrome-id" value="gloedkpafdknpopjjdjdhdcbadidmkio" />
 	<!-- change this path to fit your environment -->
 	<property name="chrome" value="${env.LOCALAPPDATA}\Google\Chrome\Application\chrome.exe" />
+	<property name="chrome-updates" location="${redist}/updates-chrome.xml" />
 
 	<!-- ant-contrib required -->
 	<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
@@ -137,11 +138,11 @@
 		<delete file="${redist}/HeroesKingdomEvolution.crx" />
 		<move file="build.crx" tofile="${redist}/HeroesKingdomEvolution.crx" />
 
-		<delete file="${redist}/updates.xml" />
-		<copy file="${src.chrome}/updates.xml" todir="${redist}" />
-		<replaceregexp match="@ID" replace="${chrome-id}" flags="g" file="${redist}/updates.xml" />
-		<replaceregexp match="@VERSION" replace="${version}" flags="g" file="${redist}/updates.xml" />
-		<replaceregexp match="@HOST" replace="${host}" flags="g" file="${redist}/updates.xml" />
+		<delete file="${chrome-updates}" />
+		<copy file="${src.chrome}/updates.xml" tofile="${chrome-updates}" />
+		<replaceregexp match="@ID" replace="${chrome-id}" flags="g" file="${chrome-updates}" />
+		<replaceregexp match="@VERSION" replace="${version}" flags="g" file="${chrome-updates}" />
+		<replaceregexp match="@HOST" replace="${host}" flags="g" file="${chrome-updates}" />
 	</target>
 
 	<target name="chrome" depends="jQuery,jQuery-UI,mmhk-injected,mmhk-content,mmhk-background,mmhk-css,mmhk-chrome-options">
