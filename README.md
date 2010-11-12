@@ -29,17 +29,19 @@ There are some options available in the `build.xml` file. Some are optional, som
 How to build your own Heroes Kingdom Evolution
 ----------------------------------------------
 
-In the main directory, call ant to build and package everything
+In the main directory, call ant to build and package everything :
 
     ant
 
 The result will then be available in `build` as an unpackaged extension and in `redist` as a ready-to-use one.
 
 
-In order to build it without packaging, two choices are available
+In order to build it without packaging, two choices are available :
 
     ant clean
     ant chrome
+
+or
 
     ant -DnoRedist=true
 
