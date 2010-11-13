@@ -713,6 +713,71 @@ MMHK.modules.push({
 	},
 
 	/**
+	 * Creates the HTML markup for one cell the resources production tab.
+	 * 
+	 * @param res {Object}
+	 *            the resource being dealt with
+	 * @param data {Object}
+	 *            the collected data for this resource
+	 * @param total {Boolean}
+	 *            when set, it means we're generating a cell of the 'Total'
+	 */
+	createProductionCellMarkup: function( res, data, total ) {
+		var wealth = data.income * res.wealth;
+
+		var tooltip = null;
+		if ( data.income ) {
+			tooltip = $.i18n.get( res.tag ) + "|"
+				+ "<div class=\"wealth\">"
+				+ "<p>" + $.i18n.get( "prod.hourly" ) + " <b>" + $.formatNumber( data.income / 24 ) + "</b></p>"
+				+ "<p>" + $.i18n.get( "prod.real" ) + " <b>" + $.formatNumber( data.income ) + "</b></p>"
+				+ "<p>" + $.i18n.get( "wealth.daily" ) + " <b>" + $.formatNumber( wealth ) + "</b></p>";
+			if ( !total ) {
+				var hoursLeft = 0;
+				tooltip += "<p>";
+				if ( data.income < 0 ) {
+					tooltip += $.i18n.get( "stock.empty" );
+				} else {
+					tooltip += $.i18n.get( "stock.full" );
+				}
+				tooltip += " <b>";
+				if ( data.income < 0 ? data.stock == 0 : data.stock == data.storage ) {
+					tooltip += $.i18n.get( "stock.now" );
+				} else {
+					if ( data.income == 0 ) {
+						hoursLeft = 0;
+					} else if ( data.income < 0 ) {
+						hoursLeft = data.stock / ( -data.income / 24 );
+					} else {
+						hoursLeft = ( data.storage - data.stock ) / ( data.income / 24 );
+					}
+					var daysLeft = Math.floor( hoursLeft / 24 );
+					tooltip += $.i18n.get( "stock.in", ( daysLeft > 0 ? $.i18n.get( "day", daysLeft ) + " " : "" ) + $.i18n.get( "hour", Math.floor( hoursLeft ) - ( daysLeft * 24 ) ) );
+				}
+				tooltip += "</b>";
+				tooltip += "</p>";
+			}
+			tooltip += "</div>";
+		}
+
+		// display storage / max + income
+		var markup = "<td class=\"value " + res.type + "\"";
+		if ( tooltip != null ) {
+			markup += "title=\"" + $.escapeHTML( tooltip, true ) + "\"";
+		}
+		markup += ">";
+		markup += "<tt" + ( data.stock + data.income > data.storage ? " class=\"storage\"" : "" ) + ">" + $.formatNumber( data.stock ) + "</tt>";
+		if ( !total ) {
+			markup += " / <tt" + ( data.stock + data.income > data.storage ? " class=\"storage\"" : "" ) + ">" + $.formatNumber( data.storage ) + "</tt>";
+		}
+		markup += "<br/>";
+		markup += "<tt" + ( data.income < 0 ? " class=\"maintenance\">" : ">+" ) + $.formatNumber( Math.floor( data.income ) ) + "</tt>";
+		markup += "</td>";
+
+		return markup;
+	},
+
+	/**
 	 * Creates the HTML markup for the resources production tab.
 	 * 
 	 * @param data	the collected data
@@ -730,7 +795,14 @@ MMHK.modules.push({
 				wealth += data[ i ].resources[ res.tag ].income * res.wealth;
 			}
 			totalWealth += wealth;
-			markup += "<td title=\"" + wealth + "\">";
+
+			var tooltip = data[ i ].name + "|"
+				+ "<div class=\"wealth\">"
+				+ "<p>" + $.i18n.get( "wealth.hourly" ) + " <b>" + $.formatNumber( wealth / 24 ) + "</b></p>"
+				+ "<p>" + $.i18n.get( "wealth.daily" ) + " <b>" + $.formatNumber( wealth ) + "</b></p>"
+				+ "</div>";
+
+			markup += "<td title=\"" + $.escapeHTML( tooltip, true ) + "\">";
 			markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\">" + data[ i ].name + "<br/>[<tt>" + data[ i ].x + "," + data[ i ].y + "</tt>]</a>";
 			markup += "<div class=\"city " + data[ i ].faction + "\"></div>";
 			markup += "</td>";
@@ -738,36 +810,33 @@ MMHK.modules.push({
 			for ( var j = 0; j < this.resources.length; j++ ) {
 				var res = this.resources[ j ];
 				var current = data[ i ].resources[ res.tag ];
-				var wealth = current.income * res.wealth;
-				if ( !total[ res.tag ] ) total[ res.tag ] = { stock: 0, income: 0, wealth: 0 };
-				total[ res.tag ].stock += current.stock;
-				total[ res.tag ].income += current.income;
-				total[ res.tag ].wealth += wealth;
-				// display storage / max + income
-				markup += "<td class=\"value " + res.type + "\"";
-				if ( current.income ) {
-					markup += "title=\"" + res.tag + ":" + current.income + ":" + wealth + ":" + current.stock + ":" + current.storage + "\"";
+				markup += this.createProductionCellMarkup( res, current, false );
+				if ( !total[ j ] ) {
+					total[ j ] = {
+						stock: 0,
+						income: 0
+					};
 				}
-				markup += ">";
-				markup += "<tt" + ( current.stock + current.income > current.storage ? " class=\"storage\"" : "" ) + ">" + $.formatNumber( current.stock ) + "</tt> / ";
-				markup += "<tt" + ( current.stock + current.income > current.storage ? " class=\"storage\"" : "" ) + ">" + $.formatNumber( current.storage ) + "</tt><br/>";
-				markup += "<tt" + ( current.income < 0 ? " class=\"maintenance\">" : ">+" ) + $.formatNumber( Math.floor( current.income ) ) + "</tt>";
-				markup += "</td>";
+				total[ j ].stock += current.stock;
+				total[ j ].income += current.income;
 			}
 			markup += "</tr>";
 		}
 
 		// then display the total
-		markup += "<tr class=\"total\"><td title=\"" + totalWealth + "\">Total</td>";
-		for ( var tag in total ) {
-			var current = total[ tag ];
-			markup += "<td class=\"value\"";
-			if ( total[ tag ].income > 0 ) {
-				markup += "title=\"" + tag + ":" + current.income + ":" + current.wealth + ":0:0\"";
-			}
-			markup += "<tt>" + $.formatNumber( current.stock ) + "</tt><br/>";
-			markup += "<tt" + ( current.income < 0 ? " class=\"maintenance\">" : ">+" ) + $.formatNumber( Math.floor( current.income ) ) + "</tt>";
-			markup += "</td>";
+		var tooltip = $.i18n.get( "total" ) + "|"
+			+ "<div class=\"wealth\">"
+			+ "<p>" + $.i18n.get( "wealth.hourly" ) + " <b>" + $.formatNumber( totalWealth / 24 ) + "</b></p>"
+			+ "<p>" + $.i18n.get( "wealth.daily" ) + " <b>" + $.formatNumber( totalWealth ) + "</b></p>"
+			+ "</div>";
+		markup += "<tr class=\"total\"><td title=\"" + $.escapeHTML( tooltip, true ) + "\">";
+		markup += $.i18n.get( "total" );
+		markup += "<br />";
+		markup += "[" + HOMMK.player.content.activeOrSubscribedCityCount + "/" + HOMMK.player.content.cityNumberMinThreshold + " " + $.i18n.get("cities") + "]";
+		markup += "</td>";
+		for ( var i in total ) {
+			var res = this.resources[ i ];
+			markup += this.createProductionCellMarkup( res, total[ i ], true );
 		}
 		markup += "</tr>";
 
@@ -778,54 +847,7 @@ MMHK.modules.push({
 	 * Setups the available actions on the resource production view; this has to be applied *after* DOM injection.
 	 */
 	setupProduction: function() {
-		var self = this;
-		$( "#KingdomProductionData td[title]" ).attr( "title", function( i, data ) {
-			if ( $( this ).hasClass( "value" ) ) {
-				// default cell for a specific type of resource
-				data = data.split( ":" );
-				var income = parseFloat( data[ 1 ] );
-				var markup = $.i18n.get( data[ 0 ] ) + "|"
-					+ "<div class=\"wealth\">"
-					+ "<p>" + $.i18n.get( "prod.hourly" ) + " <b>" + $.formatNumber( income / 24 ) + "</b></p>"
-					+ "<p>" + $.i18n.get( "prod.real" ) + " <b>" + $.formatNumber( income ) + "</b></p>"
-					+ "<p>" + $.i18n.get( "wealth.daily" ) + " <b>" + $.formatNumber( parseFloat( data[ 2 ] ) ) + "</b></p>";
-				var hoursLeft = 0;
-				var stock = parseFloat( data[ 3 ] );
-				var storage = parseFloat( data[ 4 ] );
-				markup += "<p>";
-				if ( income < 0 ) {
-					markup += $.i18n.get( "stock.empty" );
-				} else {
-					markup += $.i18n.get( "stock.full" );
-				}
-				markup += " <b>";
-				if ( income < 0 ? stock == 0 : stock == storage ) {
-					markup += $.i18n.get( "stock.now" );
-				} else {
-					if ( income == 0 ) {
-						hoursLeft = 0;
-					} else if ( income < 0 ) {
-						hoursLeft = stock / ( -income / 24 );
-					} else {
-						hoursLeft = ( storage - stock ) / ( income / 24 );
-					}
-					var daysLeft = Math.floor( hoursLeft / 24 );
-					markup += $.i18n.get( "stock.in", ( daysLeft > 0 ? $.i18n.get( "day", daysLeft ) + " " : "" ) + $.i18n.get( "hour", Math.floor( hoursLeft ) - ( daysLeft * 24 ) ) );
-				}
-				markup += "</b>";
-				markup += "</p>";
-				markup += "</div>";
-				return markup;
-			} else {
-				// summary on a line
-				var income = parseFloat( data );
-				return $( this ).text().split( "[" )[ 0 ] + "|"
-					+ "<div class=\"wealth\">"
-					+ "<p>" + $.i18n.get( "wealth.hourly" ) + " <b>" + $.formatNumber( income / 24 ) + "</b></p>"
-					+ "<p>" + $.i18n.get( "wealth.daily" ) + " <b>" + $.formatNumber( income ) + "</b></p>"
-					+ "</div>";
-			}
-		}).cluetip({
+		$( "#KingdomProductionData td[title]" ).cluetip({
 			splitTitle: "|",
 			arrows: true,
 			width: 200,
@@ -839,6 +861,7 @@ MMHK.modules.push({
 			},
 			clickThrough: true
 		});
+
 		$( "#KingdomProductionData a[rel]" ).click(function() {
 			MMHK.click( $( "#RegionCity" + $( this ).attr( "rel" ) + "SummaryViewImage" )[ 0 ] );
 			return false;
