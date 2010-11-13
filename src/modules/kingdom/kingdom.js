@@ -320,7 +320,7 @@ MMHK.modules.push({
 		var cities = HOMMK.elementPool.get( "RegionCity" ).values();
 		for ( var i = 0; i < cities.length; i++ ) {
 			var city = cities[ i ].content;
-			data.push({
+			var current = {
 				id: city.id,
 				name: city.cityName,
 				faction: city.factionEntityTagName,
@@ -329,24 +329,21 @@ MMHK.modules.push({
 				maintenance: city.maintenanceGoldCost,
 				units: {},
 				recruits: false
-			});
-		}
+			};
 
-		// for each stack available
-		var stacks = HOMMK.elementPool.get( "UnitStack" ).values();
-		for ( var i = 0; i < stacks.length; i++ ) {
-			if ( stacks[ i ].parentRegionCity ) {
-				var city = stacks[ i ].parentRegionCity.content, current = null;
-				for ( var j = 0; j < data.length; j++ ) {
-					if ( data[ j ].id == city.id ) {
-						current = data[ j ];
-						break;
-					}
-				}
-				if ( current != null ) {
-					this.extractUnitStackData( stacks[ i ].content, current.units );
-				}
+			// for each attached unit stack
+			for ( var s = 0; s < city.attachedUnitStackList.length; s++ ) {
+				this.extractUnitStackData( city.attachedUnitStackList[ s ], current.units );
 			}
+
+			// for each stack attach to each hero in the city
+			for ( var h = 0; h < city.attachedHeroList.length; h++ ) {
+				var hero = city.attachedHeroList[h];
+				for ( var s = 0; s < hero.attachedUnitStackList.length; s++ ) {
+                                	this.extractUnitStackData( hero.attachedUnitStackList[ s ], current.units );
+                        	}
+			}
+			data.push(current);
 		}
 
 		// for each recruitable unit available
