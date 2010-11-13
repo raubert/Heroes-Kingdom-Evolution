@@ -146,24 +146,12 @@
 	width: 32px;
 }
 
-#KingdomFrame #KingdomArmiesHeader th.recruits {
-	vertical-align: bottom;
+#KingdomFrame #KingdomArmiesHeader th:not(:first-child):not(.s) {
+	width: 57px;
 }
 
-#KingdomFrame #KingdomArmiesHeader th.recruits div {
-	height: auto;
-	text-align: right;
-	width: auto;
-	white-space: nowrap;
-}
-
-#KingdomFrame #KingdomArmiesHeader th.recruits div input {
-	vertical-align: bottom;
-}
-
-#KingdomFrame #KingdomArmiesHeader th.siege {
-	-moz-transform: rotate(-90deg);
-	-webkit-transform: rotate(-90deg);
+#KingdomFrame #KingdomArmiesData td:not(:first-child) {
+	width: 50px;
 }
 
 #KingdomFrame #KingdomProductionHeader .gold {
@@ -188,15 +176,13 @@
 	background-position: -192px -40px;
 }
 
-#KingdomFrame #KingdomArmiesData tr:nth-child(4n+1),
-#KingdomFrame #KingdomArmiesData tr:nth-child(4n+2),
+#KingdomFrame #KingdomArmiesData tr:nth-child(odd),
 #KingdomFrame #KingdomProductionData tr:nth-child(odd),
 #KingdomFrame #KingdomActionsData tbody tr.odd {
 	background: url('@EXTENSION_PATH/images/line-odd.gif');
 }
 
-#KingdomFrame #KingdomArmiesData tr:nth-child(4n+3),
-#KingdomFrame #KingdomArmiesData tr:nth-child(4n+4),
+#KingdomFrame #KingdomArmiesData tr:nth-child(even),
 #KingdomFrame #KingdomProductionData tr:nth-child(even),
 #KingdomFrame #KingdomActionsData tbody tr.even {
 	background: url('@EXTENSION_PATH/images/line-even.gif');
@@ -210,10 +196,6 @@
 	width: 111px !important;
 }
 
-#KingdomFrame #KingdomArmiesData tbody tr.recruits {
-	display: none;
-}
-
 #KingdomFrame #KingdomArmiesData tbody tr.recruits td:first-child {
 	padding-top: 8px;
 }
@@ -225,6 +207,7 @@
 
 #KingdomFrame #KingdomArmiesData tbody tr.recruits td .unit {
 	font-size: smaller;
+	margin-bottom: 5px;
 }
 
 #KingdomFrame #KingdomProductionData {
@@ -302,8 +285,16 @@
 	text-align: right;
 }
 
+#KingdomFrame  #KingdomArmiesData tbody tr.section td {
+	background: #FF6600;
+	color: #660000;
+	font-size: 14px;
+	font-weight: bolder;
+	text-align: center;
+	vertical-align: middle;
+}
+
 #KingdomFrame #KingdomArmiesData .unit {
-	float: left;
 	margin: 1px 2px 0;
 	text-align: center;
 }
@@ -311,6 +302,7 @@
 #KingdomFrame #KingdomArmiesData .unit div {
 	border: 1px solid #4d332e;
 	height: 22px;
+	margin: auto;
 	width: 23px;
 }
 

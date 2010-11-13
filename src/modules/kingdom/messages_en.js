@@ -17,8 +17,9 @@ MMHK.jQuery.i18n.add( "en", {
 	total: "Total",
 	cities: "Cities",
 
-	"recruits.show": "show recruits",
-	"recruits.available": "Available Recruits",
+	"armies.units": "ACTUAL UNITS",
+	"armies.recruits": "RECRUITABLE UNITS",
+
 	"recruits.unavailable": "The <tt>'Recruitment'</tt> window of this city needs to be opened once before the available recruits can be displayed.",
 	"recruits.total": "Total Recruits",
 	"recruits.total.incomplete": "incomplete",
@@ -28,9 +29,14 @@ MMHK.jQuery.i18n.add( "en", {
 	"unit.stack": "Stack Power: {1}",
 	"unit.count": "Unit Count: {1}",
 	"unit.total": "Total Power: {1}",
-	"unit.cost": "Maintenance Cost: {1} <tt>/d</tt>",
+	"unit.maintenance": "Maintenance Cost: {1} <tt>/d</tt>",
+	"unit.cost": "Unit Price: {1}",
+	"unit.stock.cost": "Stock Price: {1}",
+	"unit.prod.max": "Current Prod. / Max Prod : {1}",
+	"unit.prod.cost": "Daily Production Price: {1}",
+	"unit.max.prod.cost": "Daily Max Production Price: {1}",
 
-	"siege.units": "SIEGE",
+	"siege.units": "Siege Units",
 
 	gold: "gold",
 	wood: "wood",

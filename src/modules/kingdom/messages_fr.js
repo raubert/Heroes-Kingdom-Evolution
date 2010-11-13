@@ -17,9 +17,10 @@ MMHK.jQuery.i18n.add( "fr", {
 	total: "Total",
 	cities: "Cités",
 
-	"recruits.show": "voir les réserves",
+	"armies.units": "UNITÉS DISPONIBLES",
+	"armies.recruits": "UNITÉS POUVANT ÊTRE RECRUTÉES",
+
 	"recruits.unavailable": "Il faut ouvrir au moins une fois la fenêtre <tt>'Recruter'</tt> de la cité avant d'avoir accès aux réserves de troupes disponibles.",
-	"recruits.available": "Troupes en Réserve",
 	"recruits.total": "Total des Réserves",
 	"recruits.total.incomplete": "incomplet",
 
@@ -28,9 +29,14 @@ MMHK.jQuery.i18n.add( "fr", {
 	"unit.stack": "Puissance du Peloton : {1}",
 	"unit.count": "Nombre de Créatures : {1}",
 	"unit.total": "Puissance Totale : {1}",
-	"unit.cost": "Coût de Maintenance : {1} <tt>/j</tt>",
+	"unit.maintenance": "Coût de Maintenance : {1} <tt>/j</tt>",
+	"unit.cost": "Prix de la Créature: {1}",
+	"unit.stock.cost": "Prix du Stock: {1}",
+	"unit.prod.max": "Prod. par Jour / Prod. Max : {1}",
+	"unit.prod.cost": "Prix Production par Jour: {1}",
+	"unit.max.prod.cost": "Prix Max par Jour: {1}",
 
-	"siege.units": "SIEGE",
+	"siege.units": "Armes de Siège",
 
 	gold: "or",
 	wood: "bois",

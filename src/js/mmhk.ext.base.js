@@ -128,6 +128,22 @@ $.extend({
 	},
 
 	/**
+	 * Escapes a string for HTML.
+	 * 
+	 * @param str
+	 *            the string to escape
+	 * @param quotes
+	 *            when set, double quotes will also be escaped
+	 */
+	escapeHTML: function ( str, quotes ) {
+		var esc = $( "<div></div>" ).text( str ).html();
+		if ( quotes ) {
+			esc = esc.replace( /"/g, "&quot;" );
+		}
+		return esc;
+	},
+
+	/**
 	 * Pretty print for numbers using space as 1K separator.
 	 * 
 	 * @param number	the value to format
