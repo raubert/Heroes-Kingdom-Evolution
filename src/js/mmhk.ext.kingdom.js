@@ -354,33 +354,30 @@ MMHK.modules.push({
 		var cities = HOMMK.elementPool.get( "RegionCity" ).values();
 		for ( var i = 0; i < cities.length; i++ ) {
 			var city = cities[ i ].content;
-			data.push({
+			var current = {
 				id: city.id,
 				name: city.cityName,
 				faction: city.factionEntityTagName,
 				x: city.x,
 				y: city.y,
-				recruitmessage: $.i18n.get( "no.recruits.message", city.cityName ),
 				maintenance: city.maintenanceGoldCost,
-				units: {}
-			});
-		}
+				units: {},
+				recruits: false
+			};
 
-		// for each stack available
-		var stacks = HOMMK.elementPool.get( "UnitStack" ).values();
-		for ( var i = 0; i < stacks.length; i++ ) {
-			if ( stacks[ i ].parentRegionCity != undefined ) {
-				var city = stacks[ i ].parentRegionCity.content, current = null;
-				for ( var j = 0; j < data.length; j++ ) {
-					if ( data[ j ].id == city.id ) {
-						current = data[ j ];
-						break;
-					}
-				}
-				if ( current != null ) {
-					this.extractUnitStackData( stacks[ i ].content, current.units );
+			// for each attached unit stack
+			for ( var s = 0; s < city.attachedUnitStackList.length; s++ ) {
+				this.extractUnitStackData( city.attachedUnitStackList[ s ], current.units );
+			}
+
+			// for each stack attach to each hero in the city
+			for ( var h = 0; h < city.attachedHeroList.length; h++ ) {
+				var hero = city.attachedHeroList[ h ];
+				for ( var s = 0; s < hero.attachedUnitStackList.length; s++ ) {
+					this.extractUnitStackData( hero.attachedUnitStackList[ s ], current.units );
 				}
 			}
+			data.push( current );
 		}
 
 		// for each recrutable unit available
@@ -397,7 +394,7 @@ MMHK.modules.push({
 					}
 				}
 				if ( current != null ) {
-					data [ j ].recruitmessage = "";
+					current.recruits = true;
 					this.extractUnitRecruitData( recruits[ i ].content, current.units );
 					this.extractUnitRecruitData( recruits[ i ].content.upgraded, current.units );
 				}
@@ -422,9 +419,10 @@ MMHK.modules.push({
 			for ( var tag in tier ) {
 				var unit = tier [ tag ];
 				if ( unit.quantity > 0 ) {
+					var isRecruits = false;
 					// the markup for this unit
 					markup += "<div class=\"unit\"";
-					markup += " title=\"" + unit.name + ":" + unit.type + ":" + unit.tier + ":" + unit.power + ":" + unit.quantity + ":" + unit.production + ":" + unit.maxProduction + ":" + unit.goldCost + ":" + unit.mercuryCost + ":" + unit.cristalCost + ":" + unit.sulfurCost + ":" + unit.gemCost + ":unit\"";
+					markup += " title=\"" + unit.name + ":" + unit.type + ":" + unit.tier + ":" + unit.power + ":" + unit.quantity + ":" + unit.production + ":" + unit.maxProduction + ":" + unit.goldCost + ":" + unit.mercuryCost + ":" + unit.cristalCost + ":" + unit.sulfurCost + ":" + unit.gemCost + ":" + isRecruits + "\"";
 					markup += "><div class=\"" + unit.faction + " " + unit.tier + "\"></div>" + unit.quantity + "</div>";
 					// add count to the total
 					if ( total != undefined ) {
@@ -477,9 +475,10 @@ MMHK.modules.push({
 			for ( var tag in tier ) {
 				var unit = tier [ tag ];
 				if ( unit.production > 0 ) {
+					var isRecruits = true;
 					// the markup for this unit
 					markup += "<div class=\"unit\"";
-					markup += " title=\"" + unit.name + ":" + unit.type + ":" + unit.tier + ":" + unit.power + ":" + unit.reserve + ":" + unit.production + ":" + unit.maxProduction + ":" + unit.goldCost + ":" + unit.mercuryCost + ":" + unit.cristalCost + ":" + unit.sulfurCost + ":" + unit.gemCost + ":recruitable\"";
+					markup += " title=\"" + unit.name + ":" + unit.type + ":" + unit.tier + ":" + unit.power + ":" + unit.reserve + ":" + unit.production + ":" + unit.maxProduction + ":" + unit.goldCost + ":" + unit.mercuryCost + ":" + unit.cristalCost + ":" + unit.sulfurCost + ":" + unit.gemCost + ":" + isRecruits + "\"";
 					markup += "><div class=\"" + unit.faction + " " + tag.split( "_" )[2] + "\"></div>" + $.formatNumber ( unit.reserve ) + "<br />(+" + unit.production + ")</div>";
 					// add count to the total
 					if ( total != undefined ) {
@@ -529,7 +528,7 @@ MMHK.modules.push({
 	 * @param data	the collected army data
 	 */
 	createArmiesMarkup: function( data ) {
-		var total = {}, maintenance = 0, markup = "", isRecruitsComplete = true;
+		var total = {}, maintenance = 0, markup = "", allRecruits = true;
 
 		// SECTION Units in Town
 		markup += "<tr class=\"section\">";
@@ -542,7 +541,7 @@ MMHK.modules.push({
 			// recruited units
 			markup += "<tr>";
 			markup += "<td title=\"" + data[ i ].maintenance + "\">";
-			markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\">" + data[ i ].name + "<br/>[<tt>" + data[ i ].x + "," + data[ i ].y + "</tt>]</a>";
+			markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\"><b>" + data[ i ].name + "</b><br/>[<tt>" + data[ i ].x + "," + data[ i ].y + "</tt>]</a>";
 			markup += "<div class=\"city " + data[ i ].faction + "\"></div>";
 			markup += "</td>";
 			// for each tier
@@ -578,19 +577,18 @@ MMHK.modules.push({
 		// for each city
 		for ( var i = 0; i < data.length; i++ ) {
 			// recruitable units
-			markup += "<tr>";
-			if ( data[i].recruitmessage != "" ) {
-				markup += "<td colspan=\"9\">";
-				markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\">";
-				markup += data[i].recruitmessage;
-				markup += "</a>";
+			markup += "<tr class=\"recruits\">";
+			markup += "<td>";
+			markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\"><b>" + data[ i ].name + "</b>";
+			markup += "<br />" + $.i18n.get( "recruits.available" );
+			markup += "</a>";
+			markup += "</td>";
+			if ( !data[i].recruits ) {
+				markup += "<td class=\"empty\" colspan=\"8\">";
+				markup += $.i18n.get( "recruits.unavailable" );
 				markup += "</td>";
-				isRecruitsComplete = false;
+				allRecruits = false;
 			} else {
-				markup += "<td>";
-				markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\">" + data[ i ].name + "</a>";
-				markup += $.i18n.get( "recruitable.header" );
-				markup += "</td>";
 				// for each tier
 				for ( var j = 1; j <= 8; j++ ) {
 					markup += "<td>";
@@ -602,11 +600,11 @@ MMHK.modules.push({
 			markup += "</tr>";
 		}
 		// then display the recruitable units total
-		markup += "<tr class=\"total\">";
+		markup += "<tr class=\"total recruits\">";
 		markup += "<td>";
-		markup += $.i18n.get( "total.recruitable" );
-		if ( !isRecruitsComplete ) {
-			markup += "<br />" + $.i18n.get( "total.incomplete" );
+		markup += $.i18n.get( "recruits.total" );
+		if ( !allRecruits ) {
+			markup += "<br />" + $.i18n.get( "recruits.total.incomplete" );
 		}
 		markup += "</td>";
 		for ( var i = 1; i <= 8; i++ ) {
@@ -624,7 +622,7 @@ MMHK.modules.push({
 	 */
 	setupArmies: function() {
 		$( "#KingdomArmiesData tr" ).each(function() {
-			var cityCount = -1, cityPower = 0;
+			var cityCount = 0, cityPower = 0;
 			$( this ).find( ".unit" ).attr( "title", function( i, data ) {
 				data = data.split( ":" );
 				var name = data[0];
@@ -639,12 +637,13 @@ MMHK.modules.push({
 				var crystalCost = parseInt( data[9] );
 				var sulfurCost = parseInt( data[10] );
 				var gemCost = parseInt( data[11] );
-				var isRecruitable = data[12] == "recruitable";
+				var isRecruits = data[12] == "true";
+				MMHK.log("data.12" + data[12]);
 				var markup = "";
 				// get resource stock from 'global' variable
 				var totalGoods = gtotalRessources;
 
-				if ( isRecruitable ) {
+				if ( isRecruits ) {
 					// create string with gold + ressource cost for stack
 					var unitCost = "", stackCost = "", prodCost = "", maxProdCost = "", goodsMissing = "";
 					if ( goldCost > 0 ) {
@@ -723,14 +722,9 @@ MMHK.modules.push({
 					markup += "<p>" + $.i18n.get( "max.prod.cost", "<b>" + maxProdCost + "</b>" ) + "</p>";
 				}
 				// add to line total if not recruitable units
-				if ( !isRecruitable ) {
-					if ( cityCount < 0 ) {
-						cityCount = quantity;
-					}	else {
-						cityCount += quantity;
-					}
-					cityPower += ( quantity * power );
-				}
+				cityCount += quantity;
+				cityPower += ( quantity * power );
+
 				return "<tt>[" + tier.replace( "P", "+" ) + "]</tt>"
 				  + name + "|"
 					+ "<div class=\"unit\">"
@@ -742,10 +736,7 @@ MMHK.modules.push({
 			});
 
 			// add global line information
-			$( this ).find( "td:first" ).attr( "title", function( i, data ) {
-				if ( cityCount < 0 ) {
-					return null;
-				}
+			$( this ).filter( ":not(.recruits):not(.section)" ).find( "td:first" ).attr( "title", function( i, data ) {
 				return $( this ).text().split( "[" )[ 0 ] + "|"
 					+ "<div class=\"unit\">"
 					+ "<p>" + $.i18n.get( "unit.count", "<b>" + $.formatNumber( cityCount ) + "</b>" ) + "</p>"
