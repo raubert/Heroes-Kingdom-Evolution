@@ -45,6 +45,7 @@ MMHK.modules.push({
 		);
 
 		var self = this;
+
 		// sneaky insertion into MMHK's interface
 		$( "#SidebarTop tr:first" ).each( function() {
 			// simulate MMHK's markup with their crappy classes
@@ -615,55 +616,93 @@ MMHK.modules.push({
 				var maxProduction = parseInt( data[6] );
 				var goldCost = parseInt( data[7] );
 				var mercuryCost = parseInt( data[8] );
-				var cristalCost = parseInt( data[9] );
+				var crystalCost = parseInt( data[9] );
 				var sulfurCost = parseInt( data[10] );
 				var gemCost = parseInt( data[11] );
 				var isRecruitable = data[12] == "recruitable";
-				// create string for recruitable units
 				var markup = "";
+				// get resource stock from 'global' variable
+				var totalGoods = gtotalRessources;
+
 				if ( isRecruitable ) {
 					// create string with gold + ressource cost for stack
-					var unitCost = "", stackCost = "", prodCost = "", maxProdCost = "";
+					var unitCost = "", stackCost = "", prodCost = "", maxProdCost = "", goodsMissing = "";
 					if ( goldCost > 0 ) {
 						unitCost += "" + $.formatNumber( goldCost ) + "<span class=\"goods gold\"></span>";
 						stackCost += "" + $.formatNumber( quantity * goldCost ) + "<span class=\"goods gold\"></span>";
 						prodCost += "" + $.formatNumber( production * goldCost ) + "<span class=\"goods gold\"></span>";
 						maxProdCost += "" + $.formatNumber( maxProduction * goldCost ) + "<span class=\"goods gold\"></span>";
+						var goldMissing = 0;
+						if ( totalGoods["gold"] == undefined ) {
+							goldMissing = ( quantity * goldCost );
+						} else if ( ( quantity * goldCost ) > totalGoods["gold"].stock ) {
+							goldMissing = ( quantity * goldCost ) - totalGoods["gold"].stock;
+						}
+						goodsMissing += "" + $.formatNumber( goldMissing ) + "<span class=\"goods gold\"></span>";
 					}
 					if ( mercuryCost > 0 ) {
 						unitCost += "" + $.formatNumber( mercuryCost ) + "<span class=\"goods mercury\"></span>";
 						stackCost += "" + $.formatNumber( quantity * mercuryCost ) + "<span class=\"goods mercury\"></span>";
 						prodCost += "" + $.formatNumber( production * mercuryCost ) + "<span class=\"goods mercury\"></span>";
 						maxProdCost += "" + $.formatNumber( maxProduction * mercuryCost ) + "<span class=\"goods mercury\"></span>";
+						var mercuryMissing = 0;
+						if ( totalGoods["mercury"] == undefined ) {
+							mercuryMissing = ( quantity * mercuryCost );
+						} else if ( ( quantity * mercuryCost ) > totalGoods["mercury"].stock ) {
+							mercuryMissing = ( quantity * mercuryCost ) - totalGoods["mercury"].stock;
+						}
+						goodsMissing += "" + $.formatNumber( mercuryMissing ) + "<span class=\"goods gold\"></span>";
 					}
-					if ( cristalCost > 0 ) {
-						unitCost += "" + $.formatNumber( cristalCost ) + "<span class=\"goods crystal\"></span>";
-						stackCost += "" + $.formatNumber( quantity * cristalCost ) + "<span class=\"goods crystal\"></span>";
-						prodCost += "" + $.formatNumber( production * cristalCost ) + "<span class=\"goods crystal\"></span>";
-						maxProdCost += "" + $.formatNumber( maxProduction * cristalCost ) + "<span class=\"goods crystal\"></span>";
+					if ( crystalCost > 0 ) {
+						unitCost += "" + $.formatNumber( crystalCost ) + "<span class=\"goods crystal\"></span>";
+						stackCost += "" + $.formatNumber( quantity * crystalCost ) + "<span class=\"goods crystal\"></span>";
+						prodCost += "" + $.formatNumber( production * crystalCost ) + "<span class=\"goods crystal\"></span>";
+						maxProdCost += "" + $.formatNumber( maxProduction * crystalCost ) + "<span class=\"goods crystal\"></span>";
+						var crystalMissing = 0;
+						if ( totalGoods["crystal"] == undefined ) {
+							crystalMissing = ( quantity * crystalCost );
+						} else if ( ( quantity * crystalCost ) > totalGoods["crystal"].stock ) {
+							crystalMissing = ( quantity * crystalCost ) - totalGoods["crystal"].stock;
+						}
+						goodsMissing += "" + $.formatNumber( crystalMissing ) + "<span class=\"goods crystal\"></span>";
 					}
 					if ( sulfurCost > 0 ) {
 						unitCost += "" + $.formatNumber( sulfurCost ) + "<span class=\"goods sulfur\"></span>";
 						stackCost += "" + $.formatNumber( quantity * sulfurCost ) + "<span class=\"goods sulfur\"></span>";
 						prodCost += "" + $.formatNumber( production * sulfurCost ) + "<span class=\"goods sulfur\"></span>";
 						maxProdCost += "" + $.formatNumber( maxProduction * sulfurCost ) + "<span class=\"goods sulfur\"></span>";
+						var sulfurMissing = 0;
+						if ( totalGoods["sulfur"] == undefined ) {
+							sulfurMissing = ( quantity * sulfurCost );
+						} else if ( ( quantity * sulfurCost ) > totalGoods["sulfur"].stock ) {
+							sulfurMissing = ( quantity * sulfurCost ) - totalGoods["sulfur"].stock;
+						}
+						goodsMissing += "" + $.formatNumber( sulfurMissing ) + "<span class=\"goods sulfur\"></span>";
 					}
 					if ( gemCost > 0) {
 						unitCost += "" + $.formatNumber( gemCost ) + "<span class=\"goods gem\"></span>";
 						stackCost += "" + $.formatNumber( quantity * gemCost ) + "<span class=\"goods gem\"></span>";
 						prodCost += "" + $.formatNumber( production * gemCost ) + "<span class=\"goods gem\"></span>";
 						maxProdCost += "" + $.formatNumber( maxProduction * gemCost ) + "<span class=\"goods gem\"></span>";
+						var gemMissing = 0;
+						if ( totalGoods["gem"] == undefined ) {
+							gemMissing = quantity * gemCost;
+						} else if ( ( quantity * gemCost ) > totalGoods["gem"].stock ) {
+							gemMissing = ( quantity * gemCost ) - totalGoods["gem"].stock;
+						}
+						goodsMissing += "" + $.formatNumber( gemMissing ) + "<span class=\"goods gem\"></span>";
 					}
 
 					markup += "<br />";
 					markup += "<p>" + $.i18n.get( "unit.cost", "<b>" + unitCost + "</b>" ) + "</p>";
 					markup += "<p>" + $.i18n.get( "stock.cost", "<b>" + stackCost + "</b>" ) + "</p>";
+					markup += "<p>" + $.i18n.get( "goods.missing", "<b>" + goodsMissing + "</b>" ) + "</p>";
 					markup += "<br />";
 					markup += "<p>" + $.i18n.get( "prod.max", "<b>+" + production + " / +" + maxProduction + "</b>" ) + "</p>";
 					markup += "<p>" + $.i18n.get( "prod.cost", "<b>" + prodCost + "</b>" ) + "</p>";
 					markup += "<p>" + $.i18n.get( "max.prod.cost", "<b>" + maxProdCost + "</b>" ) + "</p>";
 				}
-				// add to line total if non recruitable units
+				// add to line total if not recruitable units
 				if ( !isRecruitable ) {
 					if ( cityCount < 0 ) {
 						cityCount = quantity;
@@ -799,7 +838,7 @@ MMHK.modules.push({
 		for ( var tag in total ) {
 			var current = total[ tag ];
 			markup += "<td class=\"value\"";
-			if ( total[ tag ].income > 0 ) {
+			if ( current.income > 0 ) {
 				markup += "title=\"" + tag + ":" + current.income + ":" + current.wealth + ":0:0\"";
 			}
 			markup += "<tt>" + $.formatNumber( current.stock ) + "</tt><br/>";
@@ -807,6 +846,9 @@ MMHK.modules.push({
 			markup += "</td>";
 		}
 		markup += "</tr>";
+
+		//send total ressources to 'global' variable
+		gtotalRessources = total;
 
 		return markup;
 	},
@@ -1073,12 +1115,13 @@ MMHK.modules.push({
 			setTimeout( "$( \"KingdomDataContainerSlider\" ).slider = new HOMMK.ContentSlider( $( \"KingdomDataContainerSlider\" ), $( \"KingdomDataContainer\" ) );", 0 );
 		}
 
-		// replace armies HTML
-		$( "#KingdomArmiesData tbody" ).html( this.createArmiesMarkup( this.extractArmiesData() ) );
-		this.setupArmies();
+		var gtotalRessources = {};
 		// replace resource production HTML
 		$( "#KingdomProductionData tbody" ).html( this.createProductionMarkup( this.extractProductionData() ) );
 		this.setupProduction();
+		// replace armies HTML
+		$( "#KingdomArmiesData tbody" ).html( this.createArmiesMarkup( this.extractArmiesData() ) );
+		this.setupArmies();
 		// replace actions HTML
 		$( "#KingdomActionsData tbody" ).html( this.createActionsMarkup( this.extractActionsData() ) );
 		this.setupActions();

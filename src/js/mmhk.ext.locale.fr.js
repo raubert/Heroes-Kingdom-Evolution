@@ -24,6 +24,7 @@ $.i18n.resources.fr = {
 	"prod.max": "Prod. par Jour / Prod. Max : {1}",
 	"prod.cost": "Prix Production par Jour: {1}",
 	"max.prod.cost": "Prix Max par Jour: {1}",
+	"goods.missing": "(il vous manque: {1})",
 
 	"siege.units": "Armes de Siège",
 

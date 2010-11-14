@@ -24,6 +24,7 @@ $.i18n.resources.en = {
 	"prod.max": "Current Prod. / Max Prod : {1}",
 	"prod.cost": "Price Daily Production: {1}",
 	"max.prod.cost": "Price Daily Max Production: {1}",
+	"goods.missing": "(you're missing: {1})",
 
 	"siege.units": "Siege Units",
 
