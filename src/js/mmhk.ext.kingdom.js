@@ -25,6 +25,7 @@ MMHK.modules.push({
 			"#KingdomImage { background: url('" + HOMMK.IMG_URL + "/css_sprite/SideBar_Shortcuts.gif') no-repeat -280px 0; width: 40px; height: 40px; }"
 			+ "#KingdomFrame #KingdomClose { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/SideBar_Shortcuts.gif') }"
 			+ "#KingdomFrame #KingdomTabs div { background-image: url('" + HOMMK.IMG_URL + "/css_sprite/Frame_tab_ranking.jpg') }"
+			+ "#KingdomFrame #KingdomTabs div.recap { background-image: url('" + HOMMK.IMG_URL + "/frame/ranking/rankingHeader_PVP_ALL.jpg') }"
 			+ "#KingdomFrame #KingdomDataContainer { background-image: url('" + HOMMK.IMG_URL + "/background/metal.jpg') }"
 			+ "#KingdomFrame .kingdom .data tbody td .city { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Region_Zoom1.gif') }"
 			+ "#KingdomFrame #KingdomArmiesHeader { background-image:url('" + HOMMK.IMG_URL + "/frame/ranking/rankingHeader_DOMINATION_01.jpg') }"
@@ -36,9 +37,15 @@ MMHK.modules.push({
 			+ "#KingdomFrame #KingdomProductionHeader { background-image:url('" + HOMMK.IMG_URL + "/frame/ranking/rankingHeader_WEALTH_01.jpg') }"
 			+ "#KingdomFrame #KingdomProductionHeader th div { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Ressources.gif') }"
 			+ "#KingdomFrame #KingdomActionsHeader { background-image:url('" + HOMMK.IMG_URL + "/frame/ranking/rankingHeader_HONOR_01.jpg') }"
-			+ "#KingdomFrame #KingdomProductionHeader th div { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Ressources.gif') }"
 			+ "#KingdomFrame #KingdomActionsData .action .icon { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/TimeLineAction.gif') }"
 			+ "#KingdomFrame #KingdomActionsData .goods span span { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Ressources.gif') }"
+			+ "#KingdomFrame #KingdomRecapHeader { background-image:url('" + HOMMK.IMG_URL + "/frame/ranking/rankingHeader_PVP_ALL.jpg') }"
+			+ "#KingdomFrame #KingdomRecapData .herorecap .heroclass { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/HeroClass.gif') }"
+			+ "#KingdomFrame #KingdomRecapData .herorecap .ACADEMY { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Hero_ACADEMY.jpg') }"
+			+ "#KingdomFrame #KingdomRecapData .herorecap .HAVEN { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Hero_HAVEN.jpg') }"
+			+ "#KingdomFrame #KingdomRecapData .herorecap .INFERNO { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Hero_INFERNO.jpg') }"
+			+ "#KingdomFrame #KingdomRecapData .herorecap .NECROPOLIS { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Hero_NECROPOLIS.jpg') }"
+			+ "#KingdomFrame #KingdomRecapData .herorecap .SYLVAN { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Hero_SYLVAN.jpg') }"
 			+ ".cluetip-default h3#cluetip-title { background-image:url('" + HOMMK.IMG_URL + "/frame/tooltips/npc/titleBg_00.gif') }"
 			+ ".cluetip-default #cluetip-inner .unit .type { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/UnitStack_types.gif') }"
 			+ ".cluetip-default #cluetip-inner .unit .goods { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Ressources.gif') }"
@@ -142,6 +149,13 @@ MMHK.modules.push({
 		}
 		phead += "<th class=\"s\"></th></tr>";
 
+		// header for recap
+		var rhead = "<tr><th></th>";
+		for ( var i = 1; i <= 6; i++ ) {
+			rhead += "<th>" + "</th>";
+		}
+		rhead += "<th class=\"s\"></th></tr>";
+
 		// simulate MMHK's markup with their crappy classes
 		return "<div id=\"KingdomFrame\" class=\"largeFrame absolutePosition\">"
 			+ "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" class=\"frameContainerTopBarContainer\">"
@@ -162,6 +176,7 @@ MMHK.modules.push({
 								+ "<div class=\"armies\"><a rel=\"KingdomArmies\">" + $.i18n.get( "armies" ) + "</a></div>"
 								+ "<div class=\"production\"><a rel=\"KingdomProduction\">" + $.i18n.get( "resources" ) + "</a></div>"
 								+ "<div class=\"actions\"><a rel=\"KingdomActions\">" + $.i18n.get( "actions" ) + "</a></div>"
+								+ "<div class=\"recap\"><a rel=\"KingdomRecap\">" + $.i18n.get( "recap" ) + "</a></div>"
 							+ "</div>"
 							+ "<div class=\"kingdom\">"
 								+ "<div class=\"header\">"
@@ -174,6 +189,9 @@ MMHK.modules.push({
 									+ "<div id=\"KingdomActionsHeader\">"
 										+ "<table><thead><tr><th></th><th class=\"a\"></th><th class=\"d\">" + $.i18n.get( "description" ) + "</th><th class=\"t\">" + $.i18n.get( "start" ) + "</th><th class=\"t\">" + $.i18n.get( "end" ) + "</th><th class=\"s\"></th></tr></thead></table>"
 									+ "</div>"
+									+ "<div id=\"KingdomRecapHeader\">"
+										+ "<table><thead>" + rhead + "</thead></table>"
+									+ "</div>"
 								+ "</div>"
 							+ "<table class=\"data\"><tr>"
 							+ "<td><div id=\"KingdomDataContainer\">"
@@ -184,6 +202,9 @@ MMHK.modules.push({
 									+ "<table><tbody></tbody></table>"
 								+ "</div>"
 								+ "<div id=\"KingdomActionsData\" class=\"data\">"
+									+ "<table><tbody></tbody></table>"
+								+ "</div>"
+								+ "<div id=\"KingdomRecapData\">"
 									+ "<table><tbody></tbody></table>"
 								+ "</div>"
 							+ "</div></td>"
@@ -220,8 +241,8 @@ MMHK.modules.push({
 		$( "#KingdomTabs>div" ).click( function() {
 			// unselects everything
 			$( "#KingdomTabs" ).children().removeClass( "selected" );
-			$( "#KingdomArmiesHeader,#KingdomProductionHeader,#KingdomActionsHeader" ).hide();
-			$( "#KingdomArmiesData,#KingdomProductionData,#KingdomActionsData" ).children().hide();
+			$( "#KingdomArmiesHeader,#KingdomProductionHeader,#KingdomActionsHeader,#KingdomRecapHeader" ).hide();
+			$( "#KingdomArmiesData,#KingdomProductionData,#KingdomActionsData,#KingdomRecapData" ).children().hide();
 
 			// select the new tab and display its contents
 			var selected = $( this ).addClass( "selected" ).children( "a" ).attr( "rel" );
@@ -567,8 +588,7 @@ MMHK.modules.push({
 				isRecruitsComplete = false;
 			} else {
 				markup += "<td>";
-				markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\">" + data[ i ].name + "<br/>[<tt>" + data[ i ].x + "," + data[ i ].y + "</tt>]</a>";
-				markup += "<div class=\"city " + data[ i ].faction + "\"></div>";
+				markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\">" + data[ i ].name + "</a>";
 				markup += $.i18n.get( "recruitable.header" );
 				markup += "</td>";
 				// for each tier
@@ -743,7 +763,7 @@ MMHK.modules.push({
 			cluezIndex: 999999,
 			fx: {
 				open: "fadeIn",
-				openSpeed: "normal"
+				openSpeed: "fast"
 			}
 		});
 
@@ -1099,6 +1119,228 @@ MMHK.modules.push({
 	},
 
 	/**
+	 * Extracts the recap data from HOMMK's pool.
+	 */
+	extractRecapData: function() {
+		var data = {
+			cities: [],
+			heroes: []
+		};
+
+		// for each city, create a dedicated container
+		var cities = HOMMK.elementPool.get( "RegionCity" ).values();
+		for ( var i = 0; i < cities.length; i++ ) {
+			var city = cities[ i ].content;
+			var currentCity = {
+				id: city.id,
+				name: city.cityName,
+				faction: city.factionEntityTagName,
+				x: city.x,
+				y: city.y,
+				isBusy: city.isBusy,
+				heroFrameOpened: false,
+				spells : "N/A",
+				availSpells: [],
+				magesGuildtype: "N/A",
+				artefacts : "N/A",
+				regionFrameOpened: false,
+				region : "N/A",
+				cityFrameOpened: false,
+				level : "N/A",
+				buildings : "N/A"
+			};
+			data.cities.push( currentCity );
+		}
+		// for each hero, create a dedicated container
+		var heroes = HOMMK.elementPool.get( "Hero" ).values();
+		for ( var i = 0; i < heroes.length; i++ ) {
+			var hero = heroes[ i ].content;
+			var currentHero = {
+				id: hero.id,
+				name: hero.name,
+				picture: hero.picture,
+				factionTag: hero.factionEntityTagName,
+				training: hero.heroTrainingEntityName,
+				lvl: hero._level,
+				xp: hero.xp,
+				att: hero.attack,
+				def: hero.defense,
+				magic: hero.magic,
+				pointsleft: hero.availXpSkills,
+				classes: [],
+				numArtefacts: hero.tmpAttachedEquipedArtefactCount,
+				numUsedArtefats: 0,
+				isBusy: heroes[ i ].isBusy(),
+				isCaptured: heroes[ i ].isCaptured(),
+				isEnemyHero: heroes[ i ].options.isCapturedByPlayer,
+				heroFrameOpened: false,
+				xpNeeded: -1,
+				spells: []
+			};
+			for ( var j = 0; j < 3; j++ ) {
+				currentHero.classes.push({
+					name: ( j < hero.learntClasses.length ? hero.learntClasses[ j ].heroClassEntityName : "" ),
+					tagName: ( j < hero.learntClasses.length ? hero.learntClasses[ j ].heroClassEntityTagName : "" )
+				});
+			}
+			if ( hero.heroBonuses != undefined ) {
+				currentHero.numUsedArtefats = hero.heroBonuses.artefacts.local.length;
+			}
+			data.heroes.push( currentHero );
+		}
+
+		return data;
+	},
+
+	/**
+	 * Creates the HTML markup for the recap tab.
+	 *
+	 * @param data	the collected recap data
+	 */
+	createRecapMarkup: function( data ) {
+		var markup = "";
+
+		// SECTION Cities
+		markup += "<tr class=\"section\">";
+		markup += "<td colspan=\"8\">";
+		markup += $.i18n.get( "recapsection.cities" );
+		markup += "</td>";
+		markup += "</tr>";
+		// for each city
+		for ( var i = 0; i < data.cities.length; i++ ) {
+			var currentCity = data.cities[ i ];
+			markup += "<tr class=\"cityrecap\">";
+			// city name
+			markup += "<td title=\"" + "\">";
+			markup += "<a href=\"#\" rel=\"" + currentCity.id + "\">" + currentCity.name + "</a>";
+			markup += "</td>";
+			// icon + coord
+			markup += "<td>";
+			markup += "<div class=\"city " + currentCity.faction + "\"></div>";
+			markup += "<br/>[<tt>" + currentCity.x + "," + currentCity.y + "</tt>]";
+			markup += "</td>";
+			// Level + city buildings
+			markup += "<td>";
+			markup += $.i18n.get( "city.buildings", currentCity.level, currentCity.buildings );
+			markup += "</td>";
+			// region buildings
+			markup += "<td>";
+			markup += $.i18n.get( "city.region", currentCity.region );
+			markup += "</td>";
+			// city Spells
+			markup += "<td>";
+			markup += $.i18n.get( "city.spells", currentCity.spells );
+			markup += "</td>";
+			// city artefacts
+			markup += "<td>";
+			markup += $.i18n.get( "city.artefacts", currentCity.artefacts );
+			markup += "</td>";
+			// city actions
+			markup += "<td>";
+			if ( currentCity.isBusy ) {
+				markup += $.i18n.get( "unavail" );
+			} else {
+				markup += $.i18n.get( "avail" );
+			}
+			markup += "</td>";
+
+			markup += "</tr>";
+		}
+
+		// SECTION Heroes
+		markup += "<tr class=\"section\">";
+		markup += "<td colspan=\"8\">";
+		markup += $.i18n.get( "recapsection.heroes" );
+		markup += "</td>";
+		markup += "</tr>";
+		// for each hero
+		for ( var i = 0; i < data.heroes.length; i++ ) {
+			var currentHero = data.heroes[ i ];
+			if ( !currentHero.isCaptured ) {
+				markup += "<tr class=\"herorecap\">";
+				// hero name
+				markup += "<td title=\"" + "\">";
+				markup += "<a href=\"#\" rel=\"" + currentHero.id + "\">" + currentHero.name + "</a>";
+				markup += "</td>";
+				// hero training + level
+				markup += "<td>";
+				markup += $.i18n.get( "hero.training.level", "<b>" + currentHero.training + "</b>", currentHero.lvl, currentHero.xp );
+				markup += "</td>";
+				// hero attributs
+				markup += "<td>";
+				markup += $.i18n.get( "hero.attributs", currentHero.att, currentHero.def, currentHero.magic );
+				markup += "</td>";
+				// hero classes
+				markup += "<td>";
+				markup += $.i18n.get( "hero.classes", currentHero.classes[0].name, currentHero.classes[1].name, currentHero.classes[2].name );
+				markup += "</td>";
+				// hero skills
+				markup += "<td>";
+				markup += $.i18n.get( "hero.points", currentHero.pointsleft );
+				markup += "</td>";
+				// hero artefacts
+				markup += "<td>";
+				markup += $.i18n.get( "hero.artefacts", currentHero.numArtefacts, currentHero.numUsedArtefats );
+				markup += "</td>";
+				// hero actions
+				markup += "<td>";
+				if ( currentHero.isBusy ) {
+					markup += $.i18n.get( "unavail" );
+				} else {
+					markup += $.i18n.get( "avail" );
+				}
+				markup += "</td>";
+
+				markup += "</tr>";
+			}
+		}
+
+		return markup;
+	},
+
+	/**
+	 * Setups the available actions on the recap view; this has to be applied *after* DOM injection.
+	 */
+	setupRecap: function() {
+		$( "#KingdomRecapData tr" ).each(function() {
+			$( this ).find( ".unit" ).attr( "title", function( i, data ) {
+				data = data.split( ":" );
+			});
+
+			// add global line information
+			$( this ).find( "td:first" ).attr( "title", function( i, data ) {
+				return null;
+			});
+		}).find( "[title]" ).cluetip({
+			splitTitle: "|",
+			arrows: true,
+			width: 266,
+			positionBy: "bottomTop",
+			topOffset: 20,
+			leftOffset: 0,
+			cluezIndex: 999999,
+			fx: {
+				open: "fadeIn",
+				openSpeed: "fast"
+			}
+		});
+
+		// add link to open town summary
+		$( "#KingdomRecapData tr.cityrecap a[rel]" ).click( function() {
+			MMHK.click( $( "#RegionCity" + $(this).attr( "rel" ) + "SummaryViewImage" )[0] );
+			return false;
+		});
+		// add link to open hero summary
+		$( "#KingdomRecapData tr.herorecap a[rel]" ).click( function() {
+			MMHK.click( $( "#RegionCitySummaryViewHero" + $(this).attr( "rel" ) + "Image" )[0] );
+			return false;
+		});
+	},
+
+
+
+
+	/**
 	 * Updates the contents of the Kingdom frame and then displays it.
 	 */
 	updateAndShow: function() {
@@ -1125,6 +1367,9 @@ MMHK.modules.push({
 		// replace actions HTML
 		$( "#KingdomActionsData tbody" ).html( this.createActionsMarkup( this.extractActionsData() ) );
 		this.setupActions();
+		// replace recap HTML
+		$( "#KingdomRecapData tbody" ).html( this.createRecapMarkup( this.extractRecapData() ) );
+		this.setupRecap();
 
 		// all done: show da frame
 		$( "#KingdomFrame" ).show().css( "visibility", "visible" );

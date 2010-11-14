@@ -59,7 +59,7 @@
 
 #KingdomFrame #KingdomTabs div.armies {
 	background-position: 0 -156px;
-	width: 206px;
+	width: 155px;
 }
 
 #KingdomFrame #KingdomTabs div.armies.selected {
@@ -68,7 +68,7 @@
 
 #KingdomFrame #KingdomTabs div.production {
 	background-position: 0 -182px;
-	width: 207px;
+	width: 155px;
 }
 
 #KingdomFrame #KingdomTabs div.production.selected {
@@ -77,11 +77,20 @@
 
 #KingdomFrame #KingdomTabs div.actions {
 	background-position: 0 -208px;
-	width: 207px;
+	width: 155px;
 }
 
 #KingdomFrame #KingdomTabs div.actions.selected {
 	background-position: 0 -52px;
+}
+
+#KingdomFrame #KingdomTabs div.recap {
+	background-position: -155px 0;
+	width: 155px;
+}
+
+#KingdomFrame #KingdomTabs div.recap.selected {
+	background-position: -155px -26px;
 }
 
 #KingdomFrame #KingdomTabs a {

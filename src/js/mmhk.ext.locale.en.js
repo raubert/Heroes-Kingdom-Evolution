@@ -10,6 +10,7 @@ $.i18n.resources.en = {
 	armies: "ARMIES",
 	resources: "RESOURCES",
 	actions: "ACTIONS",
+	recap: "RECAP",
 
 	total: "Total",
 
@@ -47,6 +48,19 @@ $.i18n.resources.en = {
 	start: "Start",
 	end: "End",
 
+	"hero.training.level": "{1}<br />level {2}<br />XP: {3}",
+	"hero.attributs": "Att: {1}<br />Def: {2}<br />Magic: {3}",
+	"hero.classes": "- {1}<br />- {2}<br />- {3}",
+	"hero.points": "Skill points: {1}",
+	"hero.artefacts": "{1} artefacts<br />({2} in use)",
+	"city.buildings": "City lvl: {1}<br />Buildings in city: {2}",
+	"city.region": "Buildings in region: {1}",
+	"city.spells": "Spells available: {1}",
+	"city.artefacts": "{1} artefacts in the city",
+	avail: "AVAIL",
+	unavail: "Busy",
+	captured: "Captured",
+
 	cities: "{1}/{2} Cities",
 	"no.recruits.message":	"The '<tt>Recruitment</tt>' window of {1} hasn't been opened yet!",
 	"recruitable.header": "<br />Recruitable Units<br />(+Daily Production)",
@@ -54,6 +68,8 @@ $.i18n.resources.en = {
 	"total.incomplete": "! incomplete list !",
 	"armysection.units": "ACTUAL UNITS",
 	"armysection.recruitable": "RECRUITABLE UNITS",
+	"recapsection.cities": "CITIES",
+	"recapsection.heroes": "HEROES",
 
 
 	yesterday: "yesterday",

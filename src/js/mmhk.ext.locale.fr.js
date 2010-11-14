@@ -10,6 +10,7 @@ $.i18n.resources.fr = {
 	armies: "ARMÉES",
 	resources: "RESSOURCES",
 	actions: "ACTIONS",
+	recap: "RESUMÉ",
 
 	total: "Total",
 
@@ -48,6 +49,19 @@ $.i18n.resources.fr = {
 	start: "Début",
 	end: "Fin",
 
+	"hero.training.level": "{1}<br />niveau {2}<br />XP: {3}",
+	"hero.attributs": "Att: {1}<br />Déf: {2}<br />Magie: {3}",
+	"hero.classes": "- {1}<br />- {2}<br />- {3}",
+	"hero.points": "Points de talents: {1}",
+	"hero.artefacts": "{1} artéfacts<br />({2} utilisés)",
+	"city.buildings": "Cité niv: {1}<br />Bâtiments dans la cité: {2}",
+	"city.region": "Bâtiments dans la région: {1}",
+	"city.spells": "Sorts dans GdM: {1}",
+	"city.artefacts": "{1} artéfacts dans la cité",
+	avail: "DISPO",
+	unavail: "Occupé",
+	captured: "Capturé",
+
 	cities: "{1}/{2} Cités",
 	"no.recruits.message":	"La fenêtre '<tt>Recruter</tt>' de {1} n'a pas encore été ouverte!",
 	"recruitable.header": "<br />En Stock<br />(+Production par Jour)",
@@ -55,6 +69,8 @@ $.i18n.resources.fr = {
 	"total.incomplete": "! Liste incomplete !",
 	"armysection.units": "UNITÉS DISPONIBLES",
 	"armysection.recruitable": "UNITÉS POUVANT ÊTRE RECRUTÉES",
+	"recapsection.cities": "CITÉS",
+	"recapsection.heroes": "HÉROS",
 
 	yesterday: "hier",
 	today: "aujourd'hui",
