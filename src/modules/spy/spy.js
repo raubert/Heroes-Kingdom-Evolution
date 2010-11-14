@@ -21,7 +21,7 @@ MMHK.modules.push({
 		}
 
 		// icon has to be added in scouting reports
-		MMHK.hijack( HOMMK.ScoutingResultDetailedMessage.prototype, "addToDOM", this.addExportIcon, this);
+		MMHK.hijack( HOMMK.ScoutingResultDetailedMessage.prototype, "addToDOM", this.addExportIcon, this );
 
 		// event-based communication with background script
 		$( "#SpyMessageContent" ).bind( "spy:done", this.showExportResult );
@@ -66,17 +66,17 @@ MMHK.modules.push({
 	 * Gives some feedback to the user.
 	 */
 	showExportResult: function() {
-		var data;
+		var message = $( this ), data;
 		try {
-			data = JSON.parse( $( this ).text() );
+			data = JSON.parse( message.text() );
 		} catch ( e ) {
 			data = {};
 		} finally {
-			$( this ).empty();
+			message.empty();
 		}
 
-		var icon = $( $( "#SpyMessageContent" ).attr( "rel" ) ).removeClass( "working" );
-		$( "#SpyMessageContent" ).removeAttr( "rel" ).empty();
+		var icon = $( message.attr( "rel" ) ).removeClass( "working" );
+		message.removeAttr( "rel" );
 		if ( data.status == "success" ) {
 			icon.addClass( "done" ).attr( "title", $.i18n.get( "spy.saved" ) ).append( "<div class=\"okay\"></div>" );
 		} else {

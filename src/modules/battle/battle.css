@@ -1,0 +1,67 @@
+.battle {
+	cursor: pointer;
+	display: inline-block;
+	position: absolute;
+	right: 16px;
+	bottom: 52px;
+}
+
+.battle>div {
+	background-repeat: no-repeat;
+	float: left;
+}
+
+.battle .left {
+	height: 33px;
+	width: 41px;
+}
+
+.battle .text {
+	background-repeat: repeat-x;
+	font-size: 1.2em;
+	font-weight: bolder;
+	height: 28px;
+	line-height: 26px;
+	margin-top: 5px;
+	width: 66px;
+}
+
+.battle .right {
+	margin-top: 5px;
+	height: 28px;
+	width: 10px;
+}
+
+.battle:hover .text {
+	color: #811619;
+}
+
+.battle.working {
+	cursor: wait;
+}
+
+.battle.working .text {
+	color: graytext !important;
+}
+
+.battle.done {
+	cursor: default;
+}
+
+.battle.done .text {
+	color: graytext !important;
+}
+
+.battle .okay {
+	background-image: url('@EXTENSION_PATH/images/okay.png');
+	margin: 20px 0px -5px -10px;
+	height: 16px;
+	width: 16px;
+}
+
+.battle .error {
+	background-image: url('@EXTENSION_PATH/images/error.png');
+	margin: 20px 0px -5px -10px;
+	height: 16px;
+	width: 16px;
+}
