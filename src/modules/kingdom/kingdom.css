@@ -523,6 +523,10 @@
 	background-position: -32px -34px;
 }
 
+#KingdomFrame #KingdomActionsData .action .PORTAL_BUILD_CAMP {
+	background-position: -48px -34px;
+}
+
 #KingdomFrame #KingdomActionsData .action .RECRUIT_HERO {
 	background-position: 0 -34px;
 }
@@ -533,6 +537,10 @@
 
 #KingdomFrame #KingdomActionsData .action .RELAY_DELIVERY {
 	background-position: -96px -17px;
+}
+
+#KingdomFrame #KingdomActionsData .action .SEARCH_PARTY {
+	background-position: -48px -34px;
 }
 
 #KingdomFrame #KingdomActionsData .action .UPGRADE_MINE {

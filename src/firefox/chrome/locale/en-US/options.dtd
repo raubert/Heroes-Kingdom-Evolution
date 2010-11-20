@@ -1,0 +1,7 @@
+<!ENTITY mmhk.options.title         "Heroes Kingdom Evolution Options">
+<!ENTITY mmhk.options.connect       "Connection Parameters">
+<!ENTITY mmhk.options.connect_info  "These are the connection settings used to reach your alliance website in order to export data such as spy reports and map data.">
+<!ENTITY mmhk.options.url           "URL Address">
+<!ENTITY mmhk.options.username      "Username">
+<!ENTITY mmhk.options.password      "Password">
+<!ENTITY mmhk.options.save          "Save">

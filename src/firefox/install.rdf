@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+	<Description about="urn:mozilla:install-manifest">
+		<em:id>HeroesKingdomEvolution@angarak.com</em:id>
+		<em:version>@VERSION</em:version>
+		<em:type>2</em:type>
+		<em:optionsURL>chrome://mmhk/content/options.xul</em:optionsURL>
+
+		<em:targetApplication>
+			<Description>
+				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+				<em:minVersion>3.5</em:minVersion>
+				<em:maxVersion>3.6.*</em:maxVersion>
+			</Description>
+		</em:targetApplication>
+
+		<em:name>Heroes Kingdom Evolution</em:name>
+		<em:description>Provides various improvements over MMHK's interface.
+		</em:description>
+		<em:creator>Angarak</em:creator>
+		<em:developer>Amroth</em:developer>
+		<em:developer>Darech</em:developer>
+		<em:homepageURL>@HOST</em:homepageURL>
+	</Description>
+
+</RDF>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+
+<!DOCTYPE dialog SYSTEM "chrome://mmhk/locale/options.dtd">
+<dialog id="mmhk-options" title="&mmhk.options.title;"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	ondialogaccept="mmhkOpts.save()"
+	buttons="accept,cancel" defaultButton="cancel">
+
+	<script type="application/x-javascript" src="chrome://mmhk/content/options.js" />
+
+	<tabbox id="mmhk-options-tabs" style="width:33em">
+		<tabs>
+			<tab label="&mmhk.options.connect;" id="mmhk-options-tab-connect" />
+		</tabs>
+		<tabpanels>
+			<tabpanel>
+				<vbox flex="1">
+					<description>&mmhk.options.connect_info;</description>
+					<separator class="thin" />
+					<hbox align="center">
+						<label control="url" value="&mmhk.options.url;" />
+						<textbox id="url" flex="1" />
+					</hbox>
+					<hbox align="center">
+						<label control="username" value="&mmhk.options.username;" />
+						<textbox id="username" flex="1" />
+					</hbox>
+					<hbox align="center">
+						<label control="password" value="&mmhk.options.password;" />
+						<textbox id="password" flex="1" />
+					</hbox>
+				</vbox>
+			</tabpanel>
+		</tabpanels>
+	</tabbox>
+
+</dialog>

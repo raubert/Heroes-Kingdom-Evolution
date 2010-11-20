@@ -1,6 +1,6 @@
 <project name="Heroes Kingdom Evolution" default="all" basedir=".">
 
-	<property name="version" value="1.99" />
+	<property name="version" value="1.999" />
 
 	<property environment="env" />
 	<property name="DEBUG" value="false" />
@@ -11,6 +11,7 @@
 	<property name="src.img" location="${src}/images" />
 	<property name="src.modules" location="${src}/modules" />
 	<property name="src.chrome" location="${src}/chrome" />
+	<property name="src.firefox" location="${src}/firefox" />
 	<property name="src.userscript" location="${src}/userscript" />
 
 	<property name="build" location="build" />
@@ -145,7 +146,7 @@
 		<replaceregexp match="@HOST" replace="${host}" flags="g" file="${chrome-updates}" />
 	</target>
 
-	<target name="chrome" depends="jQuery,jQuery-UI,mmhk-injected,mmhk-content,mmhk-background,mmhk-css,mmhk-chrome-options">
+	<target name="chrome" depends="jQuery,jQuery-UI,mmhk-injected,mmhk-content-chrome,mmhk-background-chrome,mmhk-css,mmhk-chrome-options">
 		<!-- copy chrome files -->
 		<copy todir="${build}">
 			<fileset dir="${src.chrome}">
@@ -156,6 +157,8 @@
 				<!-- these files have their own target -->
 				<exclude name="options.js" />
 				<exclude name="options.css" />
+				<!-- impl are included in scripts -->
+				<exclude name="impl/**" />
 			</fileset>
 		</copy>
 
@@ -172,6 +175,53 @@
 		<!-- update manifest -->
 		<replaceregexp match="@VERSION" replace="${version}" flags="g" file="${build}/manifest.json" />
 		<replaceregexp match="@HOST" replace="${host}" flags="g" file="${build}/manifest.json" />
+	</target>
+
+	<target name="firefox" depends="jQuery,jQuery-UI,mmhk-injected,mmhk-content-firefox,mmhk-background-firefox,mmhk-css">
+		<!-- copy chrome files -->
+		<copy todir="${build}">
+			<fileset dir="${src.firefox}">
+				<!-- impl are included in scripts -->
+				<exclude name="impl/**" />
+			</fileset>
+		</copy>
+
+		<!-- background and content are one single file -->
+		<property name="background" location="${build}/chrome/content/background.js" />
+		<loadfile property="content.ff" srcFile="${build}/${build.mmhk.content}" />
+		<replaceregexp match="@CONTENT" replace="${content.ff}" file="${background}" />
+		<delete file="${build}/${build.mmhk.content}" />
+		<loadfile property="background.ff" srcFile="${build}/${build.mmhk.background}" />
+		<replaceregexp match="@BACKGROUND" replace="${background.ff}" file="${background}" />
+		<delete file="${build}/${build.mmhk.background}" />
+
+		<!-- fix images path in CSS -->
+		<property name="images.path" value="chrome://mmhk-ext/content" />
+		<replace token="@EXTENSION_PATH" value="${images.path}" file="${build}/${build.mmhk.css}" />
+
+		<!-- will be injected -->
+		<move todir="${build}/chrome/browser">
+			<fileset dir="${build}">
+				<include name="${build.mmhk.inject}" />
+				<include name="${build.mmhk.css}" />
+			</fileset>
+		</move>
+
+		<!-- copy images -->
+		<mkdir dir="${build}/images" />
+		<copy todir="${build}/images">
+			<fileset dir="${src.img}" includes="*.*" />
+		</copy>
+		<move file="${build}/images" todir="${build}/chrome/browser" />
+
+		<!-- we don't need those -->
+		<delete file="${build}/${build.jquery.js}" />
+		<delete file="${build}/${build.jquery.ui.js}" />
+		<delete file="${build}/${build.jquery.ui.css}" />
+
+		<!-- update manifest -->
+		<replaceregexp match="@VERSION" replace="${version}" flags="g" file="${build}/install.rdf" />
+		<replaceregexp match="@HOST" replace="${host}" flags="g" file="${build}/install.rdf" />
 	</target>
 
 	<!-- jQuery library and plugins -->
@@ -276,6 +326,7 @@
 
 	<macrodef name="assemble-modules-scripts">
 		<attribute name="type" />
+		<attribute name="target" />
 		<sequential>
 			<mkdir dir="${build}" />
 
@@ -284,6 +335,14 @@
 				<filelist dir="${src.js}">
 					<!-- intro -->
 					<file name="mmhk.ext.@{type}.intro.js" />
+				</filelist>
+				<!-- add the dedicated implem -->
+				<filelist dir="src/@{target}/impl">
+					<file name="@{type}.js" />
+				</filelist>
+				<filelist dir="${src.js}">
+					<!-- base -->
+					<file name="mmhk.ext.@{type}.base.js" />
 				</filelist>
 			</concat>
 
@@ -310,13 +369,19 @@
 	</macrodef>
 
 	<!-- MMHK content scripts -->
-	<target name="mmhk-content">
-		<assemble-modules-scripts type="content" />
+	<target name="mmhk-content-chrome">
+		<assemble-modules-scripts type="content" target="chrome" />
+	</target>
+	<target name="mmhk-content-firefox">
+		<assemble-modules-scripts type="content" target="firefox" />
 	</target>
 
 	<!-- MMHK background scripts -->
-	<target name="mmhk-background">
-		<assemble-modules-scripts type="background" />
+	<target name="mmhk-background-chrome">
+		<assemble-modules-scripts type="background" target="chrome" />
+	</target>
+	<target name="mmhk-background-firefox">
+		<assemble-modules-scripts type="background" target="firefox" />
 	</target>
 
 	<!-- MMHK custom CSS -->

@@ -1,0 +1,6 @@
+content mmhk chrome/content/
+content mmhk-ext chrome/browser/ contentaccessible=yes
+
+overlay chrome://browser/content/browser.xul chrome://mmhk/content/browser.xul
+
+locale mmhk en-US chrome/locale/en-US/

@@ -34,7 +34,7 @@ MMHK.HOMMK = HOMMK;
  * @param message
  *            anything you want to log
  */
-MMHK.log = console ? function( message ) { console.log( message ); } : ( GM_log || function() {} );
+MMHK.log = typeof console != "undefined" ? function( message ) { console.log( message ); } : function() {};
 
 /**
  * Custom click event: jQuery's default click does not work on handlers setup by HOMMK.
@@ -82,13 +82,15 @@ MMHK.hijack = function( object, target, callback, scope ) {
  */
 MMHK.waitFor = function( condition, callback, _limit ) {
 	if ( condition() ) {
-		callback();
+		callback( true );
 	} else {
 		if ( _limit === undefined || _limit > 20 ) {
 			_limit = 20;
 		}
 		if ( _limit > 0 ) {
 			setTimeout( MMHK.waitFor, 500, condition, callback, _limit - 1 );
+		} else {
+			callback( false );
 		}
 	}
 };
@@ -256,7 +258,7 @@ MMHK.initialize = function() {
 		MMHK.log( "MMHK: running with '" + $( "#MMHK-rights" ).text() + "' permissions." );
 		initModules();
 		MMHK.log( "MMHK: initialization complete [" + ( new Date().getTime() - start ) + "ms]." );
-	});
+	}, 10 );
 
 };
 
