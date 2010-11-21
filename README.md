@@ -33,16 +33,28 @@ In the main directory, call ant to build and package everything :
 
     ant
 
-The result will then be available in `build` as an unpackaged extension and in `redist` as a ready-to-use one.
-
-
-In order to build it without packaging, two choices are available :
-
-    ant clean
-    ant chrome
-
 or
 
-    ant -DnoRedist=true
+	ant clean chrome-redist
+
+for chrome only, or
+
+	ant clean firefox-redist
+
+for firefox only.
+
+The result will then be available in `redist` as ready-to-use extensions.
+Note that the google chrome browser should not be running while packaging the chrome extension.
+
+
+In order to build it without packaging, issue the following commands :
+
+    ant clean firefox
+
+for firefox only, or
+
+    ant clean chrome
+
+for chrome only.
 
 The result will then be available in `build` as an unpackaged extension.

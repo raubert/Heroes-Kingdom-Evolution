@@ -6,6 +6,7 @@
 		<em:id>HeroesKingdomEvolution@angarak.com</em:id>
 		<em:version>@VERSION</em:version>
 		<em:type>2</em:type>
+		<em:iconURL>chrome://mmhk/content/mmhk.png</em:iconURL>
 		<em:optionsURL>chrome://mmhk/content/options.xul</em:optionsURL>
 
 		<em:targetApplication>

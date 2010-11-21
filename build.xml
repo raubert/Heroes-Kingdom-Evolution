@@ -89,6 +89,7 @@
 			<if>
 				<available file="@{file}" />
 				<then>
+					<echo message="@{file} >> @{to}" />
 					<concat destfile="@{to}" append="yes">
 						<filelist dir=".">
 							<file name="@{file}" />
@@ -121,13 +122,21 @@
 		<append file="${dir}/${base}.css" to="${target}" />
 	</target>
 
-	<target name="all" depends="clean,chrome,chrome-redist" />
+	<target name="all">
+		<delete dir="${redist}" />
+
+		<antcall target="clean" />
+		<antcall target="chrome-redist" />
+
+		<antcall target="clean" />
+		<antcall target="firefox-redist" />
+	</target>
 
 	<target name="clean">
 		<delete dir="${build}" />
 	</target>
 
-	<target name="chrome-redist" unless="noRedist">
+	<target name="chrome-redist" depends="chrome">
 		<!-- package extension -->
 		<exec executable="${chrome}">
 			<arg value="--pack-extension=${build}" />
@@ -175,6 +184,10 @@
 		<!-- update manifest -->
 		<replaceregexp match="@VERSION" replace="${version}" flags="g" file="${build}/manifest.json" />
 		<replaceregexp match="@HOST" replace="${host}" flags="g" file="${build}/manifest.json" />
+	</target>
+
+	<target name="firefox-redist" depends="firefox">
+		<zip destfile="${redist}/HeroesKingdomEvolution.xpi" basedir="${build}" />
 	</target>
 
 	<target name="firefox" depends="jQuery,jQuery-UI,mmhk-injected,mmhk-content-firefox,mmhk-background-firefox,mmhk-css">
@@ -382,6 +395,19 @@
 	</target>
 	<target name="mmhk-background-firefox">
 		<assemble-modules-scripts type="background" target="firefox" />
+
+		<!-- prepend the options object to the background script -->
+		<copy file="${src.firefox}/chrome/content/options.js" tofile="${build}/options-tmp.js" />
+		<move file="${build}/${build.mmhk.background}" tofile="${build}/background-tmp.js" />
+		<prepare target="${build}/options-tmp.js" type="js" />
+		<concat destfile="${build}/${build.mmhk.background}">
+			<filelist dir="${build}">
+				<file name="${build}/options-tmp.js" />
+				<file name="${build}/background-tmp.js" />
+			</filelist>
+		</concat>
+		<delete file="${build}/options-tmp.js" />
+		<delete file="${build}/background-tmp.js" />
 	</target>
 
 	<!-- MMHK custom CSS -->

@@ -1,18 +1,24 @@
 var HANDLERS = {
 
 	main: function( action, data, callback ) {
-		switch ( action ) {
-		case "login":
-			_logIn( callback );
-			break;
-		case "rights":
-			var conn = getConnection();
-			if ( conn != null ) {
-				_httpRequest( "GET", conn.url + "/process/status.php", null, callback );
-			} else {
-				callback( "none" );
+		try {
+			switch ( action ) {
+			case "login":
+				_logIn( callback );
+				break;
+			case "rights":
+				var conn = getConnection();
+				if ( conn != null ) {
+					_httpRequest( "GET", conn.url + "/process/status.php", null, callback );
+				} else {
+					callback( "none" );
+				}
+				break;
 			}
-			break;
+		} catch ( e ) {
+			if ( typeof console != "undefined" ) {
+				console.log( e );
+			}
 		}
 	}
 
@@ -27,7 +33,11 @@ function _httpRequest( type, url, data, callback ) {
 				try {
 					callback( JSON.parse( xhr.responseText ) );
 					return;
-				} catch ( e ) {};
+				} catch ( e ) {
+					if ( typeof console != "undefined" ) {
+						console.log( e );
+					}
+				}
 			}
 			callback( null );
 		}

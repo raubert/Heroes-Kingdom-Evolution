@@ -4,6 +4,7 @@
 <!DOCTYPE dialog SYSTEM "chrome://mmhk/locale/options.dtd">
 <dialog id="mmhk-options" title="&mmhk.options.title;"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	onload="mmhkOpts.load()"
 	ondialogaccept="mmhkOpts.save()"
 	buttons="accept,cancel" defaultButton="cancel">
 
@@ -19,16 +20,16 @@
 					<description>&mmhk.options.connect_info;</description>
 					<separator class="thin" />
 					<hbox align="center">
-						<label control="url" value="&mmhk.options.url;" />
-						<textbox id="url" flex="1" />
+						<label control="url" value="&mmhk.options.url;" class="indent" style="width:8em" />
+						<textbox id="url" size="30" />
 					</hbox>
 					<hbox align="center">
-						<label control="username" value="&mmhk.options.username;" />
-						<textbox id="username" flex="1" />
+						<label control="username" value="&mmhk.options.username;" class="indent" style="width:8em" />
+						<textbox id="username" />
 					</hbox>
 					<hbox align="center">
-						<label control="password" value="&mmhk.options.password;" />
-						<textbox id="password" flex="1" />
+						<label control="password" value="&mmhk.options.password;" class="indent" style="width:8em" />
+						<textbox id="password" type="password" />
 					</hbox>
 				</vbox>
 			</tabpanel>
