@@ -359,11 +359,13 @@
 	vertical-align: middle;
 }
 
-#KingdomFrame #KingdomActionsData tbody {
+#KingdomFrame #KingdomActionsData tbody,
+#KingdomFrame #KingdomRecapData tbody {
 	font-size: 11px;
 }
 
-#KingdomFrame #KingdomActionsData tbody tr {
+#KingdomFrame #KingdomActionsData tbody tr,
+#KingdomFrame #KingdomRecapData tbody tr {
 	cursor: pointer;
 }
 
@@ -372,6 +374,16 @@
 	color: #666666;
 	cursor: default;
 	display: none;
+	font-size: 10px;
+}
+
+#KingdomFrame #KingdomRecapData tbody tr.step {
+	background: lavender;
+	color: darkBlue;
+	cursor: default;
+	display: none;
+	font-family: monospace;
+	text-align: center;
 	font-size: 10px;
 }
 
