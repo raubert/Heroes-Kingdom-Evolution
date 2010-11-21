@@ -24,6 +24,8 @@
 		<em:developer>Amroth</em:developer>
 		<em:developer>Darech</em:developer>
 		<em:homepageURL>@HOST</em:homepageURL>
+		<em:updateURL>@HOST/updates.rdf</em:updateURL>
+		<em:updateKey>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDyQRrWHW/JcGLePjhtcKWz24lwAcIBkEBdUq4rwfYShrLfmTM/FQ1uoDDCMCzpVMSZte4oFth9utITydN0hQUnn0xztqd12h56frrAy/1GwZkBMyzLndNpOsfIr+k4ccFSVBPv6BNy6dFYcwRVquJQVmdrZNwpdlohEvb49VePawIDAQAB</em:updateKey>
 	</Description>
 
 </RDF>

@@ -30,7 +30,8 @@
 	<property name="chrome-id" value="gloedkpafdknpopjjdjdhdcbadidmkio" />
 	<!-- change this path to fit your environment -->
 	<property name="chrome" value="${env.LOCALAPPDATA}\Google\Chrome\Application\chrome.exe" />
-	<property name="chrome-updates" location="${redist}/updates-chrome.xml" />
+	<property name="chrome-updates" location="${redist}/updates.xml" />
+	<property name="firefox-updates" location="${redist}/updates.rdf" />
 
 	<!-- ant-contrib required -->
 	<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
@@ -187,7 +188,15 @@
 	</target>
 
 	<target name="firefox-redist" depends="firefox">
-		<zip destfile="${redist}/HeroesKingdomEvolution.xpi" basedir="${build}" />
+		<zip basedir="${build}" destfile="${redist}/HeroesKingdomEvolution.xpi" />
+
+		<checksum file="${redist}/HeroesKingdomEvolution.xpi" algorithm="SHA" property="xpi-hash" />
+
+		<delete file="${firefox-updates}" />
+		<copy file="${src.firefox}/updates.rdf" tofile="${firefox-updates}" />
+		<replaceregexp match="@VERSION" replace="${version}" flags="g" file="${firefox-updates}" />
+		<replaceregexp match="@HOST" replace="${host}" flags="g" file="${firefox-updates}" />
+		<replaceregexp match="@HASH" replace="sha1:${xpi-hash}" file="${firefox-updates}" />
 	</target>
 
 	<target name="firefox" depends="jQuery,jQuery-UI,mmhk-injected,mmhk-content-firefox,mmhk-background-firefox,mmhk-css">
@@ -196,6 +205,8 @@
 			<fileset dir="${src.firefox}">
 				<!-- impl are included in scripts -->
 				<exclude name="impl/**" />
+				<!-- updates file is not needed -->
+				<exclude name="updates.rdf" />
 			</fileset>
 		</copy>
 
