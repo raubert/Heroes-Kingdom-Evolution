@@ -541,7 +541,7 @@ MMHK.modules.push({
 			// recruited units
 			markup += "<tr>";
 			markup += "<td title=\"" + data[ i ].maintenance + "\">";
-			markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\"><b>" + data[ i ].name + "</b><br/>[<tt>" + data[ i ].x + "," + data[ i ].y + "</tt>]</a>";
+			markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\"><b><u>" + data[ i ].name + "</u></b><br/>[<tt>" + data[ i ].x + "," + data[ i ].y + "</tt>]</a>";
 			markup += "<div class=\"city " + data[ i ].faction + "\"></div>";
 			markup += "</td>";
 			// for each tier
@@ -579,7 +579,7 @@ MMHK.modules.push({
 			// recruitable units
 			markup += "<tr class=\"recruits\">";
 			markup += "<td>";
-			markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\"><b>" + data[ i ].name + "</b>";
+			markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\"><b><u>" + data[ i ].name + "</u>:</b>";
 			markup += "<br />" + $.i18n.get( "recruits.available" );
 			markup += "</a>";
 			markup += "</td>";
@@ -638,7 +638,6 @@ MMHK.modules.push({
 				var sulfurCost = parseInt( data[10] );
 				var gemCost = parseInt( data[11] );
 				var isRecruits = data[12] == "true";
-				MMHK.log("data.12" + data[12]);
 				var markup = "";
 				// get resource stock from 'global' variable
 				var totalGoods = gtotalRessources;
@@ -670,7 +669,7 @@ MMHK.modules.push({
 						} else if ( ( quantity * mercuryCost ) > totalGoods["mercury"].stock ) {
 							mercuryMissing = ( quantity * mercuryCost ) - totalGoods["mercury"].stock;
 						}
-						goodsMissing += "" + $.formatNumber( mercuryMissing ) + "<span class=\"goods gold\"></span>";
+						goodsMissing += "" + $.formatNumber( mercuryMissing ) + "<span class=\"goods mercury\"></span>";
 					}
 					if ( crystalCost > 0 ) {
 						unitCost += "" + $.formatNumber( crystalCost ) + "<span class=\"goods crystal\"></span>";
@@ -735,14 +734,20 @@ MMHK.modules.push({
 					+ "</div>";
 			});
 
-			// add global line information
+			// add global line information for units
 			$( this ).filter( ":not(.recruits):not(.section)" ).find( "td:first" ).attr( "title", function( i, data ) {
 				return $( this ).text().split( "[" )[ 0 ] + "|"
 					+ "<div class=\"unit\">"
 					+ "<p>" + $.i18n.get( "unit.count", "<b>" + $.formatNumber( cityCount ) + "</b>" ) + "</p>"
 					+ "<p>" + $.i18n.get( "unit.total", "<b>" + $.formatNumber( cityPower ) + "</b>" ) + "</p>"
 					+ "<p>" + $.i18n.get( "units.maintenance", "<b>" + $.formatNumber( data ) + "</b>" ) + "</p>"
+					+ "<br /><i>" + $.i18n.get( "town.open" ) + "</i>"
 					+ "</div>";
+			});
+			// add global line information for recruits
+			$( this ).filter( ".recruits" ).find( "td:first" ).attr( "title", function( i, data ) {
+				return $( this ).text().split( ":" )[ 0 ] + "|"
+					+ "<br /><i>" + $.i18n.get( "town.open" ) + "</i></p>";
 			});
 		}).find( "[title]" ).cluetip({
 			splitTitle: "|",
@@ -813,7 +818,7 @@ MMHK.modules.push({
 			}
 			totalWealth += wealth;
 			markup += "<td title=\"" + wealth + "\">";
-			markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\">" + data[ i ].name + "<br/>[<tt>" + data[ i ].x + "," + data[ i ].y + "</tt>]</a>";
+			markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\"><b><u>" + data[ i ].name + "</u></b><br/>[<tt>" + data[ i ].x + "," + data[ i ].y + "</tt>]</a>";
 			markup += "<div class=\"city " + data[ i ].faction + "\"></div>";
 			markup += "</td>";
 			// for each type of resource
@@ -900,6 +905,7 @@ MMHK.modules.push({
 					+ "<div class=\"wealth" + ( income < 0 ? " alert\">" : "\">" )
 					+ "<p>" + $.i18n.get( "wealth.hourly" ) + " <b>" + ( income > 0 ? "+" : "") + $.formatNumber( income / 24 ) + "</b></p>"
 					+ "<p>" + $.i18n.get( "wealth.daily" ) + " <b>" + ( income > 0 ? "+" : "") + $.formatNumber( income ) + "</b></p>"
+					+ "<br /><i>" + $.i18n.get( "town.open" ) + "</i>"
 					+ "</div>";
 			}
 		}).cluetip({
@@ -1031,7 +1037,8 @@ MMHK.modules.push({
 		for ( var i = 0; i < data.length; i++ ) {
 			var action = data[ i ];
 			// we can't use CSS3 selectors here :(
-			markup += "<tr class=\"action " + ( i % 2 == 0 ? "odd" : "even" ) + "\"><td class=\"open\"><div class=\"icon " + action.type + "\"></div></td>";
+			markup += "<tr class=\"action " + ( i % 2 == 0 ? "odd" : "even" ) + "\" title=\"Action|<i>" + $.i18n.get( "action.open" ) + "</i>\">";
+			markup += "<td class=\"open\"><div class=\"icon " + action.type + "\"></div></td>";
 			// TODO: pretty print for the action type
 			markup += "<td class=\"a\">" + action.type.replace( /_/g, " " ) + "</td>";
 			markup += "<td class=\"d\"><span>" + action.descr + "</span>";
@@ -1077,6 +1084,22 @@ MMHK.modules.push({
 			$( this ).children( ".close:first" ).addClass( "open" ).removeClass( "close" ).end().nextUntil( ":not(.step)" ).hide();
 			self.updateSlider();
 		} );
+		// add line information
+		$( "#KingdomActionsData tr.action" ).attr( "title", function( i, data ) {
+			return "Action|<i>" + $.i18n.get( "action.open" ) + "</i>";
+		}).cluetip({
+				showTitle: false,
+				splitTitle: "|",
+				width: 140,
+				positionBy: "bottomTop",
+				topOffset: 20,
+				leftOffset: 0,
+				cluezIndex: 999999,
+				fx: {
+					open: "fadeIn",
+					openSpeed: "normal"
+				}
+			});
 		$( "#KingdomActionsData td.t[title]" ).each( function() {
 			var time = parseInt( $( this ).attr( "title" ).substr( 1 ) );
 			$( this ).cluetip({
@@ -1203,7 +1226,7 @@ MMHK.modules.push({
 			markup += "<tr class=\"cityrecap\">";
 			// city name
 			markup += "<td title=\"" + "\">";
-			markup += "<a href=\"#\" rel=\"" + currentCity.id + "\">" + currentCity.name + "</a>";
+			markup += "<a href=\"#\" rel=\"" + currentCity.id + "\"><b><u>" + currentCity.name + "</u></b></a>";
 			markup += "</td>";
 			// icon + coord
 			markup += "<td>";
@@ -1251,7 +1274,7 @@ MMHK.modules.push({
 				markup += "<tr class=\"herorecap\">";
 				// hero name
 				markup += "<td title=\"" + "\">";
-				markup += "<a href=\"#\" rel=\"" + currentHero.id + "\">" + currentHero.name + "</a>";
+				markup += "<a href=\"#\" rel=\"" + currentHero.id + "\"><b><u>" + currentHero.name + "</u></b></a>";
 				markup += "</td>";
 				// hero training + level
 				markup += "<td>";
@@ -1298,9 +1321,13 @@ MMHK.modules.push({
 				data = data.split( ":" );
 			});
 
-			// add global line information
-			$( this ).find( "td:first" ).attr( "title", function( i, data ) {
-				return null;
+			// add city global line information
+			$( this ).filter( ".cityrecap" ).find( "td:first" ).attr( "title", function( i, data ) {
+				return $( this ).text() + "|<i>" + $.i18n.get( "town.open" ) + "</i>";
+			});
+			// add hero global line information
+			$( this ).filter( ".herorecap" ).find( "td:first" ).attr( "title", function( i, data ) {
+				return $( this ).text() + "|<i>" + $.i18n.get( "hero.open" ) + "</i>";
 			});
 		}).find( "[title]" ).cluetip({
 			splitTitle: "|",

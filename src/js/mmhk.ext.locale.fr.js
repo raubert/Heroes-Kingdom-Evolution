@@ -10,9 +10,12 @@ $.i18n.resources.fr = {
 	armies: "ARMÉES",
 	resources: "RESSOURCES",
 	actions: "ACTIONS",
-	recap: "RESUMÉ",
+	recap: "CITÉS / HÉROS",
 
 	total: "Total",
+	"town.open": "(Cliquer pour ouvrir le Resumé de la Ville)",
+	"hero.open": "(Cliquer pour ouvrir le Resumé du Héros)",
+	"action.open": "(Cliquer pour plus d'information)",
 
 	"unit.type": "Type d'Unité : {1}",
 	"unit.power": "Puissance de la Créature : {1}",
@@ -25,7 +28,7 @@ $.i18n.resources.fr = {
 	"prod.max": "Prod. par Jour / Prod. Max : {1}",
 	"prod.cost": "Prix Production par Jour: {1}",
 	"max.prod.cost": "Prix Max par Jour: {1}",
-	"goods.missing": "(il vous manque: {1})",
+	"goods.missing": "(il vous manque {1} dans votre production totale pour tout acheter)",
 
 	"siege.units": "Armes de Siège",
 

@@ -10,9 +10,12 @@ $.i18n.resources.en = {
 	armies: "ARMIES",
 	resources: "RESOURCES",
 	actions: "ACTIONS",
-	recap: "RECAP",
+	recap: "CITIES / HEROES",
 
 	total: "Total",
+	"town.open": "(Click to open town Summary)",
+	"hero.open": "(Click to open hero Summary)",
+	"action.open": "(Click for more information)",
 
 	"unit.type": "Unit Type: {1}",
 	"unit.power": "Unit Power: {1}",
@@ -25,7 +28,7 @@ $.i18n.resources.en = {
 	"prod.max": "Current Prod. / Max Prod : {1}",
 	"prod.cost": "Price Daily Production: {1}",
 	"max.prod.cost": "Price Daily Max Production: {1}",
-	"goods.missing": "(you're missing: {1})",
+	"goods.missing": "(you're missing {1}) in your total production to buy all",
 
 	"siege.units": "Siege Units",
 
