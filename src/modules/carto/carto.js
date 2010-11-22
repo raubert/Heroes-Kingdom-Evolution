@@ -193,6 +193,7 @@ MMHK.modules.push({
 			y: region.y,
 			city: region.cN,
 			faction: region.fctN,
+			grail: region.hG == 1,
 			player: {
 				id: region.pId,
 				name: region.pN

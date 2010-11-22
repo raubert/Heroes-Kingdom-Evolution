@@ -94,8 +94,7 @@ MMHK.modules.push({
 						cell.city = {
 							player: region.playerId,
 							name: region.cityName,
-							faction: region.factionEntityTagName.toLowerCase(),
-							grail: region.hasGrailBuilding == "1"
+							faction: region.factionEntityTagName.toLowerCase()
 						};
 					}
 					data.values.push( cell );
