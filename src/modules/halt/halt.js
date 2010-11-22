@@ -24,7 +24,7 @@ MMHK.modules.push({
 			this.replace
 		].join( "" ));
 
-		MMHK.hijack( HOMMK.HaltFrame.prototype, "displayHaltContent", this.update, this );
+		MMHK.hijack( HOMMK.HaltFrame.prototype, "show", this.update, this );
 	},
 
 	/**
