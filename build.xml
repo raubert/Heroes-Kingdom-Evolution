@@ -3,7 +3,6 @@
 	<property name="version" value="2.0" />
 
 	<property environment="env" />
-	<property name="DEBUG" value="false" />
 
 	<property name="src" location="src" />
 	<property name="src.js" location="${src}/js" />
@@ -36,26 +35,6 @@
 	<!-- ant-contrib required -->
 	<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
 
-	<!-- compresses the specified file when not in DEBUG mode -->
-	<macrodef name="compress">
-		<attribute name="file" />
-		<attribute name="type" />
-		<sequential>
-			<if>
-				<equals arg1="${DEBUG}" arg2="false" />
-				<then>
-					<java jar="yuicompressor-2.4.2.jar" fork="true">
-						<arg value="--type" />
-						<arg value="@{type}" />
-						<arg value="-o" />
-						<arg value="@{file}" />
-						<arg value="@{file}" />
-					</java>
-				</then>
-			</if>
-		</sequential>
-	</macrodef>
-
 	<!-- merges the specified target as a concatenation of the given list of files -->
 	<macrodef name="merge-and-prepare">
 		<attribute name="target" />
@@ -74,7 +53,6 @@
 		<attribute name="target" />
 		<attribute name="type" />
 		<sequential>
-			<compress file="@{target}" type="@{type}" />
 			<replace token="@VERSION" value="${version}" file="@{target}" />
 			<tstamp>
 				<format property="now" pattern="d-MMMM-yyyy hh:mm aa z" locale="en,US" />
