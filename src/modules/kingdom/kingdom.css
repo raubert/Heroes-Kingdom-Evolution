@@ -468,6 +468,10 @@
 	background-position: -96px -17px;
 }
 
+#KingdomFrame #KingdomActionsData .action .DESTROY_ZONEBUILDING {
+	background-position: -80px -34px;
+}
+
 #KingdomFrame #KingdomActionsData .action .DOWNGRADE_MINE {
 	background-position: -64px -34px;
 }
@@ -484,6 +488,10 @@
 	background-position: -32px -17px;
 }
 
+#KingdomFrame #KingdomActionsData .action .HERO_DIG_ZONE {
+	background-position: -48px -34px;
+}
+
 #KingdomFrame #KingdomActionsData .action .HERO_LEARN_CLASS {
 	background-position: -112px -17px;
 }
@@ -498,6 +506,10 @@
 
 #KingdomFrame #KingdomActionsData .action .HERO_PILLAGE_ZONE {
 	background-position: -32px 0;
+}
+
+#KingdomFrame #KingdomActionsData .action .HERO_RESPEC {
+	background-position: -48px -34px;
 }
 
 #KingdomFrame #KingdomActionsData .action .HERO_SCOUT_CITY,
