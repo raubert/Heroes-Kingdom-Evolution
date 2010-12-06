@@ -23,21 +23,26 @@ var mmhkOpts = {
 	},
 
 	getHttprealm: function() {
-		return undefined;
+		return null;
 	},
 
 	getLoginManager: function() {
 		return Components.classes[ "@mozilla.org/login-manager;1" ].getService( Components.interfaces.nsILoginManager );
 	},
 
-	getLogin: function( manager, hostname, formSubmitURL, httprealm, username ) {
+	getLoginInfo: function( manager, hostname, formSubmitURL, httprealm, username ) {
 		var logins = manager.findLogins( {}, hostname, formSubmitURL, httprealm );
 		for ( var i = 0; i < logins.length; i++ ) {
 			if ( logins[ i ].username == username ) {
-				return logins[ i ].password;
+				return logins[ i ];
 			}
 		}
 		return null;
+	},
+
+	getLogin: function( manager, hostname, formSubmitURL, httprealm, username ) {
+		var login = this.getLoginInfo( manager, hostname, formSubmitURL, httprealm, username );
+		return login == null ? null : login.password;
 	},
 
 	load: function() {
@@ -74,16 +79,16 @@ var mmhkOpts = {
 
 			if ( password != "" ) {
 				var nsLoginInfo = new Components.Constructor( "@mozilla.org/login-manager/loginInfo;1", Components.interfaces.nsILoginInfo, "init" );
-				var loginInfo = new nsLoginInfo( hostname, formSubmitURL, httprealm, username, password, "", "" );
-				password = this.getLogin( manager, hostname, formSubmitURL, httprealm, username );
+				var loginInfo = new nsLoginInfo( hostname, formSubmitURL, httprealm, username, password, "username", "password" );
+				var oldLoginInfo = this.getLoginInfo( manager, hostname, formSubmitURL, httprealm, username );
 				try {
-					if ( password == null ) {
+					if ( oldLoginInfo == null ) {
 						manager.addLogin( loginInfo );
 					} else {
-						manager.modifyLogin( new nsLoginInfo( hostname, formSubmitURL, httprealm, username, password, "", "" ), loginInfo );
+						manager.modifyLogin( oldLoginInfo, loginInfo );
 					}
 				} catch ( e ) {
-					Components.utils.reportError( e );
+					alert( e );
 				}
 			}
 		}
