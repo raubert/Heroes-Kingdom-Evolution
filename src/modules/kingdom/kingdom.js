@@ -20,6 +20,7 @@ MMHK.modules.push({
 			"#KingdomImage { background: url('" + HOMMK.IMG_URL + "/css_sprite/SideBar_Shortcuts.gif') no-repeat -280px 0; width: 40px; height: 40px; }"
 			+ "#KingdomFrame #KingdomClose { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/SideBar_Shortcuts.gif') }"
 			+ "#KingdomFrame #KingdomTabs div { background-image: url('" + HOMMK.IMG_URL + "/css_sprite/Frame_tab_ranking.jpg') }"
+			+ "#KingdomFrame #KingdomTabs div.recap { background-image: url('" + HOMMK.IMG_URL + "/frame/ranking/rankingHeader_PVP_ALL.jpg') }"
 			+ "#KingdomFrame #KingdomDataContainer { background-image: url('" + HOMMK.IMG_URL + "/background/metal.jpg') }"
 			+ "#KingdomFrame .kingdom .data tbody td .city { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Region_Zoom1.gif') }"
 			+ "#KingdomFrame #KingdomArmiesHeader { background-image:url('" + HOMMK.IMG_URL + "/frame/ranking/rankingHeader_DOMINATION_01.jpg') }"
@@ -31,15 +32,22 @@ MMHK.modules.push({
 			+ "#KingdomFrame #KingdomProductionHeader { background-image:url('" + HOMMK.IMG_URL + "/frame/ranking/rankingHeader_WEALTH_01.jpg') }"
 			+ "#KingdomFrame #KingdomProductionHeader th div { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Ressources.gif') }"
 			+ "#KingdomFrame #KingdomActionsHeader { background-image:url('" + HOMMK.IMG_URL + "/frame/ranking/rankingHeader_HONOR_01.jpg') }"
-			+ "#KingdomFrame #KingdomProductionHeader th div { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Ressources.gif') }"
 			+ "#KingdomFrame #KingdomActionsData .action .icon { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/TimeLineAction.gif') }"
 			+ "#KingdomFrame #KingdomActionsData .goods span span { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Ressources.gif') }"
+			+ "#KingdomFrame #KingdomRecapHeader { background-image:url('" + HOMMK.IMG_URL + "/frame/ranking/rankingHeader_PVP_ALL.jpg') }"
+			+ "#KingdomFrame #KingdomRecapData .herorecap .heroclass { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/HeroClass.gif') }"
+			+ "#KingdomFrame #KingdomRecapData .herorecap .ACADEMY { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Hero_ACADEMY.jpg') }"
+			+ "#KingdomFrame #KingdomRecapData .herorecap .HAVEN { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Hero_HAVEN.jpg') }"
+			+ "#KingdomFrame #KingdomRecapData .herorecap .INFERNO { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Hero_INFERNO.jpg') }"
+			+ "#KingdomFrame #KingdomRecapData .herorecap .NECROPOLIS { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Hero_NECROPOLIS.jpg') }"
+			+ "#KingdomFrame #KingdomRecapData .herorecap .SYLVAN { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Hero_SYLVAN.jpg') }"
 			+ ".cluetip-default h3#cluetip-title { background-image:url('" + HOMMK.IMG_URL + "/frame/tooltips/npc/titleBg_00.gif') }"
 			+ ".cluetip-default #cluetip-inner .unit .type { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/UnitStack_types.gif') }"
 			+ ".cluetip-default #cluetip-inner .unit .goods { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/Ressources.gif') }"
 		);
 
 		var self = this;
+
 		// sneaky insertion into MMHK's interface
 		$( "#SidebarTop tr:first" ).each( function() {
 			// simulate MMHK's markup with their crappy classes
@@ -136,10 +144,17 @@ MMHK.modules.push({
 
 		// header for production
 		var phead = "<tr><th></th>";
-		for (var i = 0; i < this.resources.length; i++) {
+		for ( var i = 0; i < this.resources.length; i++ ) {
 			phead += "<th class=\"" + this.resources[ i ].type + "\"><div class=\"" + this.resources[ i ].tag + "\"></div></th>";
 		}
 		phead += "<th class=\"s\"></th></tr>";
+
+		// header for recap
+		var rhead = "<tr><th></th>";
+		for ( var i = 1; i <= 6; i++ ) {
+			rhead += "<th>" + "</th>";
+		}
+		rhead += "<th class=\"s\"></th></tr>";
 
 		// simulate MMHK's markup with their crappy classes
 		return "<div id=\"KingdomFrame\" class=\"largeFrame absolutePosition\">"
@@ -162,6 +177,7 @@ MMHK.modules.push({
 								+ "<div class=\"armies\"><a rel=\"KingdomArmies\">" + $.i18n.get( "armies" ) + "</a></div>"
 								+ "<div class=\"production\"><a rel=\"KingdomProduction\">" + $.i18n.get( "resources" ) + "</a></div>"
 								+ "<div class=\"actions\"><a rel=\"KingdomActions\">" + $.i18n.get( "actions" ) + "</a></div>"
+								+ "<div class=\"recap\"><a rel=\"KingdomRecap\">" + $.i18n.get( "recap" ) + "</a></div>"
 							+ "</div>"
 							+ "<div class=\"kingdom\">"
 								+ "<div class=\"header\">"
@@ -174,6 +190,9 @@ MMHK.modules.push({
 									+ "<div id=\"KingdomActionsHeader\">"
 										+ "<table><thead><tr><th></th><th class=\"a\"></th><th class=\"d\">" + $.i18n.get( "description" ) + "</th><th class=\"t\">" + $.i18n.get( "start" ) + "</th><th class=\"t\">" + $.i18n.get( "end" ) + "</th><th class=\"s\"></th></tr></thead></table>"
 									+ "</div>"
+									+ "<div id=\"KingdomRecapHeader\">"
+										+ "<table><thead>" + rhead + "</thead></table>"
+									+ "</div>"
 								+ "</div>"
 							+ "<table class=\"data\"><tr>"
 							+ "<td><div id=\"KingdomDataContainer\">"
@@ -184,6 +203,9 @@ MMHK.modules.push({
 									+ "<table><tbody></tbody></table>"
 								+ "</div>"
 								+ "<div id=\"KingdomActionsData\" class=\"data\">"
+									+ "<table><tbody></tbody></table>"
+								+ "</div>"
+								+ "<div id=\"KingdomRecapData\">"
 									+ "<table><tbody></tbody></table>"
 								+ "</div>"
 							+ "</div></td>"
@@ -220,8 +242,8 @@ MMHK.modules.push({
 		$( "#KingdomTabs>div" ).click(function() {
 			// unselects everything
 			$( "#KingdomTabs" ).children().removeClass( "selected" );
-			$( "#cluetip,#KingdomArmiesHeader,#KingdomProductionHeader,#KingdomActionsHeader" ).hide();
-			$( "#KingdomArmiesData,#KingdomProductionData,#KingdomActionsData" ).children().hide();
+			$( "#cluetip,#KingdomArmiesHeader,#KingdomProductionHeader,#KingdomActionsHeader,#KingdomRecapHeader" ).hide();
+			$( "#KingdomArmiesData,#KingdomProductionData,#KingdomActionsData,#KingdomRecapData" ).children().hide();
 
 			// select the new tab and display its contents
 			var selected = $( this ).addClass( "selected" ).children( "a" ).attr( "rel" );
@@ -339,13 +361,12 @@ MMHK.modules.push({
 
 			// for each stack attached to each hero in the city
 			for ( var h = 0; h < city.attachedHeroList.length; h++ ) {
-				var hero = city.attachedHeroList[h];
+				var hero = city.attachedHeroList[ h ];
 				for ( var s = 0; s < hero.attachedUnitStackList.length; s++ ) {
 					this.extractUnitStackData( hero.attachedUnitStackList[ s ], current.units );
 				}
 			}
-
-			data.push(current);
+			data.push( current );
 		}
 
 		// for each recruitable unit available
@@ -431,9 +452,12 @@ MMHK.modules.push({
 		tooltip += "<p>" + $.i18n.get( "unit.type", "<span class=\"type " + unit.type + "\"></span>" ) + "</p>";
 		tooltip += "<p>" + $.i18n.get( "unit.power", "<b>" + $.formatNumber( unit.power ) + "</b>" ) + "</p>";
 		tooltip += "<p>" + $.i18n.get( "unit.stack", "<b>" + $.formatNumber( ( recruited ? unit.quantity : unit.reserve ) * unit.power ) + "</b>" ) + "</p>";
+		// get resource stock from 'global' variable
+		var totalGoods = gtotalRessources;
+
 		if ( !recruited ) {
 			// create string with gold + ressource cost for stack
-			var unitCost = "", stackCost = "", prodCost = "", maxProdCost = "";
+			var unitCost = "", stackCost = "", prodCost = "", maxProdCost = "", totalGoodsMissing = "", townGoodsMissing = "";
 			for ( var i = 0; i < this.resources.length; i++ ) {
 				var tag = this.resources[ i ].tag;
 				var cost = unit[ tag ];
@@ -443,11 +467,19 @@ MMHK.modules.push({
 					stackCost += $.formatNumber( unit.reserve * cost ) + goods;
 					prodCost += $.formatNumber( unit.production * cost ) + goods;
 					maxProdCost += $.formatNumber( unit.maxProduction * cost ) + goods;
+						var goodsMissing = 0;
+						if ( totalGoods[ tag ] == undefined ) {
+							goodsMissing = ( unit.reserve * cost );
+						} else if ( ( unit.reserve * cost ) > totalGoods[ tag ].stock ) {
+							goodsMissing = ( unit.reserve * cost ) - totalGoods[ tag ].stock;
+						}
+						totalGoodsMissing += "" + $.formatNumber( goodsMissing ) + goods;
 				}
 			}
 			tooltip += "<br />";
 			tooltip += "<p>" + $.i18n.get( "unit.cost", "<b>" + unitCost + "</b>" ) + "</p>";
 			tooltip += "<p>" + $.i18n.get( "unit.stock.cost", "<b>" + stackCost + "</b>" ) + "</p>";
+			tooltip += "<p>" + $.i18n.get( "goods.missing", "<b>" + totalGoodsMissing + "</b>" ) + "</p>";
 			tooltip += "<br />";
 			tooltip += "<p>" + $.i18n.get( "unit.prod.max", "<b>+" + unit.production + " / +" + unit.maxProduction + "</b>" ) + "</p>";
 			tooltip += "<p>" + $.i18n.get( "unit.prod.cost", "<b>" + prodCost + "</b>" ) + "</p>";
@@ -462,6 +494,7 @@ MMHK.modules.push({
 		markup += "</div>";
 		return markup;
 	},
+
 
 	/**
 	 * Creates the HTML markup related to a specific tier of units.
@@ -482,7 +515,8 @@ MMHK.modules.push({
 		if ( tier != undefined ) {
 			for ( var tag in tier ) {
 				var unit = tier [ tag ];
-				if (unit.quantity > 0) {
+				if ( unit.quantity > 0 ) {
+					var isRecruits = false;
 					// the markup for this unit
 					markup += this.createUnitMarkup( unit, unit.quantity, true );
 					// add count to the total
@@ -577,11 +611,12 @@ MMHK.modules.push({
 			tooltip += "<p>" + $.i18n.get( "unit.count", "<b>" + $.formatNumber( city.count || 0 ) + "</b>" ) + "</p>";
 			tooltip += "<p>" + $.i18n.get( "unit.total", "<b>" + $.formatNumber( city.power || 0 ) + "</b>" ) + "</p>";
 			tooltip += "<p>" + $.i18n.get( "unit.maintenance", "<b>" + $.formatNumber( data[ i ].maintenance || 0 ) + "</b>" ) + "</p>";
+			tooltip += "<br /><i>" + $.i18n.get( "town.open" ) + "</i>";
 			tooltip += "</div>";
 
 			markup += "<tr>";
 			markup += "<td title=\"" + $.escapeHTML( tooltip, true ) + "\">";
-			markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\">" + data[ i ].name + "<br/>[<tt>" + data[ i ].x + "," + data[ i ].y + "</tt>]</a>";
+			markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\"><b><u>" + data[ i ].name + "</u></b><br/>[<tt>" + data[ i ].x + "," + data[ i ].y + "</tt>]</a>";
 			markup += "<div class=\"city " + data[ i ].faction + "\"></div>";
 			markup += "</td>";
 			markup += units;
@@ -600,7 +635,7 @@ MMHK.modules.push({
 		markup += "<tr class=\"total\">";
 		markup += "<td title=\"" + $.escapeHTML( tooltip, true ) + "\">";
 		markup += $.i18n.get( "total" );
-		markup += "<br />[" + HOMMK.player.content.activeOrSubscribedCityCount + "/" + HOMMK.player.content.cityNumberMinThreshold + " " + $.i18n.get("cities") + "]";
+		markup += "<br />[" + $.i18n.get("cities", HOMMK.player.content.activeOrSubscribedCityCount, HOMMK.player.content.cityNumberMinThreshold ) + "]";
 		markup += "</td>";
 		for ( var i = 1; i <= 8; i++ ) {
 			markup += "<td>";
@@ -620,8 +655,8 @@ MMHK.modules.push({
 			// recruitable units
 			markup += "<tr class=\"recruits\">";
 			markup += "<td>";
-			markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\">" + data[ i ].name + "<br/>[<tt>" + data[ i ].x + "," + data[ i ].y + "</tt>]</a>";
-			markup += "<div class=\"city " + data[ i ].faction + "\"></div>";
+			markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\"><b><u>" + data[ i ].name + "</u></b><br/>[<tt>" + data[ i ].x + "," + data[ i ].y + "</tt>]</a>";
+			markup += "<br />" + $.i18n.get( "recruits.available" );
 			markup += "</td>";
 			if ( !data[ i ].recruits ) {
 				markup += "<td class=\"empty\" colspan=\"8\">";
@@ -637,14 +672,20 @@ MMHK.modules.push({
 					markup += "</td>";
 				}
 			}
+
+			var tooltip = "<div>";
+			tooltip += "<br /><i>" + $.i18n.get( "town.open" ) + "</i></p>";
+			tooltip += "</div>";
+
+			markup += "</tr>";
 		}
 
-		// then display the recrutable units total
+		// then display the recruitable units total
 		markup += "<tr class=\"total recruits\">";
 		markup += "<td>";
 		markup += $.i18n.get( "recruits.total" );
 		if ( !allRecruits ) {
-			markup += " (" + $.i18n.get( "recruits.total.incomplete" ) + ")";
+			markup += "<br />" + $.i18n.get( "recruits.total.incomplete" );
 		}
 		markup += "</td>";
 		for ( var i = 1; i <= 8; i++ ) {
@@ -671,11 +712,12 @@ MMHK.modules.push({
 			cluezIndex: 999999,
 			fx: {
 				open: "fadeIn",
-				openSpeed: "normal"
+				openSpeed: "fast"
 			},
 			clickThrough: true
 		});
 
+		// add link to open town summary
 		$( "#KingdomArmiesData a[rel]" ).click(function() {
 			MMHK.click( $( "#RegionCity" + $( this ).attr( "rel" ) + "SummaryViewImage" )[ 0 ] );
 			return false;
@@ -784,7 +826,6 @@ MMHK.modules.push({
 	 */
 	createProductionMarkup: function( data ) {
 		var total = {}, totalWealth = 0, markup = "";
-
 		// for each city
 		for ( var i = 0; i < data.length; i++ ) {
 			markup += "<tr>";
@@ -800,10 +841,11 @@ MMHK.modules.push({
 				+ "<div class=\"wealth\">"
 				+ "<p>" + $.i18n.get( "wealth.hourly" ) + " <b>" + $.formatNumber( wealth / 24 ) + "</b></p>"
 				+ "<p>" + $.i18n.get( "wealth.daily" ) + " <b>" + $.formatNumber( wealth ) + "</b></p>"
+				+ "<br /><i>" + $.i18n.get( "town.open" ) + "</i>";
 				+ "</div>";
 
 			markup += "<td title=\"" + $.escapeHTML( tooltip, true ) + "\">";
-			markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\">" + data[ i ].name + "<br/>[<tt>" + data[ i ].x + "," + data[ i ].y + "</tt>]</a>";
+			markup += "<a href=\"#\" rel=\"" + data[ i ].id + "\"><b><u>" + data[ i ].name + "</u></b><br/>[<tt>" + data[ i ].x + "," + data[ i ].y + "</tt>]</a>";
 			markup += "<div class=\"city " + data[ i ].faction + "\"></div>";
 			markup += "</td>";
 			// for each type of resource
@@ -832,13 +874,16 @@ MMHK.modules.push({
 		markup += "<tr class=\"total\"><td title=\"" + $.escapeHTML( tooltip, true ) + "\">";
 		markup += $.i18n.get( "total" );
 		markup += "<br />";
-		markup += "[" + HOMMK.player.content.activeOrSubscribedCityCount + "/" + HOMMK.player.content.cityNumberMinThreshold + " " + $.i18n.get("cities") + "]";
+		markup += "[" + $.i18n.get("cities", HOMMK.player.content.activeOrSubscribedCityCount, HOMMK.player.content.cityNumberMinThreshold ) + "]";
 		markup += "</td>";
 		for ( var i in total ) {
 			var res = this.resources[ i ];
 			markup += this.createProductionCellMarkup( res, total[ i ], true );
 		}
 		markup += "</tr>";
+
+		//send total ressources to 'global' variable
+		gtotalRessources = total;
 
 		return markup;
 	},
@@ -862,6 +907,7 @@ MMHK.modules.push({
 			clickThrough: true
 		});
 
+		// add link to open town summary
 		$( "#KingdomProductionData a[rel]" ).click(function() {
 			MMHK.click( $( "#RegionCity" + $( this ).attr( "rel" ) + "SummaryViewImage" )[ 0 ] );
 			return false;
@@ -981,7 +1027,8 @@ MMHK.modules.push({
 		for ( var i = 0; i < data.length; i++ ) {
 			var action = data[ i ];
 			// we can't use CSS3 selectors here :(
-			markup += "<tr class=\"action " + ( i % 2 == 0 ? "odd" : "even" ) + "\"><td class=\"open\"><div class=\"icon " + action.type + "\"></div></td>";
+			markup += "<tr class=\"action " + ( i % 2 == 0 ? "odd" : "even" ) + "\" title=\"Action|<i>" + $.i18n.get( "action.open" ) + "</i>\">";
+			markup += "<td class=\"open\"><div class=\"icon " + action.type + "\"></div></td>";
 			// TODO: pretty print for the action type
 			markup += "<td class=\"a\">" + action.type.replace( /_/g, " " ) + "</td>";
 			markup += "<td class=\"d\"><span>" + action.descr + "</span>";
@@ -1027,7 +1074,23 @@ MMHK.modules.push({
 			$( this ).children( ".close:first" ).addClass( "open" ).removeClass( "close" ).end().nextUntil( ":not(.step)" ).hide();
 			self.updateSlider();
 		} );
-		$( "#KingdomActionsData td.t[title]" ).each(function() {
+		// add line information
+		$( "#KingdomActionsData tr.action" ).attr( "title", function( i, data ) {
+			return "Action|<i>" + $.i18n.get( "action.open" ) + "</i>";
+		}).cluetip({
+				showTitle: false,
+				splitTitle: "|",
+				width: 140,
+				positionBy: "bottomTop",
+				topOffset: 20,
+				leftOffset: 0,
+				cluezIndex: 999999,
+				fx: {
+					open: "fadeIn",
+					openSpeed: "normal"
+				}
+			});
+		$( "#KingdomActionsData td.t[title]" ).each( function() {
 			var time = parseInt( $( this ).attr( "title" ).substr( 1 ) );
 			$( this ).cluetip({
 				showTitle: false,
@@ -1060,6 +1123,386 @@ MMHK.modules.push({
 	},
 
 	/**
+	 * Extracts the recap data from HOMMK's pool.
+	 */
+	extractRecapData: function() {
+		var data = {
+			cities: [],
+			heroes: []
+		};
+
+		// for each city, create a dedicated container
+		var cities = HOMMK.elementPool.get( "RegionCity" ).values();
+		for ( var i = 0; i < cities.length; i++ ) {
+			var city = cities[ i ].content;
+			var currentCity = {
+				id: city.id,
+				name: city.cityName,
+				faction: city.factionEntityTagName,
+				x: city.x,
+				y: city.y,
+				isBusy: city.isBusy,
+				heroFrameOpened: false,
+				magicGuildSpellList: [],
+				magicGuildType: "N/A",
+				magesGuildLevel: -1,
+				regionArtefactList: [],
+				regionFrameOpened: false,
+				zoneList: [],
+				cityFrameOpened: false,
+				builtCityBuildingList: [],
+				cityLevel: -1,
+				regionLevel: -1
+			};
+			data.cities[ city.id ] = currentCity;
+		}
+
+		//Fillup CityView information
+		if ( HOMMK.elementPool.hasKey( "CityView" ) ) {
+			var cities = HOMMK.elementPool.get( "CityView" );
+			for ( var idCity in cities.obj ) {
+				var currentCity = cities.obj[ idCity ].content;
+				data.cities[ idCity ].cityLevel = currentCity.cityLevel;
+				data.cities[ idCity ].regionLevel = currentCity.regionLevel;
+				for (var i=0; i < currentCity.builtCityBuildingEntityList.length; i++ ) {
+					data.cities[ idCity ].builtCityBuildingList.push( currentCity.builtCityBuildingEntityList[ i ].name );
+					if ( currentCity.builtCityBuildingEntityList[ i ].buildingTypeEntityName == "MAGICAL" ) {
+						data.cities[ idCity ].magesGuildLevel = currentCity.builtCityBuildingEntityList[ i ].upgradeLevel + 1;
+					}
+				}
+				currentCity.builtCityBuildingEntityList.sort();
+				data.cities[ idCity ].cityFrameOpened = true;
+			}
+		}
+
+		//Fillup RegionView information
+		if ( HOMMK.elementPool.hasKey( "Zone" ) ) {
+			var zones = HOMMK.elementPool.get( "Zone" );
+			var nbUncaptured = 0, nbEmpty = 0, nbFields = 0, nbStorehouses = 0, nbForts = 0;
+			var nbZones = 1;
+			for ( var idZone in zones.obj ) {
+				var currentZone = zones.obj[ idZone ].content;
+				var currentZoneText = "";
+				if ( currentZone.attachedMine != undefined ) {
+						currentZoneText = currentZone.attachedMine.name + " ";
+						if ( currentZone._isCaptured == 0 ) {
+							currentZoneText += " (" + $.i18n.get( "zone.mine.uncaptured" ) + ")";
+						} else {
+							currentZoneText += currentZone.attachedMine.upgradeLevel + " (" + ( currentZone.attachedMine.improveLevel * 5 ) + "%)";
+						}
+				} else if ( currentZone._isCaptured == 0 ) {
+					nbUncaptured++;
+				} else if ( currentZone.attachedMine != undefined ) {
+					currentZoneText = currentCity.zones[i].attachedMine.name + " " + currentCity.zones[i].attachedMine.upgradeLevel + "(" + currentCity.zones[i].attachedMine.improveLevel + ")";
+				} else if ( currentZone.attachedZoneBuilding == undefined ) {
+					nbEmpty++;
+				} else if ( currentZone.attachedZoneBuilding.zoneBuildingEntityTagName == "FIELDS" ) {
+					nbFields++;
+				} else if ( currentZone.attachedZoneBuilding.zoneBuildingEntityTagName == "STOREHOUSE" ) {
+					nbStorehouses++;
+				} else if ( currentZone.attachedZoneBuilding.zoneBuildingEntityTagName == "FORT" ) {
+					nbForts++;
+				} else {
+					currentZoneText = currentZone.attachedZoneBuilding.zoneBuildingEntityName;
+				}
+				if ( currentZoneText != "" ) {
+					data.cities[ currentZone.regionId ].zoneList.push( currentZoneText );
+				}
+				data.cities[ currentZone.regionId ].regionFrameOpened = true;
+				if ( nbZones == 24 ) {
+					data.cities[ currentZone.regionId ].zoneList.push( $.i18n.get( "zone.storehouses", nbStorehouses ) );
+					data.cities[ currentZone.regionId ].zoneList.push( $.i18n.get( "zone.fields", nbFields ) );
+					data.cities[ currentZone.regionId ].zoneList.push( $.i18n.get( "zone.forts", nbForts ) );
+					data.cities[ currentZone.regionId ].zoneList.push( $.i18n.get( "zone.empty", nbEmpty ) );
+					data.cities[ currentZone.regionId ].zoneList.push( $.i18n.get( "zone.uncaptured", nbUncaptured ) );
+					data.cities[ currentZone.regionId ].zoneList.sort();
+					nbZones = 0;
+					nbUncaptured = nbEmpty = nbFields = nbStorehouses = nbForts = 0;
+				}
+				nbZones ++;
+			}
+		}
+
+		// for each hero, create a dedicated container
+		var heroes = HOMMK.elementPool.get( "Hero" ).values();
+		for ( var i = 0; i < heroes.length; i++ ) {
+			var hero = heroes[ i ].content;
+			var currentHero = {
+				id: hero.id,
+				name: hero.name,
+				picture: hero.picture,
+				factionTag: hero.factionEntityTagName,
+				training: hero.heroTrainingEntityName,
+				lvl: hero._level,
+				xp: hero.xp,
+				att: hero.attack,
+				def: hero.defense,
+				magic: hero.magic,
+				pointsleft: hero.availInitSkills + hero.availXpSkills,
+				classes: [],
+				numArtefacts: hero.tmpAttachedEquipedArtefactCount,
+				numUsedArtefats: 0,
+				isBusy: heroes[ i ].isBusy(),
+				isCaptured: heroes[ i ].isCaptured(),
+				isEnemyHero: heroes[ i ].options.isCapturedByPlayer,
+				heroFrameOpened: false,
+				missingXp: -1,
+				equipedArtefacts: {},
+				backpackArtefacts: {},
+				heroSkillList: {},
+				spells: {}
+			};
+			for ( var j = 0; j < 3; j++ ) {
+				currentHero.classes.push({
+					name: ( j < hero.learntClasses.length ? hero.learntClasses[ j ].heroClassEntityName : "" ),
+					tagName: ( j < hero.learntClasses.length ? hero.learntClasses[ j ].heroClassEntityTagName : "" )
+				});
+			}
+			if ( hero.heroBonuses != undefined ) {
+				currentHero.numUsedArtefats = hero.heroBonuses.artefacts.local.length;
+			}
+			data.heroes[ hero.id ] = currentHero;
+		}
+
+		//Fillup Hero information
+		if ( HOMMK.elementPool.hasKey( "HeroFrame" ) ) {
+			var heroes = HOMMK.elementPool.get( "HeroFrame" );
+			for ( var idHero in heroes.obj ) {
+				var currentHero = heroes.obj[ idHero ].content;
+				data.heroes[ idHero ].equipedArtefacts = currentHero.equipedArtefacts;
+				data.heroes[ idHero ].backpackArtefacts = currentHero.backpackArtefacts;
+				data.heroes[ idHero ].heroSkillList = currentHero.heroSkillList;
+				data.heroes[ idHero ].spells = currentHero.spellBookSpellStackList;
+				data.heroes[ idHero ].missingXp = currentHero.missingXp;
+				data.heroes[ idHero ].heroFrameOpened = true;
+
+				//Fillup CityView information
+				if ( currentHero.regionArtefacts != undefined ) {
+					data.cities[ heroes.obj[ idHero ].content.regionId ].regionArtefactList = currentHero.regionArtefacts;
+				}
+				if ( currentHero.magicGuildSpellStackList != undefined ) {
+					data.cities[ heroes.obj[ idHero ].content.regionId ].magicGuildSpellList = currentHero.magicGuildSpellStackList;
+					data.cities[ heroes.obj[ idHero ].content.regionId ].magesGuildLevel = Math.round( currentHero.magicGuildSpellStackList.length / 2 );
+					if ( currentHero.magicGuildSpellStackList.length == 9 ) {
+						data.cities[ heroes.obj[ idHero ].content.regionId ].magicGuildType = currentHero.magicGuildSpellStackList[ 8 ].attachedSpellEntity.magicSchoolEntityName;
+					}
+				}
+				data.cities[ heroes.obj[ idHero ].content.regionId ].heroFrameOpened = true;
+			}
+		}
+
+		return data;
+	},
+
+	/**
+	 * Creates the HTML markup for the recap tab.
+	 *
+	 * @param data	the collected recap data
+	 */
+	createRecapMarkup: function( data ) {
+		var markup = "";
+
+		// SECTION Cities
+		markup += "<tr class=\"section\">";
+		markup += "<td colspan=\"8\">";
+		markup += $.i18n.get( "recap.cities" );
+		markup += "</td>";
+		markup += "</tr>";
+		// for each city
+		for ( var idCity in data.cities ) {
+			var idNumber = parseInt( idCity );
+			if ( ( idNumber != 0 ) && ( !isNaN( idNumber ) ) ) {
+				var currentCity = data.cities[ idCity ];
+				markup += "<tr class=\"cityrecap\">";
+				// city name
+				markup += "<td title=\"" + currentCity.name + "\">";
+				markup += "<a href=\"#\" rel=\"" + idCity + "\"><b><u>" + currentCity.name + "</u></b></a>";
+				markup += "</td>";
+				// icon + coord
+				markup += "<td class=\"open\">";
+				markup += "<div class=\"city " + currentCity.faction + "\"></div>";
+				markup += "<br/>[<tt>" + currentCity.x + "," + currentCity.y + "</tt>]";
+				markup += "</td>";
+				// Level + city buildings
+				markup += "<td class=\"open\">";
+				if ( currentCity.cityFrameOpened ) {
+					markup += "<u>" + $.i18n.get( "city.buildings" ) + "</u><br />";
+					markup += $.i18n.get( "city.level", "<b>" + currentCity.cityLevel + "</b>" );
+				} else {
+					markup += $.i18n.get( "city.noCityFrame" );
+				}
+				markup += "</td>";
+				// region buildings
+				markup += "<td class=\"open\">";
+				if ( currentCity.regionFrameOpened ) {
+					markup += "<u>" + $.i18n.get( "city.region" ) + "</u><br />";
+					markup += $.i18n.get( "city.region.level", "<b>" + currentCity.regionLevel + "</b>" );
+				} else {
+					markup += $.i18n.get( "city.noRegionFrame" );
+				}
+				markup += "</td>";
+				// city Spells
+				markup += "<td class=\"open\">";
+				if ( currentCity.heroFrameOpened ) {
+					markup += "<u>" + $.i18n.get( "city.spells" ) + "</u><br />";
+					markup += $.i18n.get( "city.magesguild", "<b>" + currentCity.magesGuildLevel + "</b>", "<i>" + currentCity.magicGuildType + "</i>" );
+				} else {
+					markup += $.i18n.get( "city.noHeroFrame" );
+				}
+				markup += "</td>";
+				// city artefacts
+				markup += "<td class=\"open\">";
+				if ( currentCity.heroFrameOpened ) {
+					markup += "<u>" + $.i18n.get( "city.artefacts" ) + "</u><br />";
+					markup += $.i18n.get( "city.nbArtefacts", "<b>" + currentCity.regionArtefactList.length + "</b>" );
+				} else {
+					markup += $.i18n.get( "city.noHeroFrame" );
+				}
+				markup += "</td>";
+				// city actions
+				markup += "<td class=\"open\">";
+				markup += "<u>" + $.i18n.get( "city.action" ) + "</u><br />";
+				if ( currentCity.isBusy ) {
+					markup += $.i18n.get( "unavail" );
+				} else {
+					markup += $.i18n.get( "avail" );
+				}
+				markup += "</td>";
+				markup += "</tr>";
+
+				var maxList = Math.max( currentCity.builtCityBuildingList.length, currentCity.zoneList.length );
+				maxList = Math.max( currentCity.magicGuildSpellList.length, maxList );
+				maxList = Math.max( currentCity.regionArtefactList.length, maxList );
+				// for each detail of this city
+				for ( var j = 0; j < maxList; j++ ) {
+					var cityDetail = ( j < currentCity.builtCityBuildingList.length ? currentCity.builtCityBuildingList[ j ] : "" );
+					var regionDetail = ( j < currentCity.zoneList.length ? currentCity.zoneList[ j ] : "" );
+					var spellsDetail = ( j < currentCity.magicGuildSpellList.length ? currentCity.magicGuildSpellList[ j ].attachedSpellEntity.magicSchoolLevel + "- " + currentCity.magicGuildSpellList[ j ].spellEntityName : "" );
+					var artefactsDetail = ( j < currentCity.regionArtefactList.length ? currentCity.regionArtefactList[ j ].artefactEntity.name : "" );
+					markup += "<tr class=\"step\">"
+					markup += "<td></td>"; //name
+					markup += "<td></td>"; //icon
+					markup += "<td class=\"detail\">" + cityDetail + "</td>"; //buildings
+					markup += "<td class=\"detail\">" + regionDetail + "</td>"; //zones
+					markup += "<td class=\"detail\">" + spellsDetail + "</td>"; //spells
+					markup += "<td class=\"detail\">" + artefactsDetail + "</td>"; //artefact
+					markup += "<td></td>"; //action
+					markup += "</tr>";
+				}
+			}
+		}
+
+		// SECTION Heroes
+		markup += "<tr class=\"section\">";
+		markup += "<td colspan=\"8\">";
+		markup += $.i18n.get( "recap.heroes" );
+		markup += "</td>";
+		markup += "</tr>";
+		// for each hero
+		for ( var idHero in data.heroes ) {
+			var idNumber = parseInt( idHero );
+			if ( ( idNumber != 0 ) && ( !isNaN( idNumber ) ) ) {
+				var currentHero = data.heroes[ idHero ];
+				if ( !currentHero.isCaptured ) {
+					markup += "<tr class=\"herorecap\">";
+					// hero name
+					markup += "<td title=\"" + "\">";
+					markup += "<a href=\"#\" rel=\"" + idHero + "\"><b><u>" + currentHero.name + "</u></b></a>";
+					markup += "</td>";
+					// hero training + level
+					markup += "<td>";
+					markup += $.i18n.get( "hero.training.level", "<b>" + currentHero.training + "</b>", currentHero.lvl, currentHero.xp );
+					markup += "</td>";
+					// hero attributs
+					markup += "<td>";
+					markup += $.i18n.get( "hero.attributs", currentHero.att, currentHero.def, currentHero.magic );
+					markup += "</td>";
+					// hero classes
+					markup += "<td>";
+					markup += $.i18n.get( "hero.classes", currentHero.classes[0].name, currentHero.classes[1].name, currentHero.classes[2].name );
+					markup += "</td>";
+					// hero skills
+					markup += "<td>";
+					markup += $.i18n.get( "hero.points", currentHero.pointsleft );
+					markup += "</td>";
+					// hero artefacts
+					markup += "<td>";
+					markup += $.i18n.get( "hero.artefacts", currentHero.numArtefacts, currentHero.numUsedArtefats );
+					markup += "</td>";
+					// hero actions
+					markup += "<td>";
+					if ( currentHero.isBusy ) {
+						markup += $.i18n.get( "unavail" );
+					} else {
+						markup += $.i18n.get( "avail" );
+					}
+					markup += "</td>";
+
+					markup += "</tr>";
+				}
+			}
+		}
+
+		return markup;
+	},
+
+	/**
+	 * Setups the available actions on the recap view; this has to be applied *after* DOM injection.
+	 */
+	setupRecap: function() {
+		var self = this;
+		$( "#KingdomRecapData tr:not(.step)" ).toggle( function() {
+			$( this ).children( ".open:first" ).addClass( "close" ).removeClass( "open" ).end().nextUntil( ":not(.step)" ).show();
+			self.updateSlider();
+		}, function() {
+			$( this ).children( ".close:first" ).addClass( "open" ).removeClass( "close" ).end().nextUntil( ":not(.step)" ).hide();
+			self.updateSlider();
+		} );
+
+		$( "#KingdomRecapData tr" ).each(function() {
+			// add line information
+			$( this ).filter( ".cityrecap" ).find( "td.open" ).attr( "title", function( i, data ) {
+				return "City|<i>" + $.i18n.get( "recap.open" ) + "</i>";
+			});
+
+			// add city global line information
+			$( this ).filter( ".cityrecap" ).find( "td:first" ).attr( "title", function( i, data ) {
+				return $( this ).text() + "|<i>" + $.i18n.get( "town.open" ) + "</i>";
+			});
+			// add hero global line information
+			$( this ).filter( ".herorecap" ).find( "td:first" ).attr( "title", function( i, data ) {
+				return $( this ).text() + "|<i>" + $.i18n.get( "hero.open" ) + "</i>";
+			});
+		}).find( "[title]" ).cluetip({
+			splitTitle: "|",
+			arrows: true,
+			width: 266,
+			positionBy: "bottomTop",
+			topOffset: 20,
+			leftOffset: 0,
+			cluezIndex: 999999,
+			fx: {
+				open: "fadeIn",
+				openSpeed: "fast"
+			}
+		});
+
+		// add link to open town summary
+		$( "#KingdomRecapData tr.cityrecap a[rel]" ).click( function() {
+			MMHK.click( $( "#RegionCity" + $(this).attr( "rel" ) + "SummaryViewImage" )[0] );
+			return false;
+		});
+		// add link to open hero summary
+		$( "#KingdomRecapData tr.herorecap a[rel]" ).click( function() {
+			MMHK.click( $( "#RegionCitySummaryViewHero" + $(this).attr( "rel" ) + "Image" )[0] );
+			return false;
+		});
+	},
+
+
+
+
+	/**
 	 * Updates the contents of the Kingdom frame and then displays it.
 	 */
 	updateAndShow: function() {
@@ -1076,17 +1519,24 @@ MMHK.modules.push({
 			this.setupSave( $( "#MMHK-rights" ).text() );
 		}
 
+		var gtotalRessources = {};
+		// replace resource production HTML
+		$( "#KingdomProductionData tbody" ).html( this.createProductionMarkup( this.extractProductionData() ) );
+		this.setupProduction();
 		// replace armies HTML
 		$( "#KingdomArmiesData tbody" ).html( this.createArmiesMarkup( this.extractArmiesData() ) );
 		this.setupArmies();
 		// update recruits display
 		$( "#KingdomArmiesHeader th.recruits input" ).change();
-		// replace resource production HTML
-		$( "#KingdomProductionData tbody" ).html( this.createProductionMarkup( this.extractProductionData() ) );
-		this.setupProduction();
+		// replace armies HTML
+		$( "#KingdomArmiesData tbody" ).html( this.createArmiesMarkup( this.extractArmiesData() ) );
+		this.setupArmies();
 		// replace actions HTML
 		$( "#KingdomActionsData tbody" ).html( this.createActionsMarkup( this.extractActionsData() ) );
 		this.setupActions();
+		// replace recap HTML
+		$( "#KingdomRecapData tbody" ).html( this.createRecapMarkup( this.extractRecapData() ) );
+		this.setupRecap();
 
 		// all done: show da frame
 		$( "#KingdomFrame" ).show().css( "visibility", "visible" );
