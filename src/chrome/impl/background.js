@@ -24,6 +24,13 @@ function getForum() {
 	return forum;
 }
 
+function getResource( filename ) {
+	var xhr = new XMLHttpRequest();
+	xhr.open( "GET", chrome.extension.getURL( filename ), false );
+	xhr.send( null );
+	return xhr.responseText;
+}
+
 // wire up the listener
 chrome.extension.onRequest.addListener(function( request, sender, callback ) {
 	onRequest( request, callback );

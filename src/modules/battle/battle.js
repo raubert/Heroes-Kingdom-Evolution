@@ -12,12 +12,28 @@ MMHK.modules.push({
 	name: "Battle",
 
 	/**
+         * a few constants
+         */
+	BATTLE_RESULT_TOP_VICTORY: 'BattleResultTopVictory.jpg',
+	BATTLE_RESULT_TOP_DEFEAT: 'BattleResultTopDefeat.jpg',
+	ATTRIBUTES: [ 'Hero', 'BasePower', 'XpGained', 'XpGainedList', 'BarrageFire', 'UnitStackList', 'RaisedUnitStackList',
+			'ResurrectedUnitStackList' ],
+
+	/**
 	 * Initializes the module
 	 */
 	initialize: function(rights) {
 		if ( $( "#MMHK-rights" ).text() != "write" ) {
 			// not allowed; we default to forum export
 			MMHK.hijack( HOMMK.BattleResultDetailedMessage.prototype, "addToDOM", this.addForumIcon, this );
+			var classes = "largeFrame absolutePosition zIndex10000 metal borderBrown2";
+			$( "#FrameMainContainer" ).append(
+				"<div id='BattleForumExport' style='padding:10px;' class='" + classes
+				+ " hidden'><div class='underline clickable' onclick='this.parentNode.className=\"" + classes
+				+ " hidden\";'>Fermer</div><textarea id='BattleForumExportData' cols='80' rows='25'></textarea></div>" );
+			var forumType = $( "#ForumType" ).html();
+			var template = $( "#battle_" + forumType + "_txt" ).html();
+			$( "#BattleForumExportData" ).setTemplate( template );
 		}
 		else {
 			// icon has to be added in scouting reports
@@ -85,16 +101,149 @@ MMHK.modules.push({
 		});
 	},
 
+	getCreature: function( code ) {
+		var infos = code.split( "_" );
+		return MMHK.units.get( infos[1], infos[2] );
+	},
+
+	parseSpell: function( round, spell ) {
+		var result = new Object();
+		result.round = round;
+		result.name = spell.spellEntityName;
+		result.power = 0;
+		for ( var e in spell.effectList ) {
+			var effect = spell.effectList[e];
+			if ( $.isArray( effect ) ) {
+				if ( effect[2] == "damage" ) {
+					result.power -= this.getCreature(effect[1]).power * effect[3];
+				} else if (effect[2] == "summoning") {
+					result.power += this.getCreature(effect[1]).power * effect[3];
+				} else if (effect[2] == "resurrection") {
+					result.power += this.getCreature(effect[1]).power * effect[3];
+				} else if (effect[2] == "attackBonus") {
+					result.power += effect[3];
+				} else if (effect[2] == "defenseBonus") {
+					result.power += effect[3];
+				} else if (effect[2] == "powerBonus") {
+					result.power += effect[3];
+				}
+			}
+		}
+		return result;
+	},
+	parseBarrageFire: function(name, spell) {
+		var result = new Object();
+		result.name = name;
+		result.power = 0;
+		for ( var e in spell.effect) {
+			var effect = spell.effect[e];
+			if ($.isArray( effect ))
+				result.power -= this.getCreature(effect[0]).power * effect[1];
+		}
+		return result;
+	},
 	/**
 	 * Adds the icon that will format the report for forums.
 	 * 
-	 * @param obj {Object}
+	 * @param msg {Object}
 	 *            the spy report object
 	 */
-	addForumIcon: function( obj ) {
+	addForumIcon: function( msg ) {
 		var self = this;
-		this.addIcon( obj, "battle.forum", function() {
-			alert("pikaboo!");
+		this.addIcon( msg, "battle.forum", function() {
+			var when = new Date( msg.content.creationDate * 1000 );
+			var result = new Object();
+			result.date = when.getDate() + '/' + (when.getMonth() + 1) + '\n' + when.getHours() + ':' + when.getMinutes();
+			if (msg.content.type == "BATTLE_RESULT_ATTACKER" && msg.content.contentJSON.attackerWins
+					|| msg.content.type == "BATTLE_RESULT_DEFENDER" && msg.content.contentJSON.defenderWins) {
+				result.battleResultHeader = self.BATTLE_RESULT_TOP_VICTORY;
+				result.battleResultClass = "Victory";
+			} else {
+				result.battleResultHeader = self.BATTLE_RESULT_TOP_DEFEAT;
+				result.battleResultClass = "Defeat";
+			}
+			var ally;
+			var enemy;
+			if (msg.content.type == "BATTLE_RESULT_ATTACKER") {
+				result.word = msg.content.contentJSON.attackerVictoryOrDefeatWord;
+				ally = 'attacker';
+				enemy = 'defender';
+				allySpell = 'AttackerSpell';
+				enemySpell = 'DefenderSpell';
+				result.allyPosition = 'Attaquant';
+				result.enemyPosition = 'Défenseur';
+			} else {
+				result.word = msg.content.contentJSON.defenderVictoryOrDefeatWord;
+				ally = 'defender';
+				enemy = 'attacker';
+				allySpell = 'DefenderSpell';
+				enemySpell = 'AttackerSpell';
+				result.allyPosition = 'Défenseur';
+				result.enemyPosition = 'Attaquant';
+			}
+			for ( var attr in self.ATTRIBUTES) {
+				if( typeof attr === "string" ) {
+					result['ally' + self.ATTRIBUTES[attr]] = msg.content.contentJSON[ally + self.ATTRIBUTES[attr]];
+					result['enemy' + self.ATTRIBUTES[attr]] = msg.content.contentJSON[enemy + self.ATTRIBUTES[attr]];
+				}
+			}
+			if (!result.enemyHero)
+				result.enemyHero = msg.enemyMaxLevelHero;
+			if (!result.allyXpGained && result.allyXpGainedList) {
+				result.allyXpGained = 0;
+				result.allyXpGainedList.each( function(x) {
+					result.allyXpGained += x.xpGained;
+				} );
+			}
+			if (!result.enemyXpGained && result.enemyXpGainedList) {
+				result.enemyXpGained = 0;
+				result.enemyXpGainedList.each( function(x) {
+					result.enemyXpGained += x.xpGained;
+				} );
+			}
+			result.enemyPlayerName = msg.content.contentJSON.enemyPlayerName;
+			result.lootRessourceQuantity = msg.content.contentJSON.lootRessourceQuantity;
+			result.lootRessourceEntityTagName = msg.content.contentJSON.lootRessourceEntityTagName;
+			result.allySpells = new Array();
+			result.enemySpells = new Array();
+			if (msg.content.contentJSON[ally + 'BarrageFire'])
+				result.allySpells.push( self.parseBarrageFire( "Tir de barrage", msg.content.contentJSON[ally + 'BarrageFire'] ) );
+			if (msg.content.contentJSON[enemy + 'BarrageFire'])
+				result.enemySpells.push( self.parseBarrageFire( "Tir de barrage", msg.content.contentJSON[enemy + 'BarrageFire'] ) );
+			if (msg.content.contentJSON[ally + 'CatapultsBarrageFire'])
+				result.allySpells.push( self.parseBarrageFire( "Bombardement tactique",
+						msg.content.contentJSON[ally + 'CatapultsBarrageFire'] ) );
+			if (msg.content.contentJSON[enemy + 'CatapultsBarrageFire'])
+				result.enemySpells.push( self.parseBarrageFire( "Bombardement tactique",
+						msg.content.contentJSON[enemy + 'CatapultsBarrageFire'] ) );
+			if (msg.content.contentJSON[ally + 'MagicResistance'])
+				result.allySpells.push( {
+					name: "Resistance magique",
+					power: msg.content.contentJSON[ally + 'MagicResistance'].effect + "%"
+				} );
+			if (msg.content.contentJSON[enemy + 'MagicResistance'])
+				result.enemySpells.push( {
+					name: "Resistance magique",
+					power: msg.content.contentJSON[enemy + 'MagicResistance'].effect + "%"
+				} );
+	
+			for ( var r in msg.content.contentJSON.roundList) {
+				var round = msg.content.contentJSON.roundList[r];
+				var afterAllySpell = round['afterRound' + allySpell];
+				if (afterAllySpell)
+					result.allySpells.push( self.parseSpell( round.id, afterAllySpell ) );
+				var beforeAllySpell = round['beforeRound' + allySpell];
+				if (beforeAllySpell)
+					result.allySpells.push( self.parseSpell( round.id, beforeAllySpell ) );
+				var afterEnemySpell = round['afterRound' + enemySpell];
+				if (afterEnemySpell)
+					result.enemySpells.push( self.parseSpell( round.id, afterEnemySpell ) );
+				var beforeEnemySpell = round['beforeRound' + enemySpell];
+				if (beforeEnemySpell)
+					result.enemySpells.push( self.parseSpell( round.id, beforeEnemySpell ) );
+			}
+			$( "#BattleForumExportData" ).processTemplate( result );
+			$( "#BattleForumExport" ).removeClass( "hidden" );
 		});
 	},
 

@@ -43,3 +43,14 @@ sendRequest({
 		setText( document.getElementById( "MMHK-rights" ), "none" );
 	}
 });
+
+sendRequest({
+	module: "main",
+	action: "forum"
+}, function( data ) {
+	forum = document.createElement( "div" );
+	forum.setAttribute( "id", "ForumType" );
+	setText( forum, data );
+	main.appendChild( forum );
+});
+

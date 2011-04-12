@@ -51,7 +51,6 @@ $(function() {
 		
 		localStorage[ "connection" ] = JSON.stringify( connect );
 		var forum = $( "#forum" ).val();
-alert(forum);
 		localStorage[ "forum" ] = forum;
 		$( "button" ).blur().mouseout().button( "disable" );
 	});

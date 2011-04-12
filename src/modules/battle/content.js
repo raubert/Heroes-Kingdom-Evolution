@@ -14,6 +14,7 @@ battle.addEventListener( "battle:save", function() {
 		battle.dispatchEvent( evt );
 	});
 }, false);
-addScript("battle/phpBB2.txt");
-addScript("battle/phpBB3.txt");
+
+addFile("battle/phpBB2.txt");
+addFile("battle/phpBB3.txt");
 

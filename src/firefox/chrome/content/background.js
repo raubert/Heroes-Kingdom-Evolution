@@ -15,16 +15,23 @@ window.addEventListener( "load", function() {
 					var MMHK = {};
 					
 					function addScript( filename ) {
-						var type = "text/plain";
-						if( /\.js$/.test( filename ) ) {
-							type = "text/javascript";
-						}
 						var script = document.createElement( "script" );
-						script.setAttribute( "type", type );
+						script.type = "text/javascript";
 						script.src = "chrome://mmhk-ext/content/" + filename;
-						script.id = filename;
 						document.getElementsByTagName( "head" )[ 0 ].appendChild( script );
 					}
+
+					function addFile( filename ) {
+						var xhr = new XMLHttpRequest();
+						xhr.open( "GET", "chrome://mmhk-ext/content/" + filename, false );
+						xhr.send( null );
+						var script = document.createElement( "script" );
+						script.type = "text/plain";
+						script.id = filename.replace( /^A-Za-z0-9_-/g, "_" );
+						script.innerHTML = xhr.responseText;
+						document.getElementsByTagName( "head" )[ 0 ].appendChild( script );
+					}
+
 
 					// background script here
 					@BACKGROUND

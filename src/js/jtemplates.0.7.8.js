@@ -16,7 +16,7 @@
  */
 
 
-if(window.jQuery && !window.jQuery.createTemplate) {(function(jQuery) {
+if(MMHK.jQuery && !MMHK.createTemplate) {(function(jQuery) {
 	
 	/**
 	 * [abstract]
@@ -1183,4 +1183,4 @@ if(window.jQuery && !window.jQuery.createTemplate) {(function(jQuery) {
 		}
 	});
 	
-})(jQuery);}
+})(MMHK.jQuery);}

@@ -14,6 +14,12 @@ var HANDLERS = {
 					callback( "none" );
 				}
 				break;
+			case "resource":
+				callback( getResource( data ) );
+				break;
+			case "forum":
+				callback( getForum() );
+				break;
 			}
 		} catch ( e ) {
 			if ( typeof console != "undefined" ) {
