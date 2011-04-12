@@ -1,9 +1,9 @@
 [table border="0"]
-[tr background="{$T.scoutingResultHeader}" height="76"]
+[tr background="http://amroth.free.fr/hommk/scoutingResultHeader.jpg" height="76"]
 [td width="163"][table border="0" width="100"][tr][td][center]{$T.date}[/center][/td][/tr][/table][/td]
 [td colspan="4" width="430"]{$T.data.ScoutingLevelStr}&#10;{$T.data.XPGainedStr}[/td]
 [/tr][tr]
-[td rowspan="2"][b]Cible[/b][/td][td][b]Joueur[/b][/td][td][b]Alliance[/b][/td][td][b]Lieu[/b][/td]
+[td rowspan="2"][b]{$P.i18n.get('spy.target')}[/b][/td][td][b]{$P.i18n.get('spy.player')}[/b][/td][td][b]{$P.i18n.get('spy.alliance')}[/b][/td][td][b]{$P.i18n.get('spy.location')}[/b][/td]
 [/tr][tr]
 [td]{$T.data.targetedPlayerName}[/td][td]{$T.data.targetedPlayerAlliance}[/td][td]
 {#if $T.data.cityName}
@@ -18,8 +18,8 @@ Siège sur {$T.data.siegedRegionName} {$T.data.siegedRegionX}-{$T.data.siegedReg
 [/td]
 [/tr]
 {#if $T.data.cityName}
-[tr background="{$T.metal}"]
-[td][b]{$T.data.cityName}[/b]&#10;Fortification : {$T.data.cityFortificationName}[/td]
+[tr background="http://amroth.free.fr/hommk/metal.jpg"]
+[td][b]{$T.data.cityName}[/b]&#10;{$P.i18n.get('spy.forts')} : {$T.data.cityFortificationName}[/td]
 [td colspan="3"]
 {#if $T.data.regionUnitStackList}
 [table border="0"][tr]
@@ -36,7 +36,7 @@ Siège sur {$T.data.siegedRegionName} {$T.data.siegedRegionX}-{$T.data.siegedReg
 {#/if}
 {#if $T.data.heroList}
 {#foreach $T.data.heroList as hero}
-[tr background="{$T.scoutingHeroResultBg}" height="155"]
+[tr background="http://amroth.free.fr/hommk/scoutingHeroResultBg.gif" height="155"]
 [td][b]{$T.hero.name}[/b]&#10;
 {$T.hero.heroTrainingEntityName} {#if $T.hero._level}n{$T.hero._level} ({$T.hero.attack} {$T.hero.defense} {$T.hero.magic}){#/if}
 {#if $T.hero.attachedUnitStackList}
@@ -49,7 +49,7 @@ Siège sur {$T.data.siegedRegionName} {$T.data.siegedRegionX}-{$T.data.siegedReg
 [/table]
 {#/if}
 [/td][td colspan="3"]
-[table border="0"][tr][td][b]Carrières[/b][/td][td][b]Sorts[/b][/td][td][b]Artefacts[/b][/td][/tr]
+[table border="0"][tr][td][b]{$P.i18n.get('spy.careers')}[/b][/td][td][b]{$P.i18n.get('spy.spells')}[/b][/td][td][b]{$P.i18n.get('spy.artefacts')}[/b][/td][/tr]
 [tr][td]
 {#if $T.hero.heroClassList}
 {#foreach $T.hero.heroClassList as class}

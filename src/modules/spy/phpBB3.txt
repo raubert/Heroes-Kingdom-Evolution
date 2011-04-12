@@ -3,10 +3,10 @@
 [div2=hommkSRResult]{$T.data.ScoutingLevelStr}&#10;{$T.data.XPGainedStr}[/div2]
 [/div]
 [div=hommkSR hommkSRTarget]
-[div2=hommkSRTitle][b]Cible[/b][/div2]
-[div2=hommkSRData][b]Joueur[/b]&#10;{$T.data.targetedPlayerName}[/div2]
-[div2=hommkSRData][b]Alliance[/b]&#10;{$T.data.targetedPlayerAlliance}[/div2]
-[div2=hommkSRData][b]Lieu[/b]&#10;
+[div2=hommkSRTitle][b]{$P.i18n.get('spy.target')}[/b][/div2]
+[div2=hommkSRData][b]{$P.i18n.get('spy.player')}[/b]&#10;{$T.data.targetedPlayerName}[/div2]
+[div2=hommkSRData][b]{$P.i18n.get('spy.alliance')}[/b]&#10;{$T.data.targetedPlayerAlliance}[/div2]
+[div2=hommkSRData][b]{$P.i18n.get('spy.location')}[/b]&#10;
 {#if $T.data.cityName}
 {$T.data.cityName}
 {#/if}
@@ -21,7 +21,7 @@ Siège sur {$T.data.siegedRegionName} {$T.data.siegedRegionX}-{$T.data.siegedReg
 {#if $T.data.cityName}
 [div=hommkSRCity]
 [div2=hommkSRTitle]{$T.data.cityName}[/b]
-{#if $T.data.cityFortificationName}&#10;Fortification : {$T.data.cityFortificationName}{#/if}[/div2]
+{#if $T.data.cityFortificationName}&#10;{$P.i18n.get('spy.forts')} : {$T.data.cityFortificationName}{#/if}[/div2]
 [div2=hommkSRData]
 {#if $T.data.regionUnitStackList}
 {#foreach $T.data.regionUnitStackList as unit}
@@ -50,7 +50,7 @@ Siège sur {$T.data.siegedRegionName} {$T.data.siegedRegionX}-{$T.data.siegedReg
 {#/if}
 [/div2]
 [div2=hommkSRData]
-[b]Carrières[/b]&#10;
+[b]{$P.i18n.get('spy.careers')}[/b]&#10;
 {#if $T.hero.heroClassList}
 {#foreach $T.hero.heroClassList as class}
 {#if $T.class.heroClassEntityName}
@@ -60,7 +60,7 @@ Siège sur {$T.data.siegedRegionName} {$T.data.siegedRegionX}-{$T.data.siegedReg
 {#/if}
 [/div2]
 [div2=hommkSRData]
-[b]Sorts[/b]&#10;
+[b]{$P.i18n.get('spy.spells')}[/b]&#10;
 {#if $T.hero.spellStackList}
 {#foreach $T.hero.spellStackList as spell}
 {#if $T.spell.spellEntityName}
@@ -70,7 +70,7 @@ Siège sur {$T.data.siegedRegionName} {$T.data.siegedRegionX}-{$T.data.siegedReg
 {#/if}
 [/div2]
 [div2=hommkSRData]
-[b]Artefacts[/b]&#10;
+[b]{$P.i18n.get('spy.artefacts')}[/b]&#10;
 {#if $T.hero.artefactList}
 {#foreach $T.hero.artefactList as artefact}
 {#if $T.artefact.artefactEntity}

@@ -147,9 +147,15 @@ MMHK.modules.push({
 	addForumIcon: function( msg ) {
 		var self = this;
 		this.addIcon( msg, "battle.forum", function() {
-			var when = new Date( msg.content.creationDate * 1000 );
 			var result = new Object();
-			result.date = when.getDate() + '/' + (when.getMonth() + 1) + '\n' + when.getHours() + ':' + when.getMinutes();
+			if( msg.content.contentJSON.message ) {
+				// message has been forwarded: date is unknown
+				result.date = "";
+			}
+			else {
+				var when = new Date( msg.content.creationDate * 1000 );
+				result.date = when.getDate() + '/' + (when.getMonth() + 1) + '\n' + when.getHours() + ':' + when.getMinutes();
+			}
 			if (msg.content.type == "BATTLE_RESULT_ATTACKER" && msg.content.contentJSON.attackerWins
 					|| msg.content.type == "BATTLE_RESULT_DEFENDER" && msg.content.contentJSON.defenderWins) {
 				result.battleResultHeader = self.BATTLE_RESULT_TOP_VICTORY;

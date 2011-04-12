@@ -18,6 +18,15 @@ MMHK.modules.push({
 		if ( $( "#MMHK-rights" ).text() != "write" ) {
 			// not allowed; we default to forum export
 			MMHK.hijack( HOMMK.ScoutingResultDetailedMessage.prototype, "addToDOM", this.addForumIcon, this );
+			var classes = "largeFrame absolutePosition zIndex10000 metal borderBrown2";
+			$( "#FrameMainContainer" ).append(
+				"<div id='SpyForumExport' style='padding:10px;' class='" + classes
+				+ " hidden'><div class='underline clickable' onclick='this.parentNode.className=\"" + classes
+				+ " hidden\";'>Fermer</div><textarea id='SpyForumExportData' cols='80' rows='25'></textarea></div>" );
+			var forumType = $( "#ForumType" ).html();
+			var template = $( "#spy_" + forumType + "_txt" ).html();
+			$( "#SpyForumExportData" ).setTemplate( template );
+			$( "#SpyForumExportData" ).setParam( "i18n", $.i18n );
 		}
 		else {
 			// icon has to be added in scouting reports
@@ -83,10 +92,21 @@ MMHK.modules.push({
 	 * @param obj {Object}
 	 *          the spy report object
 	 */
-	addForumIcon: function( obj ) {
+	addForumIcon: function( msg ) {
 		var self = this;
-		this.addIcon( obj, "spy.forum", function() {
-			alert("pikaboo!");
+		this.addIcon( msg, "spy.forum", function() {
+			var result = new Object();
+			if( msg.content.contentJSON.message ) {
+				// message has been forwarded: date is unknown
+				result.date = "";
+			}
+			else {
+				var when = new Date( msg.content.creationDate * 1000 );
+				result.date = when.getDate() + '/' + ( when.getMonth() + 1 ) + '\n' + when.getHours() + ':' + when.getMinutes();
+			}
+			result.data = msg.content.contentJSON;
+			$( "#SpyForumExportData" ).processTemplate( result );
+			$( "#SpyForumExport" ).removeClass( "hidden" );
 		});
 	},
 

@@ -6,6 +6,14 @@ MMHK.jQuery.i18n.add( "en", {
 	"spy.forum": "Copy to a forum",
 	"spy.title": "Saves this Spy Report",
 	"spy.saved": "Spy Report Saved",
-	"spy.city": "City not found!"
+	"spy.city": "City not found!",
 
+	"spy.target": "Target",
+	"spy.player": "Player",
+	"spy.alliance": "Alliance",
+	"spy.location": "Location",
+	"spy.forts": "Fortification",
+	"spy.careers": "Careers",
+	"spy.spells": "Spells",
+	"spy.artefacts": "Artefacts",
 });
