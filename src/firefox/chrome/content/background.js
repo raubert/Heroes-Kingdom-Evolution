@@ -27,7 +27,7 @@ window.addEventListener( "load", function() {
 						xhr.send( null );
 						var script = document.createElement( "script" );
 						script.type = "text/plain";
-						script.id = filename.replace( /^A-Za-z0-9_-/g, "_" );
+						script.id = filename.replace( /[^A-Za-z0-9_-]/g, "_" );
 						script.innerHTML = xhr.responseText;
 						document.getElementsByTagName( "head" )[ 0 ].appendChild( script );
 					}

@@ -34,6 +34,7 @@ MMHK.modules.push({
 			var forumType = $( "#ForumType" ).html();
 			var template = $( "#battle_" + forumType + "_txt" ).html();
 			$( "#BattleForumExportData" ).setTemplate( template );
+			$( "#BattleForumExportData" ).setParam( "i18n", $.i18n );
 		}
 		else {
 			// icon has to be added in scouting reports
@@ -101,11 +102,6 @@ MMHK.modules.push({
 		});
 	},
 
-	getCreature: function( code ) {
-		var infos = code.split( "_" );
-		return MMHK.units.get( infos[1], infos[2] );
-	},
-
 	parseSpell: function( round, spell ) {
 		var result = new Object();
 		result.round = round;
@@ -115,11 +111,11 @@ MMHK.modules.push({
 			var effect = spell.effectList[e];
 			if ( $.isArray( effect ) ) {
 				if ( effect[2] == "damage" ) {
-					result.power -= this.getCreature(effect[1]).power * effect[3];
+					result.power -= MMHK.units.get(effect[1]).power * effect[3];
 				} else if (effect[2] == "summoning") {
-					result.power += this.getCreature(effect[1]).power * effect[3];
+					result.power += MMHK.units.get(effect[1]).power * effect[3];
 				} else if (effect[2] == "resurrection") {
-					result.power += this.getCreature(effect[1]).power * effect[3];
+					result.power += MMHK.units.get(effect[1]).power * effect[3];
 				} else if (effect[2] == "attackBonus") {
 					result.power += effect[3];
 				} else if (effect[2] == "defenseBonus") {
@@ -138,7 +134,7 @@ MMHK.modules.push({
 		for ( var e in spell.effect) {
 			var effect = spell.effect[e];
 			if ($.isArray( effect ))
-				result.power -= this.getCreature(effect[0]).power * effect[1];
+				result.power -= MMHK.units.get(effect[0]).power * effect[1];
 		}
 		return result;
 	},
@@ -170,16 +166,16 @@ MMHK.modules.push({
 				enemy = 'defender';
 				allySpell = 'AttackerSpell';
 				enemySpell = 'DefenderSpell';
-				result.allyPosition = 'Attaquant';
-				result.enemyPosition = 'Défenseur';
+				result.allyPosition = $.i18n.get('battle.attacker');
+				result.enemyPosition = $.i18n.get('battle.defender');
 			} else {
 				result.word = msg.content.contentJSON.defenderVictoryOrDefeatWord;
 				ally = 'defender';
 				enemy = 'attacker';
 				allySpell = 'DefenderSpell';
 				enemySpell = 'AttackerSpell';
-				result.allyPosition = 'Défenseur';
-				result.enemyPosition = 'Attaquant';
+				result.allyPosition = $.i18n.get('battle.defender');
+				result.enemyPosition = $.i18n.get('battle.attacker');
 			}
 			for ( var attr in self.ATTRIBUTES) {
 				if( typeof attr === "string" ) {

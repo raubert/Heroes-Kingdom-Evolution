@@ -14,7 +14,7 @@ MMHK.jQuery.i18n.resources.en = {
 	mage: "Mage",
 	archimage: "Archmage",
 	djinn: "Djinn",
-	"djinn.sultan": "Djinn SUltan",
+	"djinn.sultan": "Djinn Sultan",
 	"rakshasa.rani": "Rani Rakshasa",
 	"rakshasa.raja": "Raja Rakshasa",
 	colossus: "Colossus",

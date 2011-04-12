@@ -15,7 +15,13 @@ MMHK.units = {
 	 * @return the selected unit
 	 */
 	get: function( faction, tier ) {
-		return this[ faction ][ tier ];
+		if( tier ) {
+			return this[ faction ][ tier ];
+		}
+		else {
+			var details = faction.split( "_" );
+			return this[ details[1] ][ details[2] ];
+		}
 	},
 
 	/**

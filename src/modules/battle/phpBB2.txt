@@ -2,14 +2,14 @@
 [tr background=http://amroth.free.fr/hommk/{$T.battleResultHeader} ]
 [td width=603 height=72 colspan=9][color=black][center]
 [size=24][b][i]{$T.word}[/i][/b][/size]
-{#if $T.enemyPlayerName}&#10;contre {$T.enemyPlayerName}{#/if}
+{#if $T.enemyPlayerName}&#10;vs. {$T.enemyPlayerName}{#/if}
 [/center][/color][/td][/tr]
 [tr background=http://amroth.free.fr/hommk/BattleResult_bg.gif ]
 [td width=255 height=95 colspan=3][right]
 [color=white][size=18]
-{#if $T.allyHero}[b]{$T.allyHero.name}[/b] niveau {$T.allyHero._level}{#/if}
+{#if $T.allyHero}[b]{$T.allyHero.name}[/b] {$P.i18n.get('battle.hero.level')} {$T.allyHero._level}{#/if}
 [/size][/color]&#10;
-[color=black]Puissance: [b]{$T.allyLost=0,$T.allyBasePower}[/b]&#10;
+[color=black]{$P.i18n.get('battle.power')}: [b]{$T.allyLost=0,$T.allyBasePower}[/b]&#10;
 {$T.allyPosition}[/color][/right]&#10;
 [center][color=black]
 {#if $T.allyXpGained}
@@ -28,9 +28,9 @@
 [td width=93 height=95 colspan=3] [/td]
 [td width=255 height=95 colspan=3][justify]
 [color=white][size=17]
-{#if $T.enemyHero}[b]{$T.enemyHero.name}[/b] niveau {$T.enemyHero._level}{#/if}
+{#if $T.enemyHero}[b]{$T.enemyHero.name}[/b] {$P.i18n.get('battle.hero.level')} {$T.enemyHero._level}{#/if}
 [/size][/color]&#10;
-[color=black]Puissance: [b]{$T.enemyLost=0,$T.enemyBasePower}[/b]&#10;
+[color=black]{$P.i18n.get('battle.power')}: [b]{$T.enemyLost=0,$T.enemyBasePower}[/b]&#10;
 {$T.enemyPosition}[/color][/justify]&#10;
 [center][color=black]
 {#if $T.enemyXpGained}
@@ -42,18 +42,18 @@
 [td colspan=3][right][color=black]
 {#foreach $T.allySpells as spell}
 [b]{$T.spell.name}[/b] {$T.spell.power}
-{#if $T.spell.round} (tour {$T.spell.round}){#/if}&#10;
+{#if $T.spell.round} ({$P.i18n.get('battle.round')} {$T.spell.round}){#/if}&#10;
 {#/for}
 [/color][/right][/td]
-[td colspan=3][center][color=black]Sorts[/color][/center][/td]
+[td colspan=3][center][color=black]{$P.i18n.get('battle.spells')}[/color][/center][/td]
 [td colspan=3][left][color=black]
 {#foreach $T.enemySpells as spell}
 [b]{$T.spell.name}[/b] {$T.spell.power}
-{#if $T.spell.round} (tour {$T.spell.round}){#/if}&#10;
+{#if $T.spell.round} ({$P.i18n.get('battle.round')} {$T.spell.round}){#/if}&#10;
 {#/for}
 [/color][/left][/td]
 [/tr]
-[tr bgcolor=#e0ceb6][td ][color=black]Type[/color][/td][td ][color=black]Nombre[/color][/td][td colspan=2][color=black][right]Puissance[/right][/color][/td][td ][color=black]-[/color][/td][td colspan=2][color=black]Puissance[/color][/td][td ][color=black]Nombre[/color][/td][td ][color=black]Type[/color][/td][/tr]
+[tr bgcolor=#e0ceb6][td ][color=black]{$P.i18n.get('battle.type')}[/color][/td][td ][color=black]{$P.i18n.get('battle.count')}[/color][/td][td colspan=2][color=black][right]{$P.i18n.get('battle.power')}[/right][/color][/td][td ][color=black]-[/color][/td][td colspan=2][color=black]{$P.i18n.get('battle.power')}[/color][/td][td ][color=black]{$P.i18n.get('battle.count')}[/color][/td][td ][color=black]{$P.i18n.get('battle.type')}[/color][/td][/tr]
 {#for i=0 to 6}
 [tr ]
 {#if $T.allyUnitStackList[$T.i]}
@@ -75,12 +75,12 @@
 {#/for}
 [tr bgcolor=#e0ceb6]
 [td colspan=3][color=black][right]{$T.allyLost}[/right][/color][/td]
-[td colspan=3][color=black][center]Perdue[/center][/color][/td]
+[td colspan=3][color=black][center]{$P.i18n.get('battle.power.lost')}[/center][/color][/td]
 [td colspan=3][color=black][left]{$T.enemyLost}[/left][/color][/td]
 [/tr]
 [tr bgcolor=#e0ceb6]
 [td colspan=3][color=black][right]{$T.allyBasePower-$T.allyLost}[/right][/color][/td]
-[td colspan=3][color=black][center]Restante[/center][/color][/td]
+[td colspan=3][color=black][center]{$P.i18n.get('battle.power.left')}[/center][/color][/td]
 [td colspan=3][color=black][left]{$T.enemyBasePower-$T.enemyLost}[/left][/color][/td]
 [/tr]
 [tr ]
@@ -89,19 +89,19 @@
 [tr ]
 [td colspan=3][color=black][right]
 {#foreach $T.allyRaisedUnitStackList.effect as effect}
-{HOMMK_EXT.creatures[$T.effect[0]].name} {$T.effect[1]}&#10;
+{$P.i18n.get(MMHK.units.get($T.effect[0]).name)} {$T.effect[1]}&#10;
 {#/for}
 {#foreach $T.allyResurrectedUnitStackList.effect as effect}
-{HOMMK_EXT.creatures[$T.effect[0]].name} {$T.effect[1]}&#10;
+{$P.i18n.get(MMHK.units.get($T.effect[0]).name)} {$T.effect[1]}&#10;
 {#/for}
 [/right][/color][/td]
-[td colspan=3][color=black][center]Résurrection[/center][/color][/td]
+[td colspan=3][color=black][center]{$P.i18n.get('battle.resurrect')}[/center][/color][/td]
 [td colspan=3][color=black][left]
 {#foreach $T.enemyRaisedUnitStackList.effect as effect}
-{HOMMK_EXT.creatures[$T.effect[0]].name} {$T.effect[1]}&#10;
+{$P.i18n.get(MMHK.units.get($T.effect[0]).name)} {$T.effect[1]}&#10;
 {#/for}
 {#foreach $T.enemyResurrectedUnitStackList.effect as effect}
-{HOMMK_EXT.creatures[$T.effect[0]].name} {$T.effect[1]}&#10;
+{$P.i18n.get(MMHK.units.get($T.effect[0]).name)} {$T.effect[1]}&#10;
 {#/for}
 [/left][/color][/td]
 [/tr]
