@@ -1,6 +1,6 @@
 <project name="Heroes Kingdom Evolution" default="all" basedir=".">
 
-	<property name="version" value="2.01" />
+	<property name="version" value="2.2" />
 
 	<property environment="env" />
 
@@ -14,6 +14,7 @@
 	<property name="src.userscript" location="${src}/userscript" />
 
 	<property name="build" location="build" />
+	<property name="build.extra" location="${build}/extra" />
 	<property name="build.lang" value="en,fr" />
 	<property name="build.jquery.js" value="jquery.js" />
 	<property name="build.jquery.ui.js" value="jquery.ui.js" />
@@ -134,7 +135,7 @@
 		<replaceregexp match="@HOST" replace="${host}" flags="g" file="${chrome-updates}" />
 	</target>
 
-	<target name="chrome" depends="jQuery,jQuery-UI,mmhk-injected,mmhk-content-chrome,mmhk-background-chrome,mmhk-css,mmhk-chrome-options">
+	<target name="chrome" depends="jQuery,jQuery-UI,mmhk-injected,mmhk-content-chrome,mmhk-background-chrome,mmhk-css,mmhk-chrome-options,mmhk-extra-files">
 		<!-- copy chrome files -->
 		<copy todir="${build}">
 			<fileset dir="${src.chrome}">
@@ -154,6 +155,12 @@
 		<copy todir="${build}/images">
 			<fileset dir="${src.img}" includes="*.*" />
 		</copy>
+
+		<!-- move extra files into the right location -->
+		<move todir="${build}" includeEmptyDirs="no">
+			<fileset dir="${build.extra}" includes="**/*" />
+		</move>
+		<delete dir="${build.extra}" />
 
 		<!-- fix images path in CSS -->
 		<property name="images.path" value="chrome-extension://${chrome-id}" />
@@ -177,7 +184,7 @@
 		<replaceregexp match="@HASH" replace="sha1:${xpi-hash}" file="${firefox-updates}" />
 	</target>
 
-	<target name="firefox" depends="jQuery,jQuery-UI,mmhk-injected,mmhk-content-firefox,mmhk-background-firefox,mmhk-css">
+	<target name="firefox" depends="jQuery,jQuery-UI,mmhk-injected,mmhk-content-firefox,mmhk-background-firefox,mmhk-css,mmhk-extra-files">
 		<!-- copy chrome files -->
 		<copy todir="${build}">
 			<fileset dir="${src.firefox}">
@@ -215,6 +222,12 @@
 			<fileset dir="${src.img}" includes="*.*" />
 		</copy>
 		<move file="${build}/images" todir="${build}/chrome/browser" />
+		
+		<!-- move extra files into the right location -->
+		<move todir="${build}/chrome/browser" includeEmptyDirs="no">
+			<fileset dir="${build.extra}" includes="**/*" />
+		</move>
+		<delete dir="${build.extra}" />
 
 		<!-- we don't need those -->
 		<delete file="${build}/${build.jquery.js}" />
@@ -236,6 +249,7 @@
 				<file name="jquery.ba-throttle-debounce.js" />
 				<file name="jquery.cluetip.js" />
 				<file name="jquery.hoverIntent.js" />
+				<file name="jtemplates.0.7.8.js" />
 			</filelist>
 		</merge-and-prepare>
 	</target>
@@ -421,6 +435,27 @@
 
 		<!-- prepare the file for redistribution -->
 		<prepare target="${build}/${build.mmhk.css}" type="css" />
+	</target>
+
+	<target name="mmhk-extra-files">
+		<mkdir dir="${build.extra}" />
+		<foreach target="module-extra-files" param="dir">
+			<path>
+				<dirset dir="${src.modules}" includes="*" />
+			</path>
+			<param name="target" value="${build.extra}" />
+		</foreach>
+	</target>
+
+	<target name="module-extra-files">
+		<basename property="base" file="${dir}" />
+		<mkdir dir="${target}/${base}" />
+		<copy todir="${target}/${base}">
+			<fileset dir="${dir}">
+				<exclude name="*.js" />
+				<exclude name="*.css" />
+			</fileset>
+		</copy>
 	</target>
 
 	<!-- MMHK options page for chrome -->

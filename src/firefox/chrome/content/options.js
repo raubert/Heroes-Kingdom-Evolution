@@ -45,6 +45,10 @@ var mmhkOpts = {
 		return login == null ? null : login.password;
 	},
 
+	getForum: function( prefs ) {
+		return prefs.getCharPref( "forum" );
+	},
+
 	load: function() {
 		var prefs = this.getPrefs();
 		var url = this.getUrl( prefs );
@@ -61,14 +65,18 @@ var mmhkOpts = {
 				document.getElementById( "password" ).value = password;
 			}
 		}
+		var forum = this.getForum( prefs );
+		document.getElementById( "forum" ).value = forum;
 	},
 
 	save: function() {
 		var url = document.getElementById( "url" ).value;
 		var username = document.getElementById( "username" ).value;
+		var forum = document.getElementById( "forum" ).value;
 		var prefs = this.getPrefs();
 		prefs.setCharPref( "url", url );
 		prefs.setCharPref( "user", username );
+		prefs.setCharPref( "forum", forum );
 
 		if ( url != "" && username != "" ) {
 			var hostname = this.extractHostname( url );

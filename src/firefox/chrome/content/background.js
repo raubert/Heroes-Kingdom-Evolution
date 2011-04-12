@@ -13,6 +13,18 @@ window.addEventListener( "load", function() {
 					head = head[ 0 ];
 
 					var MMHK = {};
+					
+					function addScript( filename ) {
+						var type = "text/plain";
+						if( /\.js$/.test( filename ) ) {
+							type = "text/javascript";
+						}
+						var script = document.createElement( "script" );
+						script.setAttribute( "type", type );
+						script.src = "chrome://mmhk-ext/content/" + filename;
+						script.id = filename;
+						document.getElementsByTagName( "head" )[ 0 ].appendChild( script );
+					}
 
 					// background script here
 					@BACKGROUND
@@ -20,10 +32,7 @@ window.addEventListener( "load", function() {
 					@CONTENT
 
 					// inject MMHK's script into the page
-					var elt = document.createElement( "script" );
-					elt.setAttribute( "type", "text/javascript" );
-					elt.src = "chrome://mmhk-ext/content/mmhk.ext.js";
-					head.appendChild( elt );
+					addScript("mmhk.ext.js");
 
 					// inject MMHK's CSS into the page
 					elt = document.createElement( "link" );

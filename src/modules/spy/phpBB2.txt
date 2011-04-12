@@ -1,0 +1,82 @@
+[table border="0"]
+[tr background="{$T.scoutingResultHeader}" height="76"]
+[td width="163"][table border="0" width="100"][tr][td][center]{$T.date}[/center][/td][/tr][/table][/td]
+[td colspan="4" width="430"]{$T.data.ScoutingLevelStr}&#10;{$T.data.XPGainedStr}[/td]
+[/tr][tr]
+[td rowspan="2"][b]Cible[/b][/td][td][b]Joueur[/b][/td][td][b]Alliance[/b][/td][td][b]Lieu[/b][/td]
+[/tr][tr]
+[td]{$T.data.targetedPlayerName}[/td][td]{$T.data.targetedPlayerAlliance}[/td][td]
+{#if $T.data.cityName}
+{$T.data.cityName}
+{#/if}
+{#if $T.data.targetedHaltX}
+Halte en {$T.data.targetedHaltX}-{$T.data.targetedHaltY}
+{#/if}
+{#if $T.data.siegedRegionName}
+Siège sur {$T.data.siegedRegionName} {$T.data.siegedRegionX}-{$T.data.siegedRegionY}
+{#/if}
+[/td]
+[/tr]
+{#if $T.data.cityName}
+[tr background="{$T.metal}"]
+[td][b]{$T.data.cityName}[/b]&#10;Fortification : {$T.data.cityFortificationName}[/td]
+[td colspan="3"]
+{#if $T.data.regionUnitStackList}
+[table border="0"][tr]
+{#foreach $T.data.regionUnitStackList as unit}
+{#if $T.unit.unitEntityName}
+[td]{$T.unit.unitEntityName}&#10;{$T.unit.quantity}{#if ($T.unit.quantity-0)>0}&#10;[b]{$T.unit.quantity*$T.unit.unitEntityPower}[/b]
+{#/if}
+[/td]
+{#/if}
+{#/for}
+[/tr][/table]
+{#/if}
+[/td][/tr]
+{#/if}
+{#if $T.data.heroList}
+{#foreach $T.data.heroList as hero}
+[tr background="{$T.scoutingHeroResultBg}" height="155"]
+[td][b]{$T.hero.name}[/b]&#10;
+{$T.hero.heroTrainingEntityName} {#if $T.hero._level}n{$T.hero._level} ({$T.hero.attack} {$T.hero.defense} {$T.hero.magic}){#/if}
+{#if $T.hero.attachedUnitStackList}
+[table border="0"]
+{#foreach $T.hero.attachedUnitStackList as unit}
+{#if $T.unit.unitEntityName}
+[tr][td]{$T.unit.unitEntityName}[/td][td]{$T.unit.quantity}[/td][td][b]{$T.unit.quantity*$T.unit.unitEntityPower}[/b][/td][/tr]
+{#/if}
+{#/for}
+[/table]
+{#/if}
+[/td][td colspan="3"]
+[table border="0"][tr][td][b]Carrières[/b][/td][td][b]Sorts[/b][/td][td][b]Artefacts[/b][/td][/tr]
+[tr][td]
+{#if $T.hero.heroClassList}
+{#foreach $T.hero.heroClassList as class}
+{#if $T.class.heroClassEntityName}
+{$T.class.heroClassEntityName}&#10;
+{#/if}
+{#/for}
+{#/if}
+[/td][td]
+{#if $T.hero.spellStackList}
+{#foreach $T.hero.spellStackList as spell}
+{#if $T.spell.spellEntityName}
+{$T.spell.spellEntityName}&#10;
+{#/if}
+{#/for}
+{#/if}
+[/td][td]
+{#if $T.hero.artefactList}
+{#foreach $T.hero.artefactList as artefact}
+{#if $T.artefact.artefactEntity}
+{$T.artefact.artefactEntity.name}&#10;
+{#/if}
+{#/for}
+{#/if}
+[/td][/tr][/table]
+[/td][/tr]
+{#/for}
+{#/if}
+[/table]
+

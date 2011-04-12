@@ -1,0 +1,109 @@
+[table border=0 cellspacing=0 cellpadding=0 bgcolor=#fff2e5]
+[tr background=http://amroth.free.fr/hommk/{$T.battleResultHeader} ]
+[td width=603 height=72 colspan=9][color=black][center]
+[size=24][b][i]{$T.word}[/i][/b][/size]
+{#if $T.enemyPlayerName}&#10;contre {$T.enemyPlayerName}{#/if}
+[/center][/color][/td][/tr]
+[tr background=http://amroth.free.fr/hommk/BattleResult_bg.gif ]
+[td width=255 height=95 colspan=3][right]
+[color=white][size=18]
+{#if $T.allyHero}[b]{$T.allyHero.name}[/b] niveau {$T.allyHero._level}{#/if}
+[/size][/color]&#10;
+[color=black]Puissance: [b]{$T.allyLost=0,$T.allyBasePower}[/b]&#10;
+{$T.allyPosition}[/color][/right]&#10;
+[center][color=black]
+{#if $T.allyXpGained}
++{$T.allyXpGained} XP
+{#/if}
+{#if $T.lootRessourceQuantity}
+ {$T.lootRessourceQuantity} 
+{#foreach HOMMK.ressourceEntityList as res}
+{#if $T.lootRessourceEntityTagName==$T.res.tagName}
+ {$T.res.name}
+{#/if}
+{#/for}
+{#/if}
+[/color][/center]
+[/td]
+[td width=93 height=95 colspan=3] [/td]
+[td width=255 height=95 colspan=3][justify]
+[color=white][size=17]
+{#if $T.enemyHero}[b]{$T.enemyHero.name}[/b] niveau {$T.enemyHero._level}{#/if}
+[/size][/color]&#10;
+[color=black]Puissance: [b]{$T.enemyLost=0,$T.enemyBasePower}[/b]&#10;
+{$T.enemyPosition}[/color][/justify]&#10;
+[center][color=black]
+{#if $T.enemyXpGained}
++{$T.enemyXpGained} XP
+{#/if}
+[/color][/center]
+[/td][/tr]
+[tr ]
+[td colspan=3][right][color=black]
+{#foreach $T.allySpells as spell}
+[b]{$T.spell.name}[/b] {$T.spell.power}
+{#if $T.spell.round} (tour {$T.spell.round}){#/if}&#10;
+{#/for}
+[/color][/right][/td]
+[td colspan=3][center][color=black]Sorts[/color][/center][/td]
+[td colspan=3][left][color=black]
+{#foreach $T.enemySpells as spell}
+[b]{$T.spell.name}[/b] {$T.spell.power}
+{#if $T.spell.round} (tour {$T.spell.round}){#/if}&#10;
+{#/for}
+[/color][/left][/td]
+[/tr]
+[tr bgcolor=#e0ceb6][td ][color=black]Type[/color][/td][td ][color=black]Nombre[/color][/td][td colspan=2][color=black][right]Puissance[/right][/color][/td][td ][color=black]-[/color][/td][td colspan=2][color=black]Puissance[/color][/td][td ][color=black]Nombre[/color][/td][td ][color=black]Type[/color][/td][/tr]
+{#for i=0 to 6}
+[tr ]
+{#if $T.allyUnitStackList[$T.i]}
+[td ][color=black]{$T.allyUnitStackList[$T.i].unitEntityName}[/color][/td]
+[td ][color=black]{$T.allyUnitStackList[$T.i].quantity} - {$T.allyUnitStackList[$T.i].unitStackLost} = {$T.allyUnitStackList[$T.i].quantity-$T.allyUnitStackList[$T.i].unitStackLost}[/color][/td]
+[td colspan=2][color=black][right][b]{$T.allyLost+=$T.allyUnitStackList[$T.i].unitStackLost*$T.allyUnitStackList[$T.i].unitEntityPower,($T.allyUnitStackList[$T.i].quantity-$T.allyUnitStackList[$T.i].unitStackLost)*$T.allyUnitStackList[$T.i].unitEntityPower}[/b][/right][/color][/td]
+{#else}
+[td colspan=4] [/td]
+{#/if}
+[td ][color=black] [/color][/td]
+{#if $T.enemyUnitStackList[$T.i]}
+[td colspan=2][color=black][b]{$T.enemyLost+=$T.enemyUnitStackList[$T.i].unitStackLost*$T.enemyUnitStackList[$T.i].unitEntityPower,($T.enemyUnitStackList[$T.i].quantity-$T.enemyUnitStackList[$T.i].unitStackLost)*$T.enemyUnitStackList[$T.i].unitEntityPower}[/b][/color][/td]
+[td ][color=black]{$T.enemyUnitStackList[$T.i].quantity} - {$T.enemyUnitStackList[$T.i].unitStackLost} = {$T.enemyUnitStackList[$T.i].quantity-$T.enemyUnitStackList[$T.i].unitStackLost}[/color][/td]
+[td ][color=black]{$T.enemyUnitStackList[$T.i].unitEntityName}[/color][/td]
+{#else}
+[td colspan=4] [/td]
+{#/if}
+[/tr]
+{#/for}
+[tr bgcolor=#e0ceb6]
+[td colspan=3][color=black][right]{$T.allyLost}[/right][/color][/td]
+[td colspan=3][color=black][center]Perdue[/center][/color][/td]
+[td colspan=3][color=black][left]{$T.enemyLost}[/left][/color][/td]
+[/tr]
+[tr bgcolor=#e0ceb6]
+[td colspan=3][color=black][right]{$T.allyBasePower-$T.allyLost}[/right][/color][/td]
+[td colspan=3][color=black][center]Restante[/center][/color][/td]
+[td colspan=3][color=black][left]{$T.enemyBasePower-$T.enemyLost}[/left][/color][/td]
+[/tr]
+[tr ]
+[/tr]
+{#if ($T.allyResurrectedUnitStackList.hero || $T.allyRaisedUnitStackList.hero || $T.enemyResurrectedUnitStackList.hero || $T.enemyRaisedUnitStackList.hero)}
+[tr ]
+[td colspan=3][color=black][right]
+{#foreach $T.allyRaisedUnitStackList.effect as effect}
+{HOMMK_EXT.creatures[$T.effect[0]].name} {$T.effect[1]}&#10;
+{#/for}
+{#foreach $T.allyResurrectedUnitStackList.effect as effect}
+{HOMMK_EXT.creatures[$T.effect[0]].name} {$T.effect[1]}&#10;
+{#/for}
+[/right][/color][/td]
+[td colspan=3][color=black][center]Résurrection[/center][/color][/td]
+[td colspan=3][color=black][left]
+{#foreach $T.enemyRaisedUnitStackList.effect as effect}
+{HOMMK_EXT.creatures[$T.effect[0]].name} {$T.effect[1]}&#10;
+{#/for}
+{#foreach $T.enemyResurrectedUnitStackList.effect as effect}
+{HOMMK_EXT.creatures[$T.effect[0]].name} {$T.effect[1]}&#10;
+{#/for}
+[/left][/color][/td]
+[/tr]
+{#/if}
+[/table]

@@ -1,0 +1,113 @@
+[div=hommkBR hommkBR{$T.battleResultClass}]
+[div2=hommkBRWord]{$T.word}[/div2]
+{#if $T.enemyPlayerName}[div2=hommkBROpponent]contre {$T.enemyPlayerName}[/div2]{#/if}
+[/div]
+[div=hommkBRSeparator][/div]
+[div=hommkBR hommkBRSummary]
+[div2=hommkBRLeftSide]
+[div3=hommkBRHero]{#if $T.allyHero}[b]{$T.allyHero.name}[/b] niveau {$T.allyHero._level}{#/if}[/div3]
+[div3=hommkBRPower]Puissance: [b]{$T.allyLost=0,$T.allyBasePower}[/b][/div3]
+[div3=hommkBRPosition]{$T.allyPosition}[/div3]
+[div3=hommkBRLoot]
+{#if $T.allyXpGained}
++{$T.allyXpGained} XP
+{#/if}
+{#if $T.lootRessourceQuantity}
+ {$T.lootRessourceQuantity} 
+{#foreach HOMMK.ressourceEntityList as res}
+{#if $T.lootRessourceEntityTagName==$T.res.tagName}
+ {$T.res.name}
+{#/if}
+{#/for}
+{#/if}
+[/div3]
+[/div2]
+[div2=hommkBRRightSide]
+[div3=hommkBRHero]{#if $T.enemyHero}[b]{$T.enemyHero.name}[/b] niveau {$T.enemyHero._level}{#/if}[/div3]
+[div3=hommkBRPower]Puissance: [b]{$T.enemyLost=0,$T.enemyBasePower}[/b][/div3]
+[div3=hommkBRPosition]{$T.enemyPosition}[/div3]
+[div3=hommkBRLoot]
+{#if $T.enemyXpGained}
++{$T.enemyXpGained} XP
+{#/if}
+[/div3]
+[/div2]
+[/div]
+[div=hommkBRSeparator][/div]
+[div=hommkBR hommkBRSpells]
+[div2=hommkBRLeftSide]
+{#foreach $T.allySpells as spell}
+[b]{$T.spell.name}[/b] {$T.spell.power}
+{#if $T.spell.round} (tour {$T.spell.round}){#/if}&#10;
+{#/for}
+[/div2]
+[div2=hommkBRRightSide]
+{#foreach $T.enemySpells as spell}
+[b]{$T.spell.name}[/b] {$T.spell.power}
+{#if $T.spell.round} (tour {$T.spell.round}){#/if}&#10;
+{#/for}
+[/div2]
+[div2=hommkBRTitle]Sorts[/div2]
+[/div]
+[div=hommkBRSeparator][/div]
+[div=hommkBR hommkBRDetails]
+[div2=hommkBRLeftSide]
+[div3=hommkBRDetailsHead1]Type[/div3]
+[div3=hommkBRDetailsHead2]Nombre[/div3]
+[div3=hommkBRDetailsHead3]Puissance[/div3]
+{#for i=0 to 6}
+{#if $T.allyUnitStackList[$T.i]}
+[div3=hommkBRDetailsData1]{$T.allyUnitStackList[$T.i].unitEntityName}[/div3]
+[div3=hommkBRDetailsData2]{$T.allyUnitStackList[$T.i].quantity} - {$T.allyUnitStackList[$T.i].unitStackLost} = {$T.allyUnitStackList[$T.i].quantity-$T.allyUnitStackList[$T.i].unitStackLost}[/div3]
+[div3=hommkBRDetailsData3]{$T.allyLost+=$T.allyUnitStackList[$T.i].unitStackLost*$T.allyUnitStackList[$T.i].unitEntityPower,($T.allyUnitStackList[$T.i].quantity-$T.allyUnitStackList[$T.i].unitStackLost)*$T.allyUnitStackList[$T.i].unitEntityPower}[/div3]
+{#/if}
+{#/for}
+[/div2]
+[div2=hommkBRRightSide]
+[div3=hommkBRDetailsHead1]Type[/div3]
+[div3=hommkBRDetailsHead2]Nombre[/div3]
+[div3=hommkBRDetailsHead3]Puissance[/div3]
+{#for i=0 to 6}
+{#if $T.enemyUnitStackList[$T.i]}
+[div3=hommkBRDetailsData1]{$T.enemyUnitStackList[$T.i].unitEntityName}[/div3]
+[div3=hommkBRDetailsData2]{$T.enemyUnitStackList[$T.i].quantity} - {$T.enemyUnitStackList[$T.i].unitStackLost} = {$T.enemyUnitStackList[$T.i].quantity-$T.enemyUnitStackList[$T.i].unitStackLost}[/div3]
+[div3=hommkBRDetailsData3]{$T.enemyLost+=$T.enemyUnitStackList[$T.i].unitStackLost*$T.enemyUnitStackList[$T.i].unitEntityPower,($T.enemyUnitStackList[$T.i].quantity-$T.enemyUnitStackList[$T.i].unitStackLost)*$T.enemyUnitStackList[$T.i].unitEntityPower}[/div3]
+{#/if}
+{#/for}
+[/div2]
+[div2=hommkBRTitle]-[/div2]
+[/div]
+[div=hommkBRSeparator][/div]
+[div=hommkBR hommkBRLost]
+[div2=hommkBRLeftSide]{$T.allyLost}[/div2]
+[div2=hommkBRRightSide]{$T.enemyLost}[/div2]
+[div2=hommkBRTitle]Perdue[/div2]
+[/div]
+[div=hommkBRSeparator][/div]
+[div=hommkBR hommkBRResult]
+[div2=hommkBRLeftSide]{$T.allyBasePower-$T.allyLost}[/div2]
+[div2=hommkBRRightSide]{$T.enemyBasePower-$T.enemyLost}[/div2]
+[div2=hommkBRTitle]Restante[/div2]
+[/div]
+{#if ($T.allyResurrectedUnitStackList.hero || $T.allyRaisedUnitStackList.hero || $T.enemyResurrectedUnitStackList.hero || $T.enemyRaisedUnitStackList.hero)}
+[div=hommkBRSeparator][/div]
+[div=hommkBR hommkBRRaised]
+[div2=hommkBRLeftSide]
+{#foreach $T.allyRaisedUnitStackList.effect as effect}
+{HOMMK_EXT.creatures[$T.effect[0]].name} {$T.effect[1]}&#10;
+{#/for}
+{#foreach $T.allyResurrectedUnitStackList.effect as effect}
+{HOMMK_EXT.creatures[$T.effect[0]].name} {$T.effect[1]}&#10;
+{#/for}
+[/div2]
+[div2=hommkBRRightSide]
+{#foreach $T.enemyRaisedUnitStackList.effect as effect}
+{HOMMK_EXT.creatures[$T.effect[0]].name} {$T.effect[1]}&#10;
+{#/for}
+{#foreach $T.enemyResurrectedUnitStackList.effect as effect}
+{HOMMK_EXT.creatures[$T.effect[0]].name} {$T.effect[1]}&#10;
+{#/for}
+[/div2]
+[div2=hommkBRTitle]Résurrection[/div2]
+[/div]
+{#/if}

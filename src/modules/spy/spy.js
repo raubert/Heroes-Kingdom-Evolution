@@ -16,15 +16,39 @@ MMHK.modules.push({
 	 */
 	initialize: function(rights) {
 		if ( $( "#MMHK-rights" ).text() != "write" ) {
-			// not allowed; no need to go further
-			return;
+			// not allowed; we default to forum export
+			MMHK.hijack( HOMMK.ScoutingResultDetailedMessage.prototype, "addToDOM", this.addForumIcon, this );
 		}
+		else {
+			// icon has to be added in scouting reports
+			MMHK.hijack( HOMMK.ScoutingResultDetailedMessage.prototype, "addToDOM", this.addExportIcon, this );
 
-		// icon has to be added in scouting reports
-		MMHK.hijack( HOMMK.ScoutingResultDetailedMessage.prototype, "addToDOM", this.addExportIcon, this );
+			// event-based communication with background script
+			$( "#SpyMessageContent" ).bind( "spy:done", this.showExportResult );
+		}
+	},
 
-		// event-based communication with background script
-		$( "#SpyMessageContent" ).bind( "spy:done", this.showExportResult );
+	/**
+	 * Adds the icon that will trigger the specified callback.
+	 * 
+	 * @param obj {Object}
+	 *            the spy report object
+	 * @param label {Object}
+	 *            the label to place on the icon
+	 * @param onclick {Object}
+	 *            the callback when the icon is clicked
+	 */
+	addIcon: function( obj, label, onclick ) {
+		$("<div></div>", {
+			id: obj.elementType + obj.elementId + "Export",
+			title: $.i18n.get( label )
+		})
+			.addClass( "spy" )
+			.css( "background-image", "url('" + HOMMK.IMG_URL + "/css_sprite/SideBar_Shortcuts.gif')" )
+			.click( onclick )
+			.insertAfter( "#" + obj.elementType + obj.elementId + "Comments" )
+			.parent()
+				.css( "position", "relative" );
 	},
 
 	/**
@@ -35,31 +59,35 @@ MMHK.modules.push({
 	 */
 	addExportIcon: function( obj ) {
 		var self = this;
-		$("<div></div>", {
-			id: obj.elementType + obj.elementId + "Export",
-			title: $.i18n.get( "spy.title" )
-		})
-			.addClass( "spy" )
-			.css( "background-image", "url('" + HOMMK.IMG_URL + "/css_sprite/SideBar_Shortcuts.gif')" )
-			.click(function() {
-				if ( !$( this ).hasClass( "working" ) && !$( this ).hasClass( "done" ) ) {
-					// process if not already working
-					var data = self.process( obj );
-					if ( data ) {
-						$( this ).empty().addClass( "working" );
-						// event-based communication with background script
-						var evt = document.createEvent( "Event" );
-						evt.initEvent( "spy:save", true, true );
-						$( "#SpyMessageContent" )
-							.attr( "rel", "#" + obj.elementType + obj.elementId + "Export" )
-							.text( JSON.stringify( data ) )
-							[0].dispatchEvent( evt );
-					}
+		addIcon( obj, "spy.title", function() {
+			if ( !$( this ).hasClass( "working" ) && !$( this ).hasClass( "done" ) ) {
+				// process if not already working
+				var data = self.process( obj );
+				if ( data ) {
+					$( this ).empty().addClass( "working" );
+					// event-based communication with background script
+					var evt = document.createEvent( "Event" );
+					evt.initEvent( "spy:save", true, true );
+					$( "#SpyMessageContent" )
+						.attr( "rel", "#" + obj.elementType + obj.elementId + "Export" )
+						.text( JSON.stringify( data ) )
+						[0].dispatchEvent( evt );
 				}
-			})
-			.insertAfter( "#" + obj.elementType + obj.elementId + "Comments" )
-			.parent()
-				.css( "position", "relative" );
+			}
+		});
+	},
+
+	/**
+	 * Adds the icon that will format the report for forums.
+	 * 
+	 * @param obj {Object}
+	 *          the spy report object
+	 */
+	addForumIcon: function( obj ) {
+		var self = this;
+		this.addIcon( obj, "spy.forum", function() {
+			alert("pikaboo!");
+		});
 	},
 
 	/**

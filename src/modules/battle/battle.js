@@ -16,46 +16,35 @@ MMHK.modules.push({
 	 */
 	initialize: function(rights) {
 		if ( $( "#MMHK-rights" ).text() != "write" ) {
-			// not allowed; no need to go further
-			return;
+			// not allowed; we default to forum export
+			MMHK.hijack( HOMMK.BattleResultDetailedMessage.prototype, "addToDOM", this.addForumIcon, this );
 		}
+		else {
+			// icon has to be added in scouting reports
+			MMHK.hijack( HOMMK.BattleResultDetailedMessage.prototype, "addToDOM", this.addExportIcon, this );
 
-		// icon has to be added in scouting reports
-		MMHK.hijack( HOMMK.BattleResultDetailedMessage.prototype, "addToDOM", this.addExportIcon, this );
-
-		// event-based communication with background script
-		$( "#BattleMessageContent" ).bind( "battle:done", this.showExportResult );
+			// event-based communication with background script
+			$( "#BattleMessageContent" ).bind( "battle:done", this.showExportResult );
+		}
 	},
 
 	/**
-	 * Adds the icon that will trigger the spy report export.
+	 * Adds the icon that will trigger the specified callback.
 	 * 
 	 * @param obj {Object}
 	 *            the spy report object
+	 * @param label {Object}
+	 *            the label to place on the icon
+	 * @param onclick {Object}
+	 *            the callback when the icon is clicked
 	 */
-	addExportIcon: function( obj ) {
-		var self = this;
+	addIcon: function( obj, label, onclick ) {
 		$("<div></div>", {
 			id: obj.elementType + obj.elementId + "Export"
 		})
 			.addClass( "battle ui-corner-all" )
-			.click(function() {
-				if ( !$( this ).hasClass( "working" ) && !$( this ).hasClass( "done" ) ) {
-					// process if not already working
-					var data = self.process( obj );
-					if ( data ) {
-						$( this ).addClass( "working" );
-						// event-based communication with background script
-						var evt = document.createEvent( "Event" );
-						evt.initEvent( "battle:save", true, true );
-						$( "#BattleMessageContent" )
-							.attr( "rel", "#" + obj.elementType + obj.elementId + "Export" )
-							.text( JSON.stringify( data ) )
-							[0].dispatchEvent( evt );
-					}
-				}
-			})
-			.append( "<div class=\"left\"></div><div class=\"text\">" + $.i18n.get( "battle.export" ) + "</div><div class=\"right\"></div>" )
+			.click( onclick )
+			.append( "<div class=\"left\"></div><div class=\"text\">" + $.i18n.get( label ) + "</div><div class=\"right\"></div>" )
 				.children()
 					.filter( '.left' )
 						.css( "background-image", "url('" + HOMMK.IMG_URL + "/portal/btnLatestNewsBase.gif')" )
@@ -68,6 +57,45 @@ MMHK.modules.push({
 					.end()
 				.end()
 			.appendTo( "#" + obj.elementType + obj.elementId + "Body" );
+	},
+
+	/**
+	 * Adds the icon that will trigger the spy report export.
+	 * 
+	 * @param obj {Object}
+	 *            the spy report object
+	 */
+	addExportIcon: function( obj ) {
+		var self = this;
+		this.addIcon( obj, "battle.export", function() {
+			if ( !$( this ).hasClass( "working" ) && !$( this ).hasClass( "done" ) ) {
+				// process if not already working
+				var data = self.process( obj );
+				if ( data ) {
+					$( this ).addClass( "working" );
+					// event-based communication with background script
+					var evt = document.createEvent( "Event" );
+					evt.initEvent( "battle:save", true, true );
+					$( "#BattleMessageContent" )
+						.attr( "rel", "#" + obj.elementType + obj.elementId + "Export" )
+						.text( JSON.stringify( data ) )
+						[0].dispatchEvent( evt );
+				}
+			}
+		});
+	},
+
+	/**
+	 * Adds the icon that will format the report for forums.
+	 * 
+	 * @param obj {Object}
+	 *            the spy report object
+	 */
+	addForumIcon: function( obj ) {
+		var self = this;
+		this.addIcon( obj, "battle.forum", function() {
+			alert("pikaboo!");
+		});
 	},
 
 	/**

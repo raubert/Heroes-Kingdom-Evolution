@@ -14,6 +14,16 @@ function getConnection() {
 	return connection;
 }
 
+function getForum() {
+	// check the stored type of forum
+	var forum = localStorage[ "forum" ];
+	if ( !forum ) {
+		return "phpBB2";
+	}
+
+	return forum;
+}
+
 // wire up the listener
 chrome.extension.onRequest.addListener(function( request, sender, callback ) {
 	onRequest( request, callback );

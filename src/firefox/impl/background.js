@@ -21,6 +21,12 @@ function getConnection() {
 	return connection;
 }
 
+function getForum() {
+	var prefs = mmhkOpts.getPrefs();
+
+	return mmhkOpts.getForum( prefs );
+}
+
 MMHK.extension = {
 	onRequest: onRequest
 };

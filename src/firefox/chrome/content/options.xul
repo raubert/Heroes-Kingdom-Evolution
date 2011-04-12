@@ -13,6 +13,7 @@
 	<tabbox id="mmhk-options-tabs" style="width:33em">
 		<tabs>
 			<tab label="&mmhk.options.connect;" id="mmhk-options-tab-connect" />
+			<tab label="&mmhk.options.forum;" id="mmhk-options-tab-forum" />
 		</tabs>
 		<tabpanels>
 			<tabpanel>
@@ -30,6 +31,21 @@
 					<hbox align="center">
 						<label control="password" value="&mmhk.options.password;" class="indent" style="width:8em" />
 						<textbox id="password" type="password" />
+					</hbox>
+				</vbox>
+			</tabpanel>
+			<tabpanel>
+				<vbox flex="2">
+					<description>&mmhk.options.forum_info;</description>
+					<separator class="thin" />
+					<hbox align="center">
+						<label control="forum" value="&mmhk.options.forum_type;" class="indent" style="width:8em" />
+						<menulist id="forum">
+							<menupopup>
+								<menuitem label="phpBB 2" value="phpBB2"/>
+								<menuitem label="phpBB 3" value="phpBB3"/>
+							</menupopup>
+						</menulist>
 					</hbox>
 				</vbox>
 			</tabpanel>

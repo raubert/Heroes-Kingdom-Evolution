@@ -20,6 +20,15 @@ function getConnection() {
 	return connect;
 };
 
+function getForum() {
+	var forum = localStorage[ "forum" ];
+	if ( !forum ) {
+		return "phpBB2";
+	}
+
+	return forum;
+};
+
 $(function() {
 
 	$( ".i18n" ).removeClass( "i18n" ).text(function( i, current ) {
@@ -41,12 +50,17 @@ $(function() {
 		}
 		
 		localStorage[ "connection" ] = JSON.stringify( connect );
+		var forum = $( "#forum" ).val();
+alert(forum);
+		localStorage[ "forum" ] = forum;
 		$( "button" ).blur().mouseout().button( "disable" );
 	});
 
-	$( "input" ).keyup(function() {
+	var enableButton = function() {
 		$( "button" ).button( "enable" );
-	});
+	};
+	$( "input" ).keyup( enableButton );
+	$( "select" ).change( enableButton );
 
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function() {
@@ -65,6 +79,9 @@ $(function() {
 		var fake = connect.pass.replace( /./g, "*" );
 		$( "#password" ).val( fake ).data( "fake", fake );
 	}
+
+	var forum = getForum();
+	$( "#forum" ).val(forum);
 
 	$( window ).resize($.throttle( 100, function() {
 		$( "#credits" )[ ( $( this ).height() > 840 ? "add" : "remove" ) + "Class" ]( "fixed" );

@@ -14,3 +14,7 @@ spy.addEventListener( "spy:save", function() {
 		spy.dispatchEvent( evt );
 	});
 }, false);
+
+addScript("spy/phpBB2.txt");
+addScript("spy/phpBB3.txt");
+

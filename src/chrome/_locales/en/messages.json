@@ -23,6 +23,15 @@
 	"password": {
 		"message": "Password"
 	},
+	"forum": {
+		"message": "Forum Parameters"
+	},
+	"forum_info": {
+		"message": "This is the type of forum that you're using with your alliance"
+	},
+	"forum_type": {
+		"message": "Type"
+	},
 	"save": {
 		"message": "Save"
 	}

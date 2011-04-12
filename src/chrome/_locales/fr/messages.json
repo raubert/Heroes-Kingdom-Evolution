@@ -23,6 +23,15 @@
 	"password": {
 		"message": "Mot de Passe"
 	},
+	"forum": {
+		"message": "Paramètres de forum"
+	},
+	"forum_info": {
+		"message": "Ces paramètres seront utilisés pour exporter des rapports à un format compatible avec votre type de forum"
+	},
+	"forum_type": {
+		"message": "Type"
+	},
 	"save": {
 		"message": "Sauvegarder"
 	}
