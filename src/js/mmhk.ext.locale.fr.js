@@ -74,6 +74,16 @@ MMHK.jQuery.i18n.resources.fr = {
 	treant: "Tréant",
 	"treant.ancient": "Tréant Séculaire",
 	"dragon.green": "Dragon Vert",
-	"dragon.emerald": "Dragon d'Émeraude"
-
+	"dragon.emerald": "Dragon d'Émeraude",
+	"elemental.wind": "Élémentaire d'air",
+	"elemental.water": "Élémentaire d'eau",
+	"elemental.earth": "Élémentaire de terre",
+	"elemental.fire": "Élémentaire de feu",
+	"death.knight": "Chevalier de la Mort",
+	wolf: "Loup",
+	gnome: "Gnome",
+	centauri: "Centaure",
+	"ghost.wandering": "Fantôme errant",
+	manticore: "Manticore",
+	minotaur: "Minotaure"
 };

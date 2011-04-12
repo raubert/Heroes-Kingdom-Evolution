@@ -411,6 +411,67 @@ MMHK.units = {
 			type: 1,
 			power: 9077
 		}
+	},
+
+	/**
+	 * Neutral units, by type
+         */
+	NEUTRAL: {
+		FIRE: {
+			name: "elemental.fire",
+			type: 2,
+			power: 3300
+		},
+		WATER: {
+			name: "elemental.water",
+			type: 2,
+			power: 3900
+		},
+		EARTH: {
+			name: "elemental.earth",
+			type: 0,
+			power: 3600
+		},
+		WIND: {
+			name: "elemental.wind",
+			type: 1,
+			power: 4200
+		},
+		DEATHKNIGHT: {
+			name: "death.knight",
+			type: 1,
+			power: 60000
+		},
+		WOLF: {
+			name: "wolf",
+			type: 1,
+			power: 245
+		},
+		GNOME: {
+			name: "gnome",
+			type: 0,
+			power: 115
+		},
+		GNOMESHOOTER: {
+			name: "centauri",
+			type: 2,
+			power: 410
+		},
+		WANDERINGGHOST: {
+			name: "ghost.wandering",
+			type: 1,
+			power: 303
+		},
+		MANTICORE: {
+			name: "manticore",
+			type: 1,
+			power: 1681
+		},
+		MINOTAUR: {
+			name: "minotaur",
+			type: 0,
+			power: 822
+		}
 	}
 
 };

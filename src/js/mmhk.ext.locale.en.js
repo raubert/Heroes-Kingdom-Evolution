@@ -74,6 +74,17 @@ MMHK.jQuery.i18n.resources.en = {
 	treant: "Treant",
 	"treant.ancient": "Ancient Treant",
 	"dragon.green": "Green Dragon",
-	"dragon.emerald": "Emerald Dragon"
+	"dragon.emerald": "Emerald Dragon",
+	"elemental.wind": "Wind Elemental",
+	"elemental.water": "Water Elemental",
+	"elemental.earth": "Earth Elemental",
+	"elemental.fire": "Fire Elemental",
+	"death.knight": "Death Knight",
+	wolf: "Wolf",
+	gnome: "Gnome",
+	centauri: "Centauri",
+	"ghost.wandering": "Wandering Ghost",
+	manticore: "Manticore",
+	minotaur: "Minotaur"
 
 };
