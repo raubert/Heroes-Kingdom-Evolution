@@ -13,7 +13,7 @@ MMHK.jQuery.i18n.add( "en", {
 	"spy.alliance": "Alliance",
 	"spy.location": "Location",
 	"spy.forts": "Fortification",
-	"spy.careers": "Careers",
+	"spy.careers": "Classes",
 	"spy.spells": "Spells",
 	"spy.artefacts": "Artefacts",
 });
