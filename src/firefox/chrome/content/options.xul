@@ -42,6 +42,7 @@
 						<label control="forum" value="&mmhk.options.forum_type;" class="indent" style="width:8em" />
 						<menulist id="forum">
 							<menupopup>
+								<menuitem label="&mmhk.options.plain_text;" value="plain"/>
 								<menuitem label="phpBB 2" value="phpBB2"/>
 								<menuitem label="phpBB 3" value="phpBB3"/>
 							</menupopup>

@@ -29,6 +29,25 @@ MMHK.jQuery.extend({
 			return s;
 		},
 
+		toDateString: function( date ) {
+			var f = this.resources[ this.language ][ 'toDateString' ];
+			if( !f ) return date.toLocaleDateString();
+			else return f( date );
+		},
+
+		toTimeString: function( date ) {
+			var f = this.resources[ this.language ][ 'toTimeString' ];
+			if( !f ) {
+				var h = date.getHours();
+				var m = date.getMinutes();
+				var s = date.getSeconds();
+				return (h<10?"0":"") + h + ":"
+					+ (m<10?"0":"") + m + ":"
+					+ (s<10?"0":"") + s;
+			}
+			else return f( date );
+		},
+
 		add: function( lang, messages ) {
 			MMHK.jQuery.extend( this.resources[ lang ] || {}, messages );
 		}

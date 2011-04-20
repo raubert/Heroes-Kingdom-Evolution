@@ -11,10 +11,10 @@
 {$T.data.cityName}
 {#/if}
 {#if $T.data.targetedHaltX}
-Halte en {$T.data.targetedHaltX}-{$T.data.targetedHaltY}
+{$P.i18n.get('spy.halt.at')} {$T.data.targetedHaltX}-{$T.data.targetedHaltY}
 {#/if}
 {#if $T.data.siegedRegionName}
-Siège sur {$T.data.siegedRegionName} {$T.data.siegedRegionX}-{$T.data.siegedRegionY}
+{$P.i18n.get('spy.siege.at')} {$T.data.siegedRegionName} {$T.data.siegedRegionX}-{$T.data.siegedRegionY}
 {#/if}
 [/div2]
 [/div]

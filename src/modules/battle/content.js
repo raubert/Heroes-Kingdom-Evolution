@@ -17,4 +17,5 @@ battle.addEventListener( "battle:save", function() {
 
 addFile("battle/phpBB2.txt");
 addFile("battle/phpBB3.txt");
+addFile("battle/plain.txt");
 

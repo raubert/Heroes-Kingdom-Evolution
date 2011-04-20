@@ -1,6 +1,6 @@
 [table border="0"]
 [tr background="http://amroth.free.fr/hommk/scoutingResultHeader.jpg" height="76"]
-[td width="163"][table border="0" width="100"][tr][td][center]{$T.date}[/center][/td][/tr][/table][/td]
+[td width="163"][table border="0" width="100"][tr][td][center]{$T.date}&#10;{$T.time}[/center][/td][/tr][/table][/td]
 [td colspan="4" width="430"]{$T.data.ScoutingLevelStr}&#10;{$T.data.XPGainedStr}[/td]
 [/tr][tr]
 [td rowspan="2"][b]{$P.i18n.get('spy.target')}[/b][/td][td][b]{$P.i18n.get('spy.player')}[/b][/td][td][b]{$P.i18n.get('spy.alliance')}[/b][/td][td][b]{$P.i18n.get('spy.location')}[/b][/td]
@@ -10,10 +10,10 @@
 {$T.data.cityName}
 {#/if}
 {#if $T.data.targetedHaltX}
-Halte en {$T.data.targetedHaltX}-{$T.data.targetedHaltY}
+{$P.i18n.get('spy.halt.at')} {$T.data.targetedHaltX}-{$T.data.targetedHaltY}
 {#/if}
 {#if $T.data.siegedRegionName}
-Siège sur {$T.data.siegedRegionName} {$T.data.siegedRegionX}-{$T.data.siegedRegionY}
+{$P.i18n.get('spy.siege.at')} {$T.data.siegedRegionName} {$T.data.siegedRegionX}-{$T.data.siegedRegionY}
 {#/if}
 [/td]
 [/tr]

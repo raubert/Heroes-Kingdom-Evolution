@@ -245,10 +245,10 @@ MMHK.initialize = function() {
 	MMHK.log( "MMHK: selected language: '" + $.i18n.language + "'..." );
 
 	// append the current time
-	$( "#MainMenuContainer>.floatRight:first" ).prepend( "<div id=\"mmhk-ext-time\" class=\"floatLeft mainMenuButton\"></div>" );
+	$( ".gameVersion" ).append("<span> | </span>").append( "<span id=\"mmhk-ext-time\"></span>" );
 	setInterval( function() {
 		var now = new Date();
-		$( "#mmhk-ext-time" ).text( now.toLocaleDateString() + " " + $.formatTime( now.getHours(), now.getMinutes(), now.getSeconds() ) );
+		$( "#mmhk-ext-time" ).text( $.i18n.toDateString(now) + " " + $.i18n.toTimeString(now) );
 	}, 1000 );
 
 	MMHK.log( "MMHK: waiting for rights before proceeding..." );

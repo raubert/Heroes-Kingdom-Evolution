@@ -16,4 +16,7 @@ MMHK.jQuery.i18n.add( "fr", {
 	"spy.careers": "Carrières",
 	"spy.spells": "Sorts",
 	"spy.artefacts": "Artefacts",
+	"spy.on": "Le",
+	"spy.halt.at": "Halte en",
+	"spy.siege.at": "Siège sur",
 });

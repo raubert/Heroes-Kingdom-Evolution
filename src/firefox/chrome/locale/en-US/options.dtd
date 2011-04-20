@@ -7,4 +7,5 @@
 <!ENTITY mmhk.options.forum         "Forum Parameters">
 <!ENTITY mmhk.options.forum_info    "This is the type of forum that you're using with your alliance">
 <!ENTITY mmhk.options.forum_type    "Type">
+<!ENTITY mmhk.options.plain_text    "Plain Text">
 <!ENTITY mmhk.options.save          "Save">

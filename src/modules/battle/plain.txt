@@ -1,0 +1,71 @@
+{$T.word}{#if $T.enemyPlayerName} vs. {$T.enemyPlayerName}{#/if}&#10;&#10;
+
+== {$T.allyPosition} ==&#10;
+{#if $T.allyHero}{$T.allyHero.name} {$P.i18n.get('battle.hero.level')} {$T.allyHero._level}&#10;{#/if}
+{$P.i18n.get('battle.power')}: {$T.allyLost=0,$T.allyBasePower}
+{#if $T.allyXpGained}
+&#10;+{$T.allyXpGained} XP
+{#/if}
+{#if $T.lootRessourceQuantity}
+ {$T.lootRessourceQuantity} 
+{#foreach HOMMK.ressourceEntityList as res}
+{#if $T.lootRessourceEntityTagName==$T.res.tagName}
+ {$T.res.name}
+{#/if}
+{#/for}
+{#/if}
+
+{#foreach $T.allySpells as spell}
+&#10;{$T.spell.name} {$T.spell.power}
+{#if $T.spell.round} ({$P.i18n.get('battle.round')} {$T.spell.round}){#/if}
+{#/for}
+&#10;
+{#for i=0 to 6}
+{#if $T.allyUnitStackList[$T.i]}
+&#10;{$T.allyUnitStackList[$T.i].unitEntityName}: 
+{$T.allyUnitStackList[$T.i].quantity} - {$T.allyUnitStackList[$T.i].unitStackLost} = {$T.allyUnitStackList[$T.i].quantity-$T.allyUnitStackList[$T.i].unitStackLost}
+ ({$T.allyLost+=$T.allyUnitStackList[$T.i].unitStackLost*$T.allyUnitStackList[$T.i].unitEntityPower,($T.allyUnitStackList[$T.i].quantity-$T.allyUnitStackList[$T.i].unitStackLost)*$T.allyUnitStackList[$T.i].unitEntityPower})
+{#/if}
+{#/for}
+&#10;&#10;
+
+== {$T.enemyPosition} ==&#10;
+{#if $T.enemyHero}{$T.enemyHero.name} {$P.i18n.get('battle.hero.level')} {$T.enemyHero._level}&#10;{#/if}
+{$P.i18n.get('battle.power')}: {$T.enemyLost=0,$T.enemyBasePower}
+{#if $T.enemyXpGained}
+&#10;+{$T.enemyXpGained} XP
+{#/if}
+
+{#foreach $T.enemySpells as spell}
+&#10;{$T.spell.name} {$T.spell.power}
+{#if $T.spell.round} ({$P.i18n.get('battle.round')} {$T.spell.round}){#/if}
+{#/for}
+&#10;
+{#for i=0 to 6}
+{#if $T.enemyUnitStackList[$T.i]}
+&#10;{$T.enemyUnitStackList[$T.i].unitEntityName}: {$T.enemyUnitStackList[$T.i].quantity} - {$T.enemyUnitStackList[$T.i].unitStackLost} = {$T.enemyUnitStackList[$T.i].quantity-$T.enemyUnitStackList[$T.i].unitStackLost}
+ ({$T.enemyLost+=$T.enemyUnitStackList[$T.i].unitStackLost*$T.enemyUnitStackList[$T.i].unitEntityPower,($T.enemyUnitStackList[$T.i].quantity-$T.enemyUnitStackList[$T.i].unitStackLost)*$T.enemyUnitStackList[$T.i].unitEntityPower})
+{#/if}
+{#/for}
+&#10;&#10;
+== {$P.i18n.get('battle.power.lost')} ==&#10;
+{$T.allyPosition}: {$T.allyLost}&#10;
+{$T.enemyPosition}: {$T.enemyLost}&#10;
+== {$P.i18n.get('battle.power.left')} ==&#10;
+{$T.allyPosition}: {$T.allyBasePower-$T.allyLost}&#10;
+{$T.enemyPosition}: {$T.enemyBasePower-$T.enemyLost}&#10;
+{#if ($T.allyResurrectedUnitStackList.hero || $T.allyRaisedUnitStackList.hero || $T.enemyResurrectedUnitStackList.hero || $T.enemyRaisedUnitStackList.hero)}
+== {$P.i18n.get('battle.resurrect')} ==&#10;
+{#foreach $T.allyRaisedUnitStackList.effect as effect}
+{$T.allyPosition}: {$P.i18n.get(MMHK.units.get($T.effect[0]).name)} {$T.effect[1]}&#10;
+{#/for}
+{#foreach $T.allyResurrectedUnitStackList.effect as effect}
+{$T.allyPosition}: {$P.i18n.get(MMHK.units.get($T.effect[0]).name)} {$T.effect[1]}&#10;
+{#/for}
+{#foreach $T.enemyRaisedUnitStackList.effect as effect}
+{$T.enemyPosition}: {$P.i18n.get(MMHK.units.get($T.effect[0]).name)} {$T.effect[1]}&#10;
+{#/for}
+{#foreach $T.enemyResurrectedUnitStackList.effect as effect}
+{$T.enemyPosition}: {$P.i18n.get(MMHK.units.get($T.effect[0]).name)} {$T.effect[1]}&#10;
+{#/for}
+{#/if}

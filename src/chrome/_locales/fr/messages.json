@@ -32,6 +32,9 @@
 	"forum_type": {
 		"message": "Type"
 	},
+	"plain_text": {
+		"message": "Texte pur"
+	},
 	"save": {
 		"message": "Sauvegarder"
 	}

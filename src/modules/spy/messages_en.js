@@ -16,4 +16,7 @@ MMHK.jQuery.i18n.add( "en", {
 	"spy.careers": "Classes",
 	"spy.spells": "Spells",
 	"spy.artefacts": "Artefacts",
+	"spy.on": "On",
+	"spy.halt.at": "Halt at",
+	"spy.siege.at": "Siege on",
 });

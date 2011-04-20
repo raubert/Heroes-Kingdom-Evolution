@@ -99,10 +99,12 @@ MMHK.modules.push({
 			if( msg.content.contentJSON.message ) {
 				// message has been forwarded: date is unknown
 				result.date = "";
+				result.time = "";
 			}
 			else {
 				var when = new Date( msg.content.creationDate * 1000 );
-				result.date = when.getDate() + '/' + ( when.getMonth() + 1 ) + '\n' + when.getHours() + ':' + when.getMinutes();
+				result.date = $.i18n.toDateString( when );
+				result.time = $.i18n.toTimeString( when );
 			}
 			result.data = msg.content.contentJSON;
 			$( "#SpyForumExportData" ).processTemplate( result );

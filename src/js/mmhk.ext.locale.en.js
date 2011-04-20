@@ -3,6 +3,12 @@
  */
 MMHK.jQuery.i18n.resources.en = {
 
+	toDateString: function( date ) {
+		var day = date.getDate();
+		var month = date.getMonth() + 1;
+		return month + "/" + (day<10?"0":"") + day;
+	},
+
 	balist: "Balist",
 	catapult: "Catapult",
 	gremlin: "Gremlin",

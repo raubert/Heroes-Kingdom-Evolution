@@ -1,0 +1,65 @@
+{#if $T.date}{$P.i18n.get('spy.on')} {$T.date} {$T.time},{#/if}{$T.data.ScoutingLevelStr}&#10;{#if $T.data.XPGainedStr}{$T.data.XPGainedStr}&#10;{#/if}
+&#10;{$P.i18n.get('spy.target')}: {$P.i18n.get('spy.player')} {$T.data.targetedPlayerName}, {$P.i18n.get('spy.alliance')} {$T.data.targetedPlayerAlliance}, {$P.i18n.get('spy.location')}:  
+{#if $T.data.cityName}
+{$T.data.cityName}
+{#/if}
+{#if $T.data.targetedHaltX}
+{$P.i18n.get('spy.halt.at')} {$T.data.targetedHaltX}-{$T.data.targetedHaltY}
+{#/if}
+{#if $T.data.siegedRegionName}
+{$P.i18n.get('spy.siege.at')} {$T.data.siegedRegionName} {$T.data.siegedRegionX}-{$T.data.siegedRegionY}
+{#/if}
+&#10;&#10;
+{#if $T.data.cityName}
+== {$T.data.cityName} 
+{#if $T.data.cityFortificationName}({$P.i18n.get('spy.forts')}: {$T.data.cityFortificationName}) {#/if}
+==&#10;
+{#if $T.data.regionUnitStackList}
+{#foreach $T.data.regionUnitStackList as unit}
+{#if $T.unit.unitEntityName}
+{$T.unit.quantity} {$T.unit.unitEntityName}{#if ($T.unit.quantity-0)>0}: {$T.unit.quantity*$T.unit.unitEntityPower}{#/if}&#10;
+{#/if}
+{#/for}
+{#/if}
+&#10;
+{#/if}
+{#if $T.data.heroList}
+{#foreach $T.data.heroList as hero}
+== {$T.hero.name} ==&#10;
+{$T.hero.heroTrainingEntityName} {#if $T.hero._level}n{$T.hero._level} ({$T.hero.attack} {$T.hero.defense} {$T.hero.magic})&#10;{#/if}
+{#if $T.hero.attachedUnitStackList}
+{#foreach $T.hero.attachedUnitStackList as unit}
+{#if $T.unit.unitEntityName}
+{$T.unit.quantity} {$T.unit.unitEntityName}: {$T.unit.quantity*$T.unit.unitEntityPower}&#10;
+{#/if}
+{#/for}
+{#/if}
+{$P.i18n.get('spy.careers')}: 
+{#if $T.hero.heroClassList}
+{#foreach $T.hero.heroClassList as class}
+{#if $T.class.heroClassEntityName}
+{$T.class.heroClassEntityName}, 
+{#/if}
+{#/for}
+{#/if}
+&#10;
+{$P.i18n.get('spy.spells')}: 
+{#if $T.hero.spellStackList}
+{#foreach $T.hero.spellStackList as spell}
+{#if $T.spell.spellEntityName}
+{$T.spell.spellEntityName}, 
+{#/if}
+{#/for}
+{#/if}
+&#10;
+{$P.i18n.get('spy.artefacts')}: 
+{#if $T.hero.artefactList}
+{#foreach $T.hero.artefactList as artefact}
+{#if $T.artefact.artefactEntity}
+{$T.artefact.artefactEntity.name}, 
+{#/if}
+{#/for}
+{#/if}
+&#10;&#10;
+{#/for}
+{#/if}

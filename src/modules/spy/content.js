@@ -15,6 +15,7 @@ spy.addEventListener( "spy:save", function() {
 	});
 }, false);
 
+addFile("spy/plain.txt");
 addFile("spy/phpBB2.txt");
 addFile("spy/phpBB3.txt");
 
