@@ -26,11 +26,20 @@ MMHK.modules.push({
 		if ( $( "#MMHK-rights" ).text() != "write" ) {
 			// not allowed; we default to forum export
 			MMHK.hijack( HOMMK.BattleResultDetailedMessage.prototype, "addToDOM", this.addForumIcon, this );
-			var classes = "largeFrame absolutePosition zIndex10000 metal borderBrown2";
-			$( "#FrameMainContainer" ).append(
-				"<div id='BattleForumExport' style='padding:10px;' class='" + classes
-				+ " hidden'><div class='underline clickable' onclick='this.parentNode.className=\"" + classes
-				+ " hidden\";'>Fermer</div><textarea id='BattleForumExportData' cols='80' rows='25'></textarea></div>" );
+			$( "<div/>", {
+				id: "BattleForumExport",
+				style: "padding:10px;",
+			})
+			.addClass( "largeFrame absolutePosition zIndex10000 metal borderBrown2" )
+			.append(
+				$( "<div>Fermer</div>" )
+				.addClass( "underline clickable" )
+				.click( function() {
+					$( this ).parent().hide();
+				}))
+			.append( "<textarea id='BattleForumExportData' cols='80' rows='25'></textarea>" )
+			.hide()
+			.appendTo( "#Container" );
 			var forumType = $( "#ForumType" ).html();
 			var template = $( "#battle_" + forumType + "_txt" ).html();
 			$( "#BattleForumExportData" ).setTemplate( template );
@@ -42,6 +51,51 @@ MMHK.modules.push({
 
 			// event-based communication with background script
 			$( "#BattleMessageContent" ).bind( "battle:done", this.showExportResult );
+		}
+		MMHK.hijack( HOMMK.BattleRound.prototype, "addToDOM", this.addPowerBonus, this );
+	},
+
+	addPowerBonus: function( obj ) {
+		var id = obj.elementId.substring( 0, obj.elementId.indexOf('_') );
+		var battle = HOMMK.elementPool.get( "BattleResultDetailedMessage" ).get( id );
+		var attackBonus = false, defenseBonus = false, allyBonus = false, enemyBonus = false;
+		if( obj.content.attackerUnitStackHeroBonus ) {
+			attackBonus = "+" + Math.round( 1000*obj.content.attackerUnitStackHeroBonus/obj.content.attackerUnitStackPower )/10 + "%";
+		}
+		if( obj.content.defenderUnitStackHeroBonus ) {
+			defenseBonus = "+" + Math.round( 1000*obj.content.defenderUnitStackHeroBonus/obj.content.defenderUnitStackPower )/10 + "%";
+		}
+		if ( battle.content.type == HOMMK.MESSAGE_TYPE_BATTLE_RESULT_DEFENDER ) {
+			allyBonus = defenseBonus;
+			enemyBonus = attackBonus;
+		}
+		else {
+			allyBonus = attackBonus;
+			enemyBonus = defenseBonus;
+		}
+		if( allyBonus ) {
+			var before = $( "#"+obj.elementType + obj.elementId+"AllyQuantityBefore" );	
+			var div = $("<div></div>", {
+				id: obj.elementType + obj.elementId + "AllyBonus",
+				style: "font-size:12px;"
+			})
+			.html( allyBonus );
+			div.prependTo( before.parent() );
+			before.css( "display", "inline" )
+				.remove()
+				.prependTo( div );
+		}
+		if( enemyBonus ) {
+			var before = $( "#"+obj.elementType + obj.elementId+"EnemyQuantityBefore" );	
+			var div = $("<div></div>", {
+				id: obj.elementType + obj.elementId + "EnemyBonus",
+				style: "font-size:12px;"
+			})
+			.html( enemyBonus );
+			div.prependTo( before.parent() );
+			before.css( "display", "inline" )
+				.remove()
+				.prependTo( div );
 		}
 	},
 
@@ -121,7 +175,7 @@ MMHK.modules.push({
 				} else if (effect[2] == "defenseBonus") {
 					result.power += effect[3];
 				} else if (effect[2] == "powerBonus") {
-					result.power += effect[3];
+					result.power += MMHK.units.get(effect[1]).power * effect[3];
 				}
 			}
 		}
@@ -207,30 +261,45 @@ MMHK.modules.push({
 			result.lootRessourceQuantity = msg.content.contentJSON.lootRessourceQuantity;
 			result.lootRessourceEntityTagName = msg.content.contentJSON.lootRessourceEntityTagName;
 			result.allySpells = new Array();
+			result.allyBonus = 0;
 			result.enemySpells = new Array();
+			result.enemyBonus = 0;
 			if (msg.content.contentJSON[ally + 'BarrageFire'])
-				result.allySpells.push( self.parseBarrageFire( "Tir de barrage", msg.content.contentJSON[ally + 'BarrageFire'] ) );
+				result.allySpells.push( self.parseBarrageFire( $.i18n.get( 'battle.barrage.fire' ), msg.content.contentJSON[ally + 'BarrageFire'] ) );
 			if (msg.content.contentJSON[enemy + 'BarrageFire'])
-				result.enemySpells.push( self.parseBarrageFire( "Tir de barrage", msg.content.contentJSON[enemy + 'BarrageFire'] ) );
+				result.enemySpells.push( self.parseBarrageFire( $.i18n.get( 'battle.barrage.fire' ), msg.content.contentJSON[enemy + 'BarrageFire'] ) );
 			if (msg.content.contentJSON[ally + 'CatapultsBarrageFire'])
-				result.allySpells.push( self.parseBarrageFire( "Bombardement tactique",
+				result.allySpells.push( self.parseBarrageFire( $.i18n.get( 'battle.tactical.bombing' ),
 						msg.content.contentJSON[ally + 'CatapultsBarrageFire'] ) );
 			if (msg.content.contentJSON[enemy + 'CatapultsBarrageFire'])
-				result.enemySpells.push( self.parseBarrageFire( "Bombardement tactique",
+				result.enemySpells.push( self.parseBarrageFire( $.i18n.get( 'battle.tactical.bombing' ),
 						msg.content.contentJSON[enemy + 'CatapultsBarrageFire'] ) );
 			if (msg.content.contentJSON[ally + 'MagicResistance'])
 				result.allySpells.push( {
-					name: "Resistance magique",
+					name: $.i18n.get( 'battle.magic.resistance' ),
 					power: msg.content.contentJSON[ally + 'MagicResistance'].effect + "%"
 				} );
 			if (msg.content.contentJSON[enemy + 'MagicResistance'])
 				result.enemySpells.push( {
-					name: "Resistance magique",
+					name: $.i18n.get( 'battle.magic.resistance' ),
 					power: msg.content.contentJSON[enemy + 'MagicResistance'].effect + "%"
+				} );
+			if (msg.content.contentJSON[ally + 'MoralEffect'])
+				result.allySpells.push( {
+					name: $.i18n.get( 'battle.moral.high' ),
+					power: msg.content.contentJSON[ally + 'MoralEffect'].effect + "%"
+				} );
+			if (msg.content.contentJSON[enemy + 'MoralEffect'])
+				result.enemySpells.push( {
+					name: $.i18n.get( 'battle.moral.high' ),
+					power: msg.content.contentJSON[enemy + 'MoralEffect'].effect + "%"
 				} );
 	
 			for ( var r in msg.content.contentJSON.roundList) {
 				var round = msg.content.contentJSON.roundList[r];
+				var allyBonus = Math.round( 1000*round[ally+'UnitStackHeroBonus']/round[ally+'UnitStackPower'] )/10;
+				if (allyBonus > result.allyBonus)
+					result.allyBonus = allyBonus;
 				var afterAllySpell = round['afterRound' + allySpell];
 				if (afterAllySpell)
 					result.allySpells.push( self.parseSpell( round.id, afterAllySpell ) );
@@ -243,9 +312,12 @@ MMHK.modules.push({
 				var beforeEnemySpell = round['beforeRound' + enemySpell];
 				if (beforeEnemySpell)
 					result.enemySpells.push( self.parseSpell( round.id, beforeEnemySpell ) );
+				var enemyBonus = Math.round( 1000*round[enemy+'UnitStackHeroBonus']/round[enemy+'UnitStackPower'] )/10;
+				if (enemyBonus > result.enemyBonus)
+					result.enemyBonus = enemyBonus;
 			}
 			$( "#BattleForumExportData" ).processTemplate( result );
-			$( "#BattleForumExport" ).removeClass( "hidden" );
+			$( "#BattleForumExport" ).show();
 		});
 	},
 

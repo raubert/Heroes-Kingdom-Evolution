@@ -3,6 +3,9 @@
 == {$T.allyPosition} ==&#10;
 {#if $T.allyHero}{$T.allyHero.name} {$P.i18n.get('battle.hero.level')} {$T.allyHero._level}&#10;{#/if}
 {$P.i18n.get('battle.power')}: {$T.allyLost=0,$T.allyBasePower}
+{#if $T.allyBonus}
++{$T.allyBonus}%
+{#/if}
 {#if $T.allyXpGained}
 &#10;+{$T.allyXpGained} XP
 {#/if}
@@ -32,6 +35,9 @@
 == {$T.enemyPosition} ==&#10;
 {#if $T.enemyHero}{$T.enemyHero.name} {$P.i18n.get('battle.hero.level')} {$T.enemyHero._level}&#10;{#/if}
 {$P.i18n.get('battle.power')}: {$T.enemyLost=0,$T.enemyBasePower}
+{#if $T.enemyBonus}
++{$T.enemyBonus}%
+{#/if}
 {#if $T.enemyXpGained}
 &#10;+{$T.enemyXpGained} XP
 {#/if}
@@ -55,7 +61,7 @@
 {$T.allyPosition}: {$T.allyBasePower-$T.allyLost}&#10;
 {$T.enemyPosition}: {$T.enemyBasePower-$T.enemyLost}&#10;
 {#if ($T.allyResurrectedUnitStackList.hero || $T.allyRaisedUnitStackList.hero || $T.enemyResurrectedUnitStackList.hero || $T.enemyRaisedUnitStackList.hero)}
-== {$P.i18n.get('battle.resurrect')} ==&#10;
+&#10;== {$P.i18n.get('battle.resurrect')} ==&#10;
 {#foreach $T.allyRaisedUnitStackList.effect as effect}
 {$T.allyPosition}: {$P.i18n.get(MMHK.units.get($T.effect[0]).name)} {$T.effect[1]}&#10;
 {#/for}

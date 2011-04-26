@@ -9,7 +9,11 @@
 [color=white][size=18]
 {#if $T.allyHero}[b]{$T.allyHero.name}[/b] {$P.i18n.get('battle.hero.level')} {$T.allyHero._level}{#/if}
 [/size][/color]&#10;
-[color=black]{$P.i18n.get('battle.power')}: [b]{$T.allyLost=0,$T.allyBasePower}[/b]&#10;
+[color=black]{$P.i18n.get('battle.power')}: [b]{$T.allyLost=0,$T.allyBasePower}[/b]
+{#if $T.allyBonus}
++{$T.allyBonus}%
+{#/if}
+&#10;
 {$T.allyPosition}[/color][/right]&#10;
 [center][color=black]
 {#if $T.allyXpGained}
@@ -30,7 +34,11 @@
 [color=white][size=17]
 {#if $T.enemyHero}[b]{$T.enemyHero.name}[/b] {$P.i18n.get('battle.hero.level')} {$T.enemyHero._level}{#/if}
 [/size][/color]&#10;
-[color=black]{$P.i18n.get('battle.power')}: [b]{$T.enemyLost=0,$T.enemyBasePower}[/b]&#10;
+[color=black]{$P.i18n.get('battle.power')}: [b]{$T.enemyLost=0,$T.enemyBasePower}[/b]
+{#if $T.enemyBonus}
++{$T.enemyBonus}%
+{#/if}
+&#10;
 {$T.enemyPosition}[/color][/justify]&#10;
 [center][color=black]
 {#if $T.enemyXpGained}

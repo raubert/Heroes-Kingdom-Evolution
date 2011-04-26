@@ -19,4 +19,8 @@ MMHK.jQuery.i18n.add( "en", {
 	"battle.resurrect": "Resurrection",
 	"battle.attacker": "Attacker",
 	"battle.defender": "Defender",
+	"battle.barrage.fire": "Barrage Fire",
+	"battle.tactical.bombing": "Tactical Bombing",
+	"battle.magic.resistance": "Magic Resistance",
+	"battle.moral.high": "Moral High",
 });

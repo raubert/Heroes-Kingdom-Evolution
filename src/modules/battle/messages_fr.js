@@ -19,4 +19,8 @@ MMHK.jQuery.i18n.add( "fr", {
 	"battle.resurrect": "Résurrection",
 	"battle.attacker": "Attaquant",
 	"battle.defender": "Défenseur",
+	"battle.barrage.fire": "Tir de Barrage",
+	"battle.tactical.bombing": "Bombardement Tactique",
+	"battle.magic.resistance": "Résistance Magique",
+	"battle.moral.high": "Moral élevé",
 });
