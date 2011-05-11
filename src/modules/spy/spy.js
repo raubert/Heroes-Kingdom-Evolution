@@ -18,6 +18,8 @@ MMHK.modules.push({
 		if ( $( "#MMHK-rights" ).text() != "write" ) {
 			// not allowed; we default to forum export
 			MMHK.hijack( HOMMK.ScoutingResultDetailedMessage.prototype, "addToDOM", this.addForumIcon, this );
+			
+			// simulate MMHK's markup with their crappy classes
 			$( "<div id=\"SpyForumExport\" class=\"largeFrame absolutePosition\">"
 				+ "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" class=\"frameContainerTopBarContainer\">"
 				+ "<tbody>"
@@ -47,10 +49,14 @@ MMHK.modules.push({
 			)
 			.hide()
 			.appendTo( "#FrameMainContainer" );
+			
+			// setup the "close" button
 			$.addCss( "#SpyForumExportClose { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/SideBar_Shortcuts.gif') }" );
 			$( "#SpyForumExportClose" ).click(function() {
 				$( "#SpyForumExport" ).hide();
 			});
+			
+			// create the template
 			var forumType = $( "#ForumType" ).html();
 			var template = $( "#spy_" + forumType + "_txt" ).html();
 			$( "#SpyForumExportData" ).setTemplate( template );

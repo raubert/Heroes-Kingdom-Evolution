@@ -22,5 +22,5 @@ MMHK.jQuery.i18n.add( "en", {
 	"battle.barrage.fire": "Barrage Fire",
 	"battle.tactical.bombing": "Tactical Bombing",
 	"battle.magic.resistance": "Magic Resistance",
-	"battle.moral.high": "Moral High",
+	"battle.moral.high": "Moral High"
 });

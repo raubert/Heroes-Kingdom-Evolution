@@ -26,8 +26,10 @@ MMHK.modules.push({
 		if ( $( "#MMHK-rights" ).text() != "write" ) {
 			// not allowed; we default to forum export
 			MMHK.hijack( HOMMK.BattleResultDetailedMessage.prototype, "addToDOM", this.addForumIcon, this );
+			
+			// simulate MMHK's markup with their crappy classes
 			$( "<div/>", {
-				id: "BattleForumExport",
+				id: "BattleForumExport"
 			})
 			.addClass( "largeFrame absolutePosition" )
 			.append("<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" class=\"frameContainerTopBarContainer\">"
@@ -58,10 +60,14 @@ MMHK.modules.push({
 				+ "</table>" )
 			.hide()
 			.appendTo( "#FrameMainContainer" );
-			$.addCss( "#BattleForumExport #BattleForumExportClose { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/SideBar_Shortcuts.gif') }" );
+			
+			// setup the "close" button
+			$.addCss( "#BattleForumExportClose { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/SideBar_Shortcuts.gif') }" );
 			$( "#BattleForumExportClose" ).click(function() {
 				$( "#BattleForumExport" ).hide();
 			});
+			
+			// create the template
 			var forumType = $( "#ForumType" ).html();
 			var template = $( "#battle_" + forumType + "_txt" ).html();
 			$( "#BattleForumExportData" ).setTemplate( template );
@@ -77,16 +83,28 @@ MMHK.modules.push({
 		MMHK.hijack( HOMMK.BattleRound.prototype, "addToDOM", this.addPowerBonus, this );
 	},
 
+	/**
+	 * Displays the hero's bonus on each battle round
+	 *
+	 * @param obj {Object}
+	 *            the battle round report object
+	 */
 	addPowerBonus: function( obj ) {
+		// get the full battle report object
 		var id = obj.elementId.substring( 0, obj.elementId.indexOf('_') );
 		var battle = HOMMK.elementPool.get( "BattleResultDetailedMessage" ).get( id );
+		
 		var attackBonus = false, defenseBonus = false, allyBonus = false, enemyBonus = false;
+		
+		// determine the attack and defense bonus
 		if( obj.content.attackerUnitStackHeroBonus ) {
 			attackBonus = "+" + Math.round( 1000*obj.content.attackerUnitStackHeroBonus/obj.content.attackerUnitStackPower )/10 + "%";
 		}
 		if( obj.content.defenderUnitStackHeroBonus ) {
 			defenseBonus = "+" + Math.round( 1000*obj.content.defenderUnitStackHeroBonus/obj.content.defenderUnitStackPower )/10 + "%";
 		}
+
+		// affect the bonus to ally or enemy
 		if ( battle.content.type == HOMMK.MESSAGE_TYPE_BATTLE_RESULT_DEFENDER ) {
 			allyBonus = defenseBonus;
 			enemyBonus = attackBonus;
@@ -95,6 +113,8 @@ MMHK.modules.push({
 			allyBonus = attackBonus;
 			enemyBonus = defenseBonus;
 		}
+		
+		// display it all
 		if( allyBonus ) {
 			var before = $( "#"+obj.elementType + obj.elementId+"AllyQuantityBefore" );	
 			var div = $("<div></div>", {
@@ -178,6 +198,14 @@ MMHK.modules.push({
 		});
 	},
 
+	/**
+	 * Extract the spell data into an object coherent across the various spell types
+	 * 
+	 * @param round
+	 *           the round number
+	 * @param spell
+	 *           the spell object
+	 */
 	parseSpell: function( round, spell ) {
 		var result = new Object();
 		result.round = round;
@@ -203,6 +231,15 @@ MMHK.modules.push({
 		}
 		return result;
 	},
+	
+	/**
+	 * Extract the barrage fire data into an object coherent across the various spells
+	 * 
+	 * @param name
+	 *          the name used to describe the barrage fire
+	 * @param power
+	 *          the firepower
+	 */
 	parseBarrageFire: function(name, spell) {
 		var result = new Object();
 		result.name = name;
@@ -214,6 +251,7 @@ MMHK.modules.push({
 		}
 		return result;
 	},
+	
 	/**
 	 * Adds the icon that will format the report for forums.
 	 * 
@@ -224,6 +262,8 @@ MMHK.modules.push({
 		var self = this;
 		this.addIcon( msg, "battle.forum", function() {
 			var result = new Object();
+			
+			// extract the date of the battle
 			if( msg.content.contentJSON.message ) {
 				// message has been forwarded: date is unknown
 				result.date = "";
@@ -232,6 +272,8 @@ MMHK.modules.push({
 				var when = new Date( msg.content.creationDate * 1000 );
 				result.date = when.getDate() + '/' + (when.getMonth() + 1) + '\n' + when.getHours() + ':' + when.getMinutes();
 			}
+			
+			// fetch the appropriate battle header
 			if (msg.content.type == "BATTLE_RESULT_ATTACKER" && msg.content.contentJSON.attackerWins
 					|| msg.content.type == "BATTLE_RESULT_DEFENDER" && msg.content.contentJSON.defenderWins) {
 				result.battleResultHeader = self.BATTLE_RESULT_TOP_VICTORY;
@@ -259,12 +301,16 @@ MMHK.modules.push({
 				result.allyPosition = $.i18n.get('battle.defender');
 				result.enemyPosition = $.i18n.get('battle.attacker');
 			}
+			
+			// affect all battle attributes to the ally or the enemy
 			for ( var attr in self.ATTRIBUTES) {
 				if( typeof attr === "string" ) {
 					result['ally' + self.ATTRIBUTES[attr]] = msg.content.contentJSON[ally + self.ATTRIBUTES[attr]];
 					result['enemy' + self.ATTRIBUTES[attr]] = msg.content.contentJSON[enemy + self.ATTRIBUTES[attr]];
 				}
 			}
+			
+			// special cases if several heroes were defending
 			if (!result.enemyHero)
 				result.enemyHero = msg.enemyMaxLevelHero;
 			if (!result.allyXpGained && result.allyXpGainedList) {
@@ -282,6 +328,8 @@ MMHK.modules.push({
 			result.enemyPlayerName = msg.content.contentJSON.enemyPlayerName;
 			result.lootRessourceQuantity = msg.content.contentJSON.lootRessourceQuantity;
 			result.lootRessourceEntityTagName = msg.content.contentJSON.lootRessourceEntityTagName;
+			
+			// inventory the legacy abilities and other pre-fight events
 			result.allySpells = new Array();
 			result.allyBonus = 0;
 			result.enemySpells = new Array();
@@ -316,7 +364,8 @@ MMHK.modules.push({
 					name: $.i18n.get( 'battle.moral.high' ),
 					power: msg.content.contentJSON[enemy + 'MoralEffect'].effect + "%"
 				} );
-	
+
+			// inventory the spells and hero bonus used during the fight
 			for ( var r in msg.content.contentJSON.roundList) {
 				var round = msg.content.contentJSON.roundList[r];
 				var allyBonus = Math.round( 1000*round[ally+'UnitStackHeroBonus']/round[ally+'UnitStackPower'] )/10;
@@ -338,6 +387,8 @@ MMHK.modules.push({
 				if (enemyBonus > result.enemyBonus)
 					result.enemyBonus = enemyBonus;
 			}
+			
+			// display it!
 			$( "#BattleForumExportData" ).processTemplate( result );
 			$( "#BattleForumExport" ).show();
 		});
