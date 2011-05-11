@@ -40,3 +40,32 @@
 .spy .error {
 	background-image: url('@EXTENSION_PATH/images/error.png');
 }
+
+#SpyForumExport {
+	z-index: 1000;
+}
+
+#SpyForumExportClose {
+	background-position: 0px -160px;
+	height: 24px;
+	width: 23px;
+}
+
+#SpyForumExport table {
+	border-collapse: collapse;
+}
+
+#SpyForumExport table td {
+	padding: 0;
+}
+
+#SpyForumExportDataContainer {
+	border: 0;
+	margin: 0;
+	padding: 0 6px 0 0;
+}
+
+#SpyForumExportData {
+	width: 100%;
+}
+

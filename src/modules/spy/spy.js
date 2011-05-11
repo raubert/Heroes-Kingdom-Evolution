@@ -18,11 +18,39 @@ MMHK.modules.push({
 		if ( $( "#MMHK-rights" ).text() != "write" ) {
 			// not allowed; we default to forum export
 			MMHK.hijack( HOMMK.ScoutingResultDetailedMessage.prototype, "addToDOM", this.addForumIcon, this );
-			var classes = "largeFrame absolutePosition zIndex10000 metal borderBrown2";
-			$( "#FrameMainContainer" ).append(
-				"<div id='SpyForumExport' style='padding:10px;' class='" + classes
-				+ " hidden'><div class='underline clickable' onclick='this.parentNode.className=\"" + classes
-				+ " hidden\";'>Fermer</div><textarea id='SpyForumExportData' cols='80' rows='25'></textarea></div>" );
+			$( "<div id=\"SpyForumExport\" class=\"largeFrame absolutePosition\">"
+				+ "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" class=\"frameContainerTopBarContainer\">"
+				+ "<tbody>"
+					+ "<tr>"
+						+ "<td class=\"size0 frameContainerTop\"></td>"
+							+ "<div id=\"SpyForumExportClose\" class=\"zIndex1 frameContainerCloseImage absolutePosition clickable\" title=\"" + $.i18n.get( "close" ) + "\"></div>"
+						+ "</td>"
+					+ "</tr>"
+					+ "<tr>"
+						+ "<td class=\"frameContainerMiddleLeft\"></td>"
+						+ "<td class=\"beigeBg\">"
+							+ "<div class=\"center size11 white boldFont uppercase titleBar\">" + $.i18n.get( "spy.forum" ) + "</div>"
+							+ "<div id=\"SpyForumExportDataContainer\">"
+								+ "<textarea id=\"SpyForumExportData\" cols=\"80\" rows=\"25\"></textarea>"
+							+ "</div>"
+						+ "</td>"
+						+ "<td class=\"frameContainerMiddleRight\"></td>"
+					+ "</tr>"
+					+ "<tr>"
+						+ "<td class=\"size0 frameContainerBottomLeft\"></td>"
+						+ "<td class=\"size0 frameContainerBottom\"></td>"
+						+ "<td class=\"size0 frameContainerBottomRight\"></td>"
+					+ "</tr>"
+				+ "</tbody>"
+				+ "</table>"
+				+ "</div>"
+			)
+			.hide()
+			.appendTo( "#FrameMainContainer" );
+			$.addCss( "#SpyForumExportClose { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/SideBar_Shortcuts.gif') }" );
+			$( "#SpyForumExportClose" ).click(function() {
+				$( "#SpyForumExport" ).hide();
+			});
 			var forumType = $( "#ForumType" ).html();
 			var template = $( "#spy_" + forumType + "_txt" ).html();
 			$( "#SpyForumExportData" ).setTemplate( template );
@@ -108,7 +136,7 @@ MMHK.modules.push({
 			}
 			result.data = msg.content.contentJSON;
 			$( "#SpyForumExportData" ).processTemplate( result );
-			$( "#SpyForumExport" ).removeClass( "hidden" );
+			$( "#SpyForumExport" ).show();
 		});
 	},
 

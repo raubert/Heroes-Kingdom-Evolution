@@ -28,18 +28,40 @@ MMHK.modules.push({
 			MMHK.hijack( HOMMK.BattleResultDetailedMessage.prototype, "addToDOM", this.addForumIcon, this );
 			$( "<div/>", {
 				id: "BattleForumExport",
-				style: "padding:10px;",
 			})
-			.addClass( "largeFrame absolutePosition zIndex10000 metal borderBrown2" )
-			.append(
-				$( "<div>Fermer</div>" )
-				.addClass( "underline clickable" )
-				.click( function() {
-					$( this ).parent().hide();
-				}))
-			.append( "<textarea id='BattleForumExportData' cols='80' rows='25'></textarea>" )
+			.addClass( "largeFrame absolutePosition" )
+			.append("<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" class=\"frameContainerTopBarContainer\">"
+				+ "<tbody>"
+					+ "<tr>"
+						+ "<td class=\"size0 frameContainerTopLeft\"></td>"
+						+ "<td class=\"size0 frameContainerTop\"></td>"
+						+ "<td class=\"size0 frameContainerTopRight\">"
+							+ "<div id=\"BattleForumExportClose\" class=\"zIndex1 frameContainerCloseImage absolutePosition clickable\" title=\"" + $.i18n.get( "close" ) + "\"></div>"
+						+ "</td>"
+					+ "</tr>"
+					+ "<tr>"
+						+ "<td class=\"frameContainerMiddleLeft\"></td>"
+						+ "<td class=\"beigeBg\">"
+							+ "<div class=\"center size11 white boldFont uppercase titleBar\">" + $.i18n.get( "battle.forum" ) + "</div>"
+							+ "<div id=\"BattleForumExportDataContainer\">"
+								+ "<textarea id=\"BattleForumExportData\" cols=\"80\" rows=\"25\"></textarea>"
+							+ "</div>"
+						+ "</td>"
+						+ "<td class=\"frameContainerMiddleRight\"></td>"
+					+ "</tr>"
+					+ "<tr>"
+						+ "<td class=\"size0 frameContainerBottomLeft\"></td>"
+						+ "<td class=\"size0 frameContainerBottom\"></td>"
+						+ "<td class=\"size0 frameContainerBottomRight\"></td>"
+					+ "</tr>"
+				+ "</tbody>"
+				+ "</table>" )
 			.hide()
-			.appendTo( "#Container" );
+			.appendTo( "#FrameMainContainer" );
+			$.addCss( "#BattleForumExport #BattleForumExportClose { background-image:url('" + HOMMK.IMG_URL + "/css_sprite/SideBar_Shortcuts.gif') }" );
+			$( "#BattleForumExportClose" ).click(function() {
+				$( "#BattleForumExport" ).hide();
+			});
 			var forumType = $( "#ForumType" ).html();
 			var template = $( "#battle_" + forumType + "_txt" ).html();
 			$( "#BattleForumExportData" ).setTemplate( template );
