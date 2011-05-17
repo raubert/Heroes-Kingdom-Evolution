@@ -25,11 +25,16 @@
 	<property name="build.mmhk.css" value="mmhk.ext.css" />
 
 	<property name="redist" location="redist" />
-	<property name="host" value="http://angarak.com/MMHK/extension" />
+	<property name="host" value="http://amroth.free.fr/MMHK/extension" />
 
 	<property name="chrome-id" value="gloedkpafdknpopjjdjdhdcbadidmkio" />
 	<!-- change this path to fit your environment -->
-	<property name="chrome" value="${env.LOCALAPPDATA}\Google\Chrome\Application\chrome.exe" />
+	<condition property="chrome" value="${env.LOCALAPPDATA}\Google\Chrome\Application\chrome.exe">
+		<os family="windows" />
+	</condition>
+	<condition property="chrome" value="chromium-browser">
+		<os family="unix" />
+	</condition>
 	<property name="chrome-updates" location="${redist}/updates.xml" />
 	<property name="firefox-updates" location="${redist}/updates.rdf" />
 
