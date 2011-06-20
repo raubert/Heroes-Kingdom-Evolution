@@ -1,6 +1,6 @@
 <project name="Heroes Kingdom Evolution" default="all" basedir=".">
 
-	<property name="version" value="2.2" />
+	<property name="version" value="2.3" />
 
 	<property environment="env" />
 

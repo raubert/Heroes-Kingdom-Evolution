@@ -420,6 +420,158 @@ MMHK.units = {
 	},
 
 	/**
+	 * Dungeon units, based on tier.
+	 */
+	DUNGEON: {
+		T1: {
+			name: "scout",
+			type: 2,
+			power: 72
+		},
+		T1P: {
+			name: "assassin",
+			type: 2,
+			power: 87
+		},
+		T2: {
+			name: "blood.maiden",
+			type: 0,
+			power: 134
+		},
+		T2P: {
+			name: "blood.fury",
+			type: 0,
+			power: 160
+		},
+		T3: {
+			name: "minotaur.basic",
+			type: 0,
+			power: 303
+		},
+		T3P: {
+			name: "minotaur.guard",
+			type: 0,
+			power: 364
+		},
+		T4: {
+			name: "raider.dark",
+			type: 1,
+			power: 751
+		},
+		T4P: {
+			name: "raider.grim",
+			type: 1,
+			power: 902
+		},
+		T5: {
+			name: "hydra",
+			type: 0,
+			power: 1509
+		},
+		T5P: {
+			name: "hydra.deep",
+			type: 0,
+			power: 2224
+		},
+		T6: {
+			name: "shadow.witch",
+			type: 2,
+			power: 2478
+		},
+		T6P: {
+			name: "shadow.martiarch",
+			type: 2,
+			power: 3186
+		},
+		T7: {
+			name: "dragon.shadow",
+			type: 1,
+			power: 6793
+		},
+		T7P: {
+			name: "dragon.black",
+			type: 1,
+			power: 9510
+		}
+	},
+
+	/**
+	 * Fortress units, based on tier.
+	 */
+	FORTRESS: {
+		T1: {
+			name: "defender",
+			type: 0,
+			power: 97
+		},
+		T1P: {
+			name: "shieldguard",
+			type: 0,
+			power: 117
+		},
+		T2: {
+			name: "spearwielder",
+			type: 2,
+			power: 146
+		},
+		T2P: {
+			name: "skirmisher",
+			type: 2,
+			power: 176
+		},
+		T3: {
+			name: "rider.bear",
+			type: 1,
+			power: 370
+		},
+		T3P: {
+			name: "rider.blackbear",
+			type: 1,
+			power: 445
+		},
+		T4: {
+			name: "brawler",
+			type: 0,
+			power: 918
+		},
+		T4P: {
+			name: "berserker",
+			type: 0,
+			power: 1101
+		},
+		T5: {
+			name: "rune.priest",
+			type: 2,
+			power: 1756
+		},
+		T5P: {
+			name: "rune.patriarch",
+			type: 2,
+			power: 2587
+		},
+		T6: {
+			name: "thane",
+			type: 1,
+			power: 2891
+		},
+		T6P: {
+			name: "warlord",
+			type: 1,
+			power: 3717
+		},
+		T7: {
+			name: "dragon.fire",
+			type: 0,
+			power: 6825
+		},
+		T7P: {
+			name: "dragon.magma",
+			type: 0,
+			power: 9555
+		}
+	},
+
+	/**
 	 * Neutral units, by type
          */
 	NEUTRAL: {

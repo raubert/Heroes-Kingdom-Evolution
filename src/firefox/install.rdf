@@ -25,7 +25,7 @@
 		<em:developer>Darech</em:developer>
 		<em:homepageURL>@HOST</em:homepageURL>
 		<em:updateURL>@HOST/updates.rdf</em:updateURL>
-		<em:updateKey>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDyQRrWHW/JcGLePjhtcKWz24lwAcIBkEBdUq4rwfYShrLfmTM/FQ1uoDDCMCzpVMSZte4oFth9utITydN0hQUnn0xztqd12h56frrAy/1GwZkBMyzLndNpOsfIr+k4ccFSVBPv6BNy6dFYcwRVquJQVmdrZNwpdlohEvb49VePawIDAQAB</em:updateKey>
+		<em:updateKey>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDX+vtmfI9wep09T7NSDz3tl9qnYdE8gicsJXBuMPRHONfX5djQwHOqr1wA+8rYUOpOsZWVp8oBIX7uSqtyVmqZKDYcQ2nbisRmf+/iWyl5IcYe7sboBz4LcSw2TPpl4rTqGFfpFPtnJ2Z7IMkVsJixfH/N4kOcxYFfuXQF1c9LLQIDAQAB</em:updateKey>
 	</Description>
 
 </RDF>
