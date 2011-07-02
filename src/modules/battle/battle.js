@@ -100,8 +100,14 @@ MMHK.modules.push({
 		if( obj.content.attackerUnitStackHeroBonus ) {
 			attackBonus = "+" + Math.round( 1000*obj.content.attackerUnitStackHeroBonus/obj.content.attackerUnitStackPower )/10 + "%";
 		}
+		if( obj.content.attackerHeroSkillUnitStackUnitTypeBonus ) {
+			attackBonus = "+" + Math.round( 1000*obj.content.attackerHeroSkillUnitStackUnitTypeBonus/obj.content.attackerUnitStackPower )/10 + "%";
+		}
 		if( obj.content.defenderUnitStackHeroBonus ) {
 			defenseBonus = "+" + Math.round( 1000*obj.content.defenderUnitStackHeroBonus/obj.content.defenderUnitStackPower )/10 + "%";
+		}
+		if( obj.content.defenderHeroSkillUnitStackUnitTypeBonus ) {
+			defenseBonus = "+" + Math.round( 1000*obj.content.defenderHeroSkillUnitStackUnitTypeBonus/obj.content.defenderUnitStackPower )/10 + "%";
 		}
 
 		// affect the bonus to ally or enemy
@@ -338,6 +344,10 @@ MMHK.modules.push({
 				result.allySpells.push( self.parseBarrageFire( $.i18n.get( 'battle.barrage.fire' ), msg.content.contentJSON[ally + 'BarrageFire'] ) );
 			if (msg.content.contentJSON[enemy + 'BarrageFire'])
 				result.enemySpells.push( self.parseBarrageFire( $.i18n.get( 'battle.barrage.fire' ), msg.content.contentJSON[enemy + 'BarrageFire'] ) );
+			if (msg.content.contentJSON[ally + 'RegionBuildingComponentBarrageFire'])
+				result.allySpells.push( self.parseBarrageFire( $.i18n.get( 'battle.balista.fire' ), msg.content.contentJSON[ally + 'RegionBuildingComponentBarrageFire'] ) );
+			if (msg.content.contentJSON[enemy + 'RegionBuildingComponentBarrageFire'])
+				result.enemySpells.push( self.parseBarrageFire( $.i18n.get( 'battle.balista.fire' ), msg.content.contentJSON[enemy + 'RegionBuildingComponentBarrageFire'] ) );
 			if (msg.content.contentJSON[ally + 'CatapultsBarrageFire'])
 				result.allySpells.push( self.parseBarrageFire( $.i18n.get( 'battle.tactical.bombing' ),
 						msg.content.contentJSON[ally + 'CatapultsBarrageFire'] ) );
@@ -349,10 +359,20 @@ MMHK.modules.push({
 					name: $.i18n.get( 'battle.magic.resistance' ),
 					power: msg.content.contentJSON[ally + 'MagicResistance'].effect + "%"
 				} );
+			if (msg.content.contentJSON[ally + 'RegionBuildingComponentMagicResistance'])
+				result.allySpells.push( {
+					name: $.i18n.get( 'battle.magic.resistance' ),
+					power: msg.content.contentJSON[ally + 'RegionBuildingComponentMagicResistance'].effect + "%"
+				} );
 			if (msg.content.contentJSON[enemy + 'MagicResistance'])
 				result.enemySpells.push( {
 					name: $.i18n.get( 'battle.magic.resistance' ),
 					power: msg.content.contentJSON[enemy + 'MagicResistance'].effect + "%"
+				} );
+			if (msg.content.contentJSON[enemy + 'RegionBuildingComponentMagicResistance'])
+				result.enemySpells.push( {
+					name: $.i18n.get( 'battle.magic.resistance' ),
+					power: msg.content.contentJSON[enemy + 'RegionBuildingComponentMagicResistance'].effect + "%"
 				} );
 			if (msg.content.contentJSON[ally + 'MoralEffect'])
 				result.allySpells.push( {
@@ -369,6 +389,8 @@ MMHK.modules.push({
 			for ( var r in msg.content.contentJSON.roundList) {
 				var round = msg.content.contentJSON.roundList[r];
 				var allyBonus = Math.round( 1000*round[ally+'UnitStackHeroBonus']/round[ally+'UnitStackPower'] )/10;
+				if (!allyBonus)
+					allyBonus = Math.round( 1000*round[ally+'HeroSkillUnitStackUnitTypeBonus']/round[ally+'UnitStackPower'] )/10;
 				if (allyBonus > result.allyBonus)
 					result.allyBonus = allyBonus;
 				var afterAllySpell = round['afterRound' + allySpell];
@@ -384,6 +406,8 @@ MMHK.modules.push({
 				if (beforeEnemySpell)
 					result.enemySpells.push( self.parseSpell( round.id, beforeEnemySpell ) );
 				var enemyBonus = Math.round( 1000*round[enemy+'UnitStackHeroBonus']/round[enemy+'UnitStackPower'] )/10;
+				if (!enemyBonus)
+					enemyBonus = Math.round( 1000*round[enemy+'HeroSkillUnitStackUnitTypeBonus']/round[enemy+'UnitStackPower'] )/10;
 				if (enemyBonus > result.enemyBonus)
 					result.enemyBonus = enemyBonus;
 			}

@@ -20,6 +20,7 @@ MMHK.jQuery.i18n.add( "en", {
 	"battle.attacker": "Attacker",
 	"battle.defender": "Defender",
 	"battle.barrage.fire": "Barrage Fire",
+	"battle.balista.fire": "Ballista Fire",
 	"battle.tactical.bombing": "Tactical Bombing",
 	"battle.magic.resistance": "Magic Resistance",
 	"battle.moral.high": "Moral High"
