@@ -75,3 +75,31 @@
 {$T.enemyPosition}: {$P.i18n.get(MMHK.units.get($T.effect[0]).name)} {$T.effect[1]}&#10;
 {#/for}
 {#/if}
+&#10;
+== {$P.i18n.get('battle.round.detail')} ==&#10;
+{#foreach $T.allySpells as spell}
+{#if !$T.spell.round}* {$T.spell.name}: {$T.spell.power} >>>>&#10;{#/if}
+{#/for}
+{#foreach $T.enemySpells as spell}
+{#if !$T.spell.round}* <<<< {$T.spell.name}: {$T.spell.power}&#10;{#/if}
+{#/for}
+{#foreach $T.roundList as round}
+{#if $T.round.allyBeforeSpell}* {$T.round.allyBeforeSpell.name}: {$T.round.allyBeforeSpell.power} >>>>&#10;{#/if}
+{#if $T.round.enemyBeforeSpell}* <<<< {$T.round.enemyBeforeSpell.name}: {$T.round.enemyBeforeSpell.power}&#10;{#/if}
+{$P.i18n.get('battle.round')} {$T.round.id}
+{#if $T.round.allyWins}>{#else}<{#/if}
+ {$T.round.allyUnitStackQuantity} {$T.round.allyUnitEntityName}
+{#if $T.round.allyBonus} ({$T.round.allyBonus}){#/if}
+{#if $T.round.allyUnitStackRouted} -{$T.round.allyUnitStackRouted}{#/if}
+{#if $T.round.enemyWins} *{$P.i18n.get('battle.dispersed')}*{#/if}
+{#if $T.round.allyUnitStackUnitTypeBonus} (+50%){#else} {#/if}
+{#if $T.round.allyWins}>>>>{#else}<<<<{#/if}
+{#if $T.round.enemyUnitStackUnitTypeBonus}(+50%) {#else} {#/if}
+{#if $T.round.enemyBonus}({$T.round.enemyBonus}) {#/if}
+{$T.round.enemyUnitStackQuantity} {$T.round.enemyUnitEntityName}
+{#if $T.round.enemyUnitStackRouted} -{$T.round.enemyUnitStackRouted}{#/if}
+{#if $T.round.allyWins} *{$P.i18n.get('battle.dispersed')}*{#/if}
+&#10;
+{#if $T.round.allyAfterSpell}* {$T.round.allyAfterSpell.name}: {$T.round.allyAfterSpell.power} >>>>&#10;{#/if}
+{#if $T.round.enemyAfterSpell}* <<<< {$T.round.enemyAfterSpell.name}: {$T.round.enemyAfterSpell.power}&#10;{#/if}
+{#/for}

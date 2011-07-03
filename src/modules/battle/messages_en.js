@@ -23,5 +23,7 @@ MMHK.jQuery.i18n.add( "en", {
 	"battle.balista.fire": "Ballista Fire",
 	"battle.tactical.bombing": "Tactical Bombing",
 	"battle.magic.resistance": "Magic Resistance",
-	"battle.moral.high": "Moral High"
+	"battle.moral.high": "Moral High",
+	"battle.round.detail": "Rounds Detail",
+	"battle.dispersed": "dispersed"
 });

@@ -16,8 +16,9 @@ MMHK.modules.push({
          */
 	BATTLE_RESULT_TOP_VICTORY: 'BattleResultTopVictory.jpg',
 	BATTLE_RESULT_TOP_DEFEAT: 'BattleResultTopDefeat.jpg',
-	ATTRIBUTES: [ 'Hero', 'BasePower', 'XpGained', 'XpGainedList', 'BarrageFire', 'UnitStackList', 'RaisedUnitStackList',
-			'ResurrectedUnitStackList' ],
+	ATTRIBUTES: [ 'VictoryOrDefeatWord', 'Hero', 'BasePower', 'XpGained', 'XpGainedList', 'BarrageFire', 
+	              'UnitStackList', 'RaisedUnitStackList', 'ResurrectedUnitStackList',
+	              'UnitEntityName', 'UnitStackQuantity', 'UnitStackRouted', 'Wins', 'UnitStackUnitTypeBonus' ],
 
 	/**
 	 * Initializes the module
@@ -84,6 +85,23 @@ MMHK.modules.push({
 	},
 
 	/**
+	 * Compute the hero's bonus for this round
+	 * 
+	 * @param round {Object}
+	 *              the round necessary
+	 * @param type 'attacker' or 'defender'
+	 */
+	computeBonus: function( round, type ) {
+		var totalBonus = round[ type + "TotalBonus" ] ? round[ type + "TotalBonus" ] : 0;
+		var typeBonus = round[ type + "UnitStackUnitTypeBonus" ] ? round[ type + "UnitStackUnitTypeBonus" ] : 0;
+		if( totalBonus > typeBonus ) {
+			var bonus = totalBonus - typeBonus;
+			return "+" + Math.round( 1000*bonus/round[ type + 'UnitStackPower' ] )/10 + "%";
+		}
+		return false;
+	},
+	
+	/**
 	 * Displays the hero's bonus on each battle round
 	 *
 	 * @param obj {Object}
@@ -94,57 +112,34 @@ MMHK.modules.push({
 		var id = obj.elementId.substring( 0, obj.elementId.indexOf('_') );
 		var battle = HOMMK.elementPool.get( "BattleResultDetailedMessage" ).get( id );
 		
-		var attackBonus = false, defenseBonus = false, allyBonus = false, enemyBonus = false;
+		var attackBonus = false, defenseBonus = false;
 		
 		// determine the attack and defense bonus
-		if( obj.content.attackerUnitStackHeroBonus ) {
-			attackBonus = "+" + Math.round( 1000*obj.content.attackerUnitStackHeroBonus/obj.content.attackerUnitStackPower )/10 + "%";
-		}
-		if( obj.content.attackerHeroSkillUnitStackUnitTypeBonus ) {
-			attackBonus = "+" + Math.round( 1000*obj.content.attackerHeroSkillUnitStackUnitTypeBonus/obj.content.attackerUnitStackPower )/10 + "%";
-		}
-		if( obj.content.defenderUnitStackHeroBonus ) {
-			defenseBonus = "+" + Math.round( 1000*obj.content.defenderUnitStackHeroBonus/obj.content.defenderUnitStackPower )/10 + "%";
-		}
-		if( obj.content.defenderHeroSkillUnitStackUnitTypeBonus ) {
-			defenseBonus = "+" + Math.round( 1000*obj.content.defenderHeroSkillUnitStackUnitTypeBonus/obj.content.defenderUnitStackPower )/10 + "%";
-		}
+		var attackBonus = this.computeBonus( obj.content, 'attacker' );
+		var defenseBonus = this.computeBonus( obj.content, 'defender' );
 
-		// affect the bonus to ally or enemy
+		// display it all
+		function displayBonus( type, bonus ) {
+			var before = $( "#"+obj.elementType + obj.elementId + type + "QuantityBefore" );	
+			var div = $("<div></div>", {
+				id: obj.elementType + obj.elementId + type + "Bonus",
+				style: "font-size:12px;"
+			})
+			.html( bonus );
+			div.prependTo( before.parent() );
+			before.css( "display", "inline" )
+				.remove()
+				.prependTo( div );			
+		}
 		if ( battle.content.type == HOMMK.MESSAGE_TYPE_BATTLE_RESULT_DEFENDER ) {
-			allyBonus = defenseBonus;
-			enemyBonus = attackBonus;
+			if( attackBonus ) displayBonus( "Enemy", attackBonus );
+			if( defenseBonus ) displayBonus( "Ally", defenseBonus );
 		}
 		else {
-			allyBonus = attackBonus;
-			enemyBonus = defenseBonus;
+			if( attackBonus ) displayBonus( "Ally", attackBonus );
+			if( defenseBonus ) displayBonus( "Enemy", defenseBonus );
 		}
 		
-		// display it all
-		if( allyBonus ) {
-			var before = $( "#"+obj.elementType + obj.elementId+"AllyQuantityBefore" );	
-			var div = $("<div></div>", {
-				id: obj.elementType + obj.elementId + "AllyBonus",
-				style: "font-size:12px;"
-			})
-			.html( allyBonus );
-			div.prependTo( before.parent() );
-			before.css( "display", "inline" )
-				.remove()
-				.prependTo( div );
-		}
-		if( enemyBonus ) {
-			var before = $( "#"+obj.elementType + obj.elementId+"EnemyQuantityBefore" );	
-			var div = $("<div></div>", {
-				id: obj.elementType + obj.elementId + "EnemyBonus",
-				style: "font-size:12px;"
-			})
-			.html( enemyBonus );
-			div.prependTo( before.parent() );
-			before.css( "display", "inline" )
-				.remove()
-				.prependTo( div );
-		}
 	},
 
 	/**
@@ -213,29 +208,31 @@ MMHK.modules.push({
 	 *           the spell object
 	 */
 	parseSpell: function( round, spell ) {
-		var result = new Object();
-		result.round = round;
-		result.name = spell.spellEntityName;
-		result.power = 0;
-		for ( var e in spell.effectList ) {
-			var effect = spell.effectList[e];
-			if ( $.isArray( effect ) ) {
-				if ( effect[2] == "damage" ) {
-					result.power -= MMHK.units.get(effect[1]).power * effect[3];
-				} else if (effect[2] == "summoning") {
-					result.power += MMHK.units.get(effect[1]).power * effect[3];
-				} else if (effect[2] == "resurrection") {
-					result.power += MMHK.units.get(effect[1]).power * effect[3];
-				} else if (effect[2] == "attackBonus") {
-					result.power += effect[3];
-				} else if (effect[2] == "defenseBonus") {
-					result.power += effect[3];
-				} else if (effect[2] == "powerBonus") {
-					result.power += MMHK.units.get(effect[1]).power * effect[3];
+		if( spell ) {
+			var result = new Object();
+			result.round = round;
+			result.name = spell.spellEntityName;
+			result.power = 0;
+			for ( var e in spell.effectList ) {
+				var effect = spell.effectList[e];
+				if ( $.isArray( effect ) ) {
+					if ( effect[2] == "damage" ) {
+						result.power -= MMHK.units.get(effect[1]).power * effect[3];
+					} else if (effect[2] == "summoning") {
+						result.power += MMHK.units.get(effect[1]).power * effect[3];
+					} else if (effect[2] == "resurrection") {
+						result.power += MMHK.units.get(effect[1]).power * effect[3];
+					} else if (effect[2] == "attackBonus") {
+						result.power += effect[3];
+					} else if (effect[2] == "defenseBonus") {
+						result.power += effect[3];
+					} else if (effect[2] == "powerBonus") {
+						result.power += MMHK.units.get(effect[1]).power * effect[3];
+					}
 				}
 			}
+			return result;
 		}
-		return result;
 	},
 	
 	/**
@@ -259,6 +256,27 @@ MMHK.modules.push({
 	},
 	
 	/**
+	 * Copy the attributes of one object to another, eventually changing the prefix
+	 * 
+	 * @param source {Object}
+	 *               the source object
+	 * @param target {Object}
+	 *               the target object
+	 * @param sourcePrefix 
+	 *               the attribute prefix for the source object
+	 * @param targetPrefix
+	 *               the attribute prefix for the destination object
+	 */
+	copyAttributes: function( source, target, sourcePrefix, targetPrefix ) {
+		for ( var attr in this.ATTRIBUTES) {
+			if( typeof this.ATTRIBUTES[attr] === "string" ) {
+				target[targetPrefix + this.ATTRIBUTES[attr]] = source[sourcePrefix + this.ATTRIBUTES[attr]];
+			}
+		}
+		return target;
+	},
+	
+	/**
 	 * Adds the icon that will format the report for forums.
 	 * 
 	 * @param msg {Object}
@@ -276,22 +294,12 @@ MMHK.modules.push({
 			}
 			else {
 				var when = new Date( msg.content.creationDate * 1000 );
-				result.date = when.getDate() + '/' + (when.getMonth() + 1) + '\n' + when.getHours() + ':' + when.getMinutes();
+				result.date = $.i18n.toDateString(when) + '\n' + $.i18n.toTimeString(when);
 			}
 			
-			// fetch the appropriate battle header
-			if (msg.content.type == "BATTLE_RESULT_ATTACKER" && msg.content.contentJSON.attackerWins
-					|| msg.content.type == "BATTLE_RESULT_DEFENDER" && msg.content.contentJSON.defenderWins) {
-				result.battleResultHeader = self.BATTLE_RESULT_TOP_VICTORY;
-				result.battleResultClass = "Victory";
-			} else {
-				result.battleResultHeader = self.BATTLE_RESULT_TOP_DEFEAT;
-				result.battleResultClass = "Defeat";
-			}
 			var ally;
 			var enemy;
 			if (msg.content.type == "BATTLE_RESULT_ATTACKER") {
-				result.word = msg.content.contentJSON.attackerVictoryOrDefeatWord;
 				ally = 'attacker';
 				enemy = 'defender';
 				allySpell = 'AttackerSpell';
@@ -299,7 +307,6 @@ MMHK.modules.push({
 				result.allyPosition = $.i18n.get('battle.attacker');
 				result.enemyPosition = $.i18n.get('battle.defender');
 			} else {
-				result.word = msg.content.contentJSON.defenderVictoryOrDefeatWord;
 				ally = 'defender';
 				enemy = 'attacker';
 				allySpell = 'DefenderSpell';
@@ -309,12 +316,8 @@ MMHK.modules.push({
 			}
 			
 			// affect all battle attributes to the ally or the enemy
-			for ( var attr in self.ATTRIBUTES) {
-				if( typeof attr === "string" ) {
-					result['ally' + self.ATTRIBUTES[attr]] = msg.content.contentJSON[ally + self.ATTRIBUTES[attr]];
-					result['enemy' + self.ATTRIBUTES[attr]] = msg.content.contentJSON[enemy + self.ATTRIBUTES[attr]];
-				}
-			}
+			result = self.copyAttributes( msg.content.contentJSON, result, ally, 'ally' );
+			result = self.copyAttributes( msg.content.contentJSON, result, enemy, 'enemy' );
 			
 			// special cases if several heroes were defending
 			if (!result.enemyHero)
@@ -331,15 +334,21 @@ MMHK.modules.push({
 					result.enemyXpGained += x.xpGained;
 				} );
 			}
+			if (result.allyWins) {
+				result.battleResultHeader = self.BATTLE_RESULT_TOP_VICTORY;
+				result.battleResultClass = "Victory";
+			} else {
+				result.battleResultHeader = self.BATTLE_RESULT_TOP_DEFEAT;
+				result.battleResultClass = "Defeat";
+			}
+			result.word = result.allyVictoryOrDefeatWord;
 			result.enemyPlayerName = msg.content.contentJSON.enemyPlayerName;
 			result.lootRessourceQuantity = msg.content.contentJSON.lootRessourceQuantity;
 			result.lootRessourceEntityTagName = msg.content.contentJSON.lootRessourceEntityTagName;
 			
 			// inventory the legacy abilities and other pre-fight events
 			result.allySpells = new Array();
-			result.allyBonus = 0;
 			result.enemySpells = new Array();
-			result.enemyBonus = 0;
 			if (msg.content.contentJSON[ally + 'BarrageFire'])
 				result.allySpells.push( self.parseBarrageFire( $.i18n.get( 'battle.barrage.fire' ), msg.content.contentJSON[ally + 'BarrageFire'] ) );
 			if (msg.content.contentJSON[enemy + 'BarrageFire'])
@@ -386,30 +395,39 @@ MMHK.modules.push({
 				} );
 
 			// inventory the spells and hero bonus used during the fight
+			result.roundList = new Array();
 			for ( var r in msg.content.contentJSON.roundList) {
 				var round = msg.content.contentJSON.roundList[r];
-				var allyBonus = Math.round( 1000*round[ally+'UnitStackHeroBonus']/round[ally+'UnitStackPower'] )/10;
-				if (!allyBonus)
-					allyBonus = Math.round( 1000*round[ally+'HeroSkillUnitStackUnitTypeBonus']/round[ally+'UnitStackPower'] )/10;
-				if (allyBonus > result.allyBonus)
-					result.allyBonus = allyBonus;
-				var afterAllySpell = round['afterRound' + allySpell];
-				if (afterAllySpell)
-					result.allySpells.push( self.parseSpell( round.id, afterAllySpell ) );
-				var beforeAllySpell = round['beforeRound' + allySpell];
-				if (beforeAllySpell)
-					result.allySpells.push( self.parseSpell( round.id, beforeAllySpell ) );
-				var afterEnemySpell = round['afterRound' + enemySpell];
-				if (afterEnemySpell)
-					result.enemySpells.push( self.parseSpell( round.id, afterEnemySpell ) );
-				var beforeEnemySpell = round['beforeRound' + enemySpell];
-				if (beforeEnemySpell)
-					result.enemySpells.push( self.parseSpell( round.id, beforeEnemySpell ) );
-				var enemyBonus = Math.round( 1000*round[enemy+'UnitStackHeroBonus']/round[enemy+'UnitStackPower'] )/10;
-				if (!enemyBonus)
-					enemyBonus = Math.round( 1000*round[enemy+'HeroSkillUnitStackUnitTypeBonus']/round[enemy+'UnitStackPower'] )/10;
-				if (enemyBonus > result.enemyBonus)
-					result.enemyBonus = enemyBonus;
+				if( typeof round === 'object' ) {
+					var targetRound = {
+						id: round.id,	
+						allyBonus: self.computeBonus( round, ally ),
+						enemyBonus: self.computeBonus( round, enemy ),
+						allyAfterSpell: self.parseSpell( round.id, round[ 'afterRound' + allySpell ] ),
+						allyBeforeSpell: self.parseSpell( round.id, round[ 'beforeRound' + allySpell ] ),
+						enemyAterSpell: self.parseSpell( round.id, round[ 'afterRound' + enemySpell ] ),
+						enemyBeforeSpell: self.parseSpell( round.id, round[ 'beforeRound' + enemySpell ] )
+					};
+					// the game does not provide "defenderWins"
+					if (!round.attackerWins) {
+						round.defenderWins = true;
+					}
+					targetRound = self.copyAttributes( round, targetRound, ally, 'ally' );
+					targetRound = self.copyAttributes( round, targetRound, enemy, 'enemy' );
+					if ( targetRound.allyAfterSpell ) {
+						result.allySpells.push( targetRound.allyAfterSpell );
+					}
+					if ( targetRound.allyBeforeSpell ) {
+						result.allySpells.push( targetRound.allyBeforeSpell );
+					}
+					if ( targetRound.enemyAterSpell ){
+						result.enemySpells.push( targetRound.enemyAterSpell );
+					}
+					if (targetRound.enemyBeforeSpell) {
+						result.enemySpells.push( targetRound.enemyBeforeSpell );
+					}
+					result.roundList.push( targetRound );
+				}
 			}
 			
 			// display it!

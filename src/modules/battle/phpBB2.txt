@@ -114,4 +114,35 @@
 [/left][/color][/td]
 [/tr]
 {#/if}
+[tr bgcolor=#e0ceb6][td colspan=9][center][color=black][b]{$P.i18n.get('battle.round.detail')}[/b][/color][/center][/td][/tr]
+{#foreach $T.allySpells as spell}
+{#if !$T.spell.round}[tr ][td colspan=4][right][color=black]{$T.spell.name}: {$T.spell.power}[/color][/right][/td][td colspan=5] [/td][/tr]{#/if}
+{#/for}
+{#foreach $T.enemySpells as spell}
+{#if !$T.spell.round}[tr ][td colspan=5] [/td][td colspan=4][left][color=black]{$T.spell.name}: {$T.spell.power}[/color][/left][/td][/tr]{#/if}
+{#/for}
+{#foreach $T.roundList as round}
+{#if $T.round.allyBeforeSpell}[tr][td colspan=4][right][color=black]{$T.round.allyBeforeSpell.name}: {$T.round.allyBeforeSpell.power}[/color][/right][/td][td colspan=5] [/td][/tr]{#/if}
+{#if $T.round.enemyBeforeSpell}[tr][td colspan=5] [/td][td colspan=4][left][color=black]{$T.round.enemyBeforeSpell.name}: {$T.round.enemyBeforeSpell.power}[/color][/left][/td][/tr]{#/if}
+[tr ][td colspan=4][right][color=black]
+{$T.round.allyUnitStackQuantity} {$T.round.allyUnitEntityName}
+{#if $T.round.allyBonus} ({$T.round.allyBonus}){#/if}
+{#if $T.round.allyUnitStackUnitTypeBonus} (+50%){#/if}
+{#if $T.round.allyUnitStackRouted} -{$T.round.allyUnitStackRouted}{#/if}
+{#if $T.round.enemyWins} [i]{$P.i18n.get('battle.dispersed')}[/i]{#/if}
+[/color][/right][/td]
+[td ][center][color=black][b]
+{#if $T.round.enemyWins}<{#/if}
+{$T.round.id}
+{#if $T.round.allyWins}>{#/if}
+[/b][/color][/center][/td][td colspan=4][left][color=black]
+{#if $T.round.enemyUnitStackUnitTypeBonus}(+50%) {#/if}
+{#if $T.round.enemyBonus}({$T.round.enemyBonus}) {#/if}
+{$T.round.enemyUnitStackQuantity} {$T.round.enemyUnitEntityName}
+{#if $T.round.enemyUnitStackRouted} -{$T.round.enemyUnitStackRouted}{#/if}
+{#if $T.round.allyWins} [i]{$P.i18n.get('battle.dispersed')}[/i]{#/if}
+[/color][/left][/td][/tr]
+{#if $T.round.allyAfterSpell}[tr ][td colspan=4][right][color=black]{$T.round.allyAfterSpell.name}: {$T.round.allyAfterSpell.power}[/color][/right][/td][td colspan=5] [/td][/tr]{#/if}
+{#if $T.round.enemyAfterSpell}[tr ][td colspan=5] [/td][td colspan=4][left][color=black]{$T.round.enemyAfterSpell.name}: {$T.round.enemyAfterSpell.power}[/color][/left][/td][/tr]{#/if}
+{#/for}
 [/table]

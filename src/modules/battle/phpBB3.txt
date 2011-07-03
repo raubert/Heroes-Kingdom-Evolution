@@ -1,8 +1,8 @@
 [div=hommkBR hommkBR{$T.battleResultClass}]
-[div2=hommkBRWord]{$T.word}[/div2]
-{#if $T.enemyPlayerName}[div2=hommkBROpponent]vs. {$T.enemyPlayerName}[/div2]{#/if}
-[/div]
-[div=hommkBRSeparator][/div]
+[div2=hommkBRWord]{$T.word}[/div2]&#10;
+{#if $T.enemyPlayerName}[div2=hommkBROpponent]vs. {$T.enemyPlayerName}[/div2]&#10;{#/if}
+[/div]&#10;&#10;
+[div=hommkBRSeparator][/div]&#10;&#10;
 [div=hommkBR hommkBRSummary]
 [div2=hommkBRLeftSide]
 [div3=hommkBRHero]{#if $T.allyHero}[b]{$T.allyHero.name}[/b] {$P.i18n.get('battle.hero.level')} {$T.allyHero._level}{#/if}[/div3]
@@ -26,7 +26,7 @@
 {#/for}
 {#/if}
 [/div3]
-[/div2]
+[/div2]&#10;
 [div2=hommkBRRightSide]
 [div3=hommkBRHero]{#if $T.enemyHero}[b]{$T.enemyHero.name}[/b] {$P.i18n.get('battle.hero.level')} {$T.enemyHero._level}{#/if}[/div3]
 [div3=hommkBRPower]
@@ -41,25 +41,25 @@
 +{$T.enemyXpGained} XP
 {#/if}
 [/div3]
-[/div2]
-[/div]
-[div=hommkBRSeparator][/div]
+[/div2]&#10;
+[/div]&#10;&#10;
+[div=hommkBRSeparator][/div]&#10;&#10;
 [div=hommkBR hommkBRSpells]
 [div2=hommkBRLeftSide]
 {#foreach $T.allySpells as spell}
 [b]{$T.spell.name}[/b] {$T.spell.power}
 {#if $T.spell.round} ({$P.i18n.get('battle.round')} {$T.spell.round}){#/if}&#10;
 {#/for}
-[/div2]
+[/div2]&#10;
 [div2=hommkBRRightSide]
 {#foreach $T.enemySpells as spell}
 [b]{$T.spell.name}[/b] {$T.spell.power}
 {#if $T.spell.round} ({$P.i18n.get('battle.round')} {$T.spell.round}){#/if}&#10;
 {#/for}
-[/div2]
-[div2=hommkBRTitle]{$P.i18n.get('battle.spells')}[/div2]
-[/div]
-[div=hommkBRSeparator][/div]
+[/div2]&#10;
+[div2=hommkBRTitle]{$P.i18n.get('battle.spells')}[/div2]&#10;
+[/div]&#10;&#10;
+[div=hommkBRSeparator][/div]&#10;&#10;
 [div=hommkBR hommkBRDetails]
 [div2=hommkBRLeftSide]
 [div3=hommkBRDetailsHead1]{$P.i18n.get('battle.type')}[/div3]
@@ -72,7 +72,7 @@
 [div3=hommkBRDetailsData3]{$T.allyLost+=$T.allyUnitStackList[$T.i].unitStackLost*$T.allyUnitStackList[$T.i].unitEntityPower,($T.allyUnitStackList[$T.i].quantity-$T.allyUnitStackList[$T.i].unitStackLost)*$T.allyUnitStackList[$T.i].unitEntityPower}[/div3]
 {#/if}
 {#/for}
-[/div2]
+[/div2]&#10;
 [div2=hommkBRRightSide]
 [div3=hommkBRDetailsHead1]{$P.i18n.get('battle.type')}[/div3]
 [div3=hommkBRDetailsHead2]{$P.i18n.get('battle.count')}[/div3]
@@ -84,23 +84,23 @@
 [div3=hommkBRDetailsData3]{$T.enemyLost+=$T.enemyUnitStackList[$T.i].unitStackLost*$T.enemyUnitStackList[$T.i].unitEntityPower,($T.enemyUnitStackList[$T.i].quantity-$T.enemyUnitStackList[$T.i].unitStackLost)*$T.enemyUnitStackList[$T.i].unitEntityPower}[/div3]
 {#/if}
 {#/for}
-[/div2]
-[div2=hommkBRTitle]-[/div2]
-[/div]
-[div=hommkBRSeparator][/div]
+[/div2]&#10;
+[div2=hommkBRTitle]-[/div2]&#10;
+[/div]&#10;&#10;
+[div=hommkBRSeparator][/div]&#10;&#10;
 [div=hommkBR hommkBRLost]
-[div2=hommkBRLeftSide]{$T.allyLost}[/div2]
-[div2=hommkBRRightSide]{$T.enemyLost}[/div2]
-[div2=hommkBRTitle]{$P.i18n.get('battle.power.lost')}[/div2]
-[/div]
-[div=hommkBRSeparator][/div]
+[div2=hommkBRLeftSide]{$T.allyLost}[/div2]&#10;
+[div2=hommkBRRightSide]{$T.enemyLost}[/div2]&#10;
+[div2=hommkBRTitle]{$P.i18n.get('battle.power.lost')}[/div2]&#10;
+[/div]&#10;&#10;
+[div=hommkBRSeparator][/div]&#10;&#10;
 [div=hommkBR hommkBRResult]
-[div2=hommkBRLeftSide]{$T.allyBasePower-$T.allyLost}[/div2]
-[div2=hommkBRRightSide]{$T.enemyBasePower-$T.enemyLost}[/div2]
-[div2=hommkBRTitle]{$P.i18n.get('battle.power.left')}[/div2]
-[/div]
+[div2=hommkBRLeftSide]{$T.allyBasePower-$T.allyLost}[/div2]&#10;
+[div2=hommkBRRightSide]{$T.enemyBasePower-$T.enemyLost}[/div2]&#10;
+[div2=hommkBRTitle]{$P.i18n.get('battle.power.left')}[/div2]&#10;
+[/div]&#10;&#10;
 {#if ($T.allyResurrectedUnitStackList.hero || $T.allyRaisedUnitStackList.hero || $T.enemyResurrectedUnitStackList.hero || $T.enemyRaisedUnitStackList.hero)}
-[div=hommkBRSeparator][/div]
+[div=hommkBRSeparator][/div]&#10;&#10;
 [div=hommkBR hommkBRRaised]
 [div2=hommkBRLeftSide]
 {#foreach $T.allyRaisedUnitStackList.effect as effect}
@@ -109,7 +109,7 @@
 {#foreach $T.allyResurrectedUnitStackList.effect as effect}
 {$P.i18n.get(MMHK.units.get($T.effect[0]).name)} {$T.effect[1]}&#10;
 {#/for}
-[/div2]
+[/div2]&#10;
 [div2=hommkBRRightSide]
 {#foreach $T.enemyRaisedUnitStackList.effect as effect}
 {$P.i18n.get(MMHK.units.get($T.effect[0]).name)} {$T.effect[1]}&#10;
@@ -117,7 +117,41 @@
 {#foreach $T.enemyResurrectedUnitStackList.effect as effect}
 {$P.i18n.get(MMHK.units.get($T.effect[0]).name)} {$T.effect[1]}&#10;
 {#/for}
-[/div2]
-[div2=hommkBRTitle]{$P.i18n.get('battle.resurrect')}[/div2]
-[/div]
+[/div2]&#10;
+[div2=hommkBRTitle]{$P.i18n.get('battle.resurrect')}[/div2]&#10;
+[/div]&#10;&#10;
 {#/if}
+[div=hommkBRSeparator][/div]&#10;&#10;
+[div=hommkBR hommkBRRoundDetails]
+[div2=hommkBRTitle]{$P.i18n.get('battle.round.detail')}[/div2]&#10;
+{#foreach $T.allySpells as spell}
+{#if !$T.spell.round}[div2=hommkBRRound][div3=hommkBRLeftSide]{$T.spell.name}: {$T.spell.power}[/div3][div3=hommkBRRightSide] [/div3][/div2]&#10;{#/if}
+{#/for}
+{#foreach $T.enemySpells as spell}
+{#if !$T.spell.round}[div2=hommkBRRound][div3=hommkBRLeftSide] [/div3][div3=hommkBRRightSide]{$T.spell.name}: {$T.spell.power}[/div3][/div2]&#10;{#/if}
+{#/for}
+{#foreach $T.roundList as round}
+{#if $T.round.allyBeforeSpell}[div2=hommkBRRound][div3=hommkBRLeftSide]{$T.round.allyBeforeSpell.name}: {$T.round.allyBeforeSpell.power}[/div3][div3=hommkBRRightSide] [/div3][/div2]&#10;{#/if}
+{#if $T.round.enemyBeforeSpell}[div2=hommkBRRound][div3=hommkBRLeftSide] [/div3][div3=hommkBRRightSide]{$T.round.enemyBeforeSpell.name}: {$T.round.enemyBeforeSpell.power}[/div3][/div2]&#10;{#/if}
+[div2=hommkBRRound][div3=hommkBRLeftSide] 
+{$T.round.allyUnitStackQuantity} {$T.round.allyUnitEntityName}
+{#if $T.round.allyBonus} ({$T.round.allyBonus}){#/if}
+{#if $T.round.allyUnitStackRouted} -{$T.round.allyUnitStackRouted}{#/if}
+{#if $T.round.enemyWins} *{$P.i18n.get('battle.dispersed')}*{#/if}
+[/div3]
+[div3=hommkBRTitle]
+{#if $T.round.enemyWins}<{#/if}
+{$T.round.id}
+{#if $T.round.allyWins}>{#/if}
+[/div3]
+[div3=hommkBRRightSide] 
+{#if $T.round.enemyUnitStackUnitTypeBonus}(+50%) {#else} {#/if}
+{#if $T.round.enemyBonus}({$T.round.enemyBonus}) {#/if}
+{$T.round.enemyUnitStackQuantity} {$T.round.enemyUnitEntityName}
+{#if $T.round.enemyUnitStackRouted} -{$T.round.enemyUnitStackRouted}{#/if}
+{#if $T.round.allyWins} [i]{$P.i18n.get('battle.dispersed')}[/i]{#/if}
+[/div3][/div2]&#10;
+{#if $T.round.allyAfterSpell}[div2=hommkBRRound][div3=hommkBRLeftSide]{$T.round.allyAfterSpell.name}: {$T.round.allyAfterSpell.power}[/div3][div3=hommkBRRightSide] [/div3][/div2]&#10;{#/if}
+{#if $T.round.enemyAfterSpell}[div2=hommkBRRound][div3=hommkBRLeftSide] [/div3][div3=hommkBRRightSide]{$T.round.enemyAfterSpell.name}: {$T.round.enemyAfterSpell.power}[/div3][/div2]&#10;{#/if}
+{#/for}
+[/div]&#10;
