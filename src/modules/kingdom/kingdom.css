@@ -73,7 +73,7 @@
 
 #KingdomFrame #KingdomTabs div.armies {
 	background-position: 0 -156px;
-	width: 206px;
+	width: 155px;
 }
 
 #KingdomFrame #KingdomTabs div.armies.selected {
@@ -82,7 +82,7 @@
 
 #KingdomFrame #KingdomTabs div.production {
 	background-position: 0 -182px;
-	width: 207px;
+	width: 155px;
 }
 
 #KingdomFrame #KingdomTabs div.production.selected {
@@ -91,11 +91,20 @@
 
 #KingdomFrame #KingdomTabs div.actions {
 	background-position: 0 -208px;
-	width: 207px;
+	width: 155px;
 }
 
 #KingdomFrame #KingdomTabs div.actions.selected {
 	background-position: 0 -52px;
+}
+
+#KingdomFrame #KingdomTabs div.recap {
+	background-position: -155px 0;
+	width: 155px;
+}
+
+#KingdomFrame #KingdomTabs div.recap.selected {
+	background-position: -155px -26px;
 }
 
 #KingdomFrame #KingdomTabs a {
@@ -178,20 +187,22 @@
 
 #KingdomFrame #KingdomArmiesData tr:nth-child(odd),
 #KingdomFrame #KingdomProductionData tr:nth-child(odd),
-#KingdomFrame #KingdomActionsData tbody tr.odd {
+#KingdomFrame #KingdomActionsData tbody tr.odd,
+#KingdomFrame #KingdomRecapData tbody tr.odd {
 	background: url('@EXTENSION_PATH/images/line-odd.gif');
 }
 
 #KingdomFrame #KingdomArmiesData tr:nth-child(even),
 #KingdomFrame #KingdomProductionData tr:nth-child(even),
-#KingdomFrame #KingdomActionsData tbody tr.even {
+#KingdomFrame #KingdomActionsData tbody tr.even,
+#KingdomFrame #KingdomRecapData tbody tr.even {
 	background: url('@EXTENSION_PATH/images/line-even.gif');
 }
 
 #KingdomFrame #KingdomArmiesData tbody tr {
 	height: 50px;
 }
-
+/*
 #KingdomFrame #KingdomArmiesData tbody tr td:first-child {
 	width: 111px !important;
 }
@@ -209,7 +220,7 @@
 	font-size: smaller;
 	margin-bottom: 5px;
 }
-
+*/
 #KingdomFrame #KingdomProductionData {
 	background-position: 0 1px;
 }
@@ -275,6 +286,7 @@
 
 #KingdomFrame #KingdomArmiesData tbody td {
 	min-width: 2em;
+	vertical-align: middle;
 }
 
 #KingdomFrame #KingdomProductionData tbody td {
@@ -285,7 +297,7 @@
 	text-align: right;
 }
 
-#KingdomFrame  #KingdomArmiesData tbody tr.section td {
+#KingdomFrame .kingdom .data tbody tr.section td {
 	background: #ff6600;
 	color: #660000;
 	font-size: 14px;
@@ -367,12 +379,12 @@
 }
 
 #KingdomFrame #KingdomProductionData tbody td .storage {
-	color: brown;
+	color: #CC0000;
 	font-weight: bolder;
 }
 
 #KingdomFrame #KingdomProductionData tbody td .maintenance {
-	color: #cc0000;
+	color: red;
 	font-weight: bolder;
 }
 
@@ -387,11 +399,13 @@
 	color: #ff0000;
 }
 
-#KingdomFrame #KingdomActionsData tbody {
+#KingdomFrame #KingdomActionsData tbody,
+#KingdomFrame #KingdomRecapData tbody {
 	font-size: 11px;
 }
 
-#KingdomFrame #KingdomActionsData tbody tr {
+#KingdomFrame #KingdomActionsData tbody tr,
+#KingdomFrame #KingdomRecapData tbody tr {
 	cursor: pointer;
 }
 
@@ -400,6 +414,16 @@
 	color: #666666;
 	cursor: default;
 	display: none;
+	font-size: 10px;
+}
+
+#KingdomFrame #KingdomRecapData tbody tr.step {
+	background: lavender;
+	color: darkBlue;
+	cursor: default;
+	display: none;
+	font-family: monospace;
+	text-align: center;
 	font-size: 10px;
 }
 
