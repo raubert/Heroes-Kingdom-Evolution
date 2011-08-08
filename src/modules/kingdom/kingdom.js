@@ -1206,19 +1206,23 @@ MMHK.modules.push({
 					currentZoneText = currentZone.attachedZoneBuilding.zoneBuildingEntityName;
 				}
 				if ( currentZoneText != "" ) {
-					data.cities[ currentZone.regionId ].zoneList.push( currentZoneText );
+				  if ( data.cities[ currentZone.regionId ] != undefined ) {
+  					data.cities[ currentZone.regionId ].zoneList.push( currentZoneText );
+          }
 				}
-				data.cities[ currentZone.regionId ].regionFrameOpened = true;
-				if ( nbZones == 24 ) {
-					data.cities[ currentZone.regionId ].zoneList.push( $.i18n.get( "zone.storehouses", nbStorehouses ) );
-					data.cities[ currentZone.regionId ].zoneList.push( $.i18n.get( "zone.fields", nbFields ) );
-					data.cities[ currentZone.regionId ].zoneList.push( $.i18n.get( "zone.forts", nbForts ) );
-					data.cities[ currentZone.regionId ].zoneList.push( $.i18n.get( "zone.empty", nbEmpty ) );
-					data.cities[ currentZone.regionId ].zoneList.push( $.i18n.get( "zone.uncaptured", nbUncaptured ) );
-					data.cities[ currentZone.regionId ].zoneList.sort();
-					nbZones = 0;
-					nbUncaptured = nbEmpty = nbFields = nbStorehouses = nbForts = 0;
-				}
+				if ( data.cities[ currentZone.regionId ] != undefined ) {
+  				data.cities[ currentZone.regionId ].regionFrameOpened = true;
+  				if ( nbZones == 24 ) {
+  					data.cities[ currentZone.regionId ].zoneList.push( $.i18n.get( "zone.storehouses", nbStorehouses ) );
+  					data.cities[ currentZone.regionId ].zoneList.push( $.i18n.get( "zone.fields", nbFields ) );
+  					data.cities[ currentZone.regionId ].zoneList.push( $.i18n.get( "zone.forts", nbForts ) );
+  					data.cities[ currentZone.regionId ].zoneList.push( $.i18n.get( "zone.empty", nbEmpty ) );
+  					data.cities[ currentZone.regionId ].zoneList.push( $.i18n.get( "zone.uncaptured", nbUncaptured ) );
+  					data.cities[ currentZone.regionId ].zoneList.sort();
+  					nbZones = 0;
+  					nbUncaptured = nbEmpty = nbFields = nbStorehouses = nbForts = 0;
+  				}
+  			}
 				nbZones ++;
 			}
 		}
