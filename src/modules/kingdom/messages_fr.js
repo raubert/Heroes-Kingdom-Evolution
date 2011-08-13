@@ -60,6 +60,7 @@ MMHK.jQuery.i18n.add( "fr", {
 	"prod.real": "Production Exacte :",
 	"wealth.hourly": "Richesse par Heure :",
 	"wealth.daily": "Richesse par Jour :",
+	"stock.global": "Capacité globale :",
 	"stock.full": "Entrepôt Plein :",
 	"stock.empty": "Entrepôt Vide :",
 	"stock.in": "dans {1}",

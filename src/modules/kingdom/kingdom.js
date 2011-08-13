@@ -468,10 +468,10 @@ MMHK.modules.push({
 					prodCost += $.formatNumber( unit.production * cost ) + goods;
 					maxProdCost += $.formatNumber( unit.maxProduction * cost ) + goods;
 						var goodsMissing = 0;
-						if ( totalGoods[ tag ] == undefined ) {
+						if ( totalGoods[ i ] == undefined ) {
 							goodsMissing = ( unit.reserve * cost );
-						} else if ( ( unit.reserve * cost ) > totalGoods[ tag ].stock ) {
-							goodsMissing = ( unit.reserve * cost ) - totalGoods[ tag ].stock;
+						} else if ( ( unit.reserve * cost ) > totalGoods[ i ].stock ) {
+							goodsMissing = ( unit.reserve * cost ) - totalGoods[ i ].stock;
 						}
 						totalGoodsMissing += "" + $.formatNumber( goodsMissing ) + goods;
 				}
@@ -798,8 +798,17 @@ MMHK.modules.push({
 				}
 				tooltip += "</b>";
 				tooltip += "</p>";
+			} else {
+				tooltip += "<p>" + $.i18n.get( "stock.global" ) + " <b>" + $.formatNumber( data.storage ) + "</b></p>"
 			}
 			tooltip += "</div>";
+		} else {
+		if ( total ) {
+				tooltip = $.i18n.get( res.tag ) + "|"
+					+ "<div class=\"wealth\">"
+					+ "<p>" + $.i18n.get( "stock.global" ) + " <b>" + $.formatNumber( data.storage ) + "</b></p>"
+			+ "</div>";
+			}
 		}
 
 		// display storage / max + income
@@ -856,10 +865,12 @@ MMHK.modules.push({
 				if ( !total[ j ] ) {
 					total[ j ] = {
 						stock: 0,
+						storage: 0,
 						income: 0
 					};
 				}
 				total[ j ].stock += current.stock;
+				total[ j ].storage += current.storage;
 				total[ j ].income += current.income;
 			}
 			markup += "</tr>";
